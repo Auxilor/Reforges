@@ -6,5 +6,11 @@ name: "<gradient:#f953c6>Wise</gradient:#b91d73>"
 enabled: true
 description: "Gain &a7.5%&r more experience."
 
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
 config:
   multiplier: 1.075

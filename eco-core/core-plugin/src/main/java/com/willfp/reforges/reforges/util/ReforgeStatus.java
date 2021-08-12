@@ -1,4 +1,4 @@
-package com.willfp.reforges.gui;
+package com.willfp.reforges.reforges.util;
 
 public enum ReforgeStatus {
     /**

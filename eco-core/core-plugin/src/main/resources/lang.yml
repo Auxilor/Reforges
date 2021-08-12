@@ -6,5 +6,10 @@ messages:
   reloaded: "Reloaded! (Restart if you're removed weapons!)"
   insufficient-money: "&cYou don't have enough money for this!"
   applied-reforge: "Applied %reforge%&r reforge!"
+  needs-player: "&cYou must specify a player"
+  invalid-player: "&cInvalid player!"
+  needs-stone: "&cYou must specify a reforge stone"
+  invalid-stone: "&cInvalid reforge!"
+  give-success: "Gave &a%reforge%&r to &a%recipient%"
 
 description-color: "&7&o"

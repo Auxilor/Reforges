@@ -31,6 +31,7 @@ permissions:
       reforges.command.reload: true
       reforges.command.reforges: true
       reforges.command.reforge: true
+      reforges.command.give: true
 
   reforges.command.reload:
     description: Allows reloading the config
@@ -40,4 +41,7 @@ permissions:
     default: true
   reforges.command.reforge:
     description: Allows the user of /reforge.
+    default: op
+  reforges.command.give:
+    description: Allows the user of /reforges give.
     default: op

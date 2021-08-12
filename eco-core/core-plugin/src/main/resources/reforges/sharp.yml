@@ -6,5 +6,11 @@ name: "<gradient:#f12711>Sharp</gradient:#f5af19>"
 enabled: true
 description: "Deal &a3%&r more damage"
 
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
 config:
   multiplier: 1.03 # Damage multiplier

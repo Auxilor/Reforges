@@ -20,8 +20,8 @@ gui:
     material: anvil
     name: "&eReforge Item"
     lore:
-      - '&7Place an item above to reforge'
-      - '&7it! Reforging items adds a'
+      - '&7Place an item on the left to'
+      - '&7reforge it! Reforging items adds a'
       - '&7random modifier to the item that'
       - '&7grants stat boosts'
   invalid-item:
@@ -51,6 +51,13 @@ reforge:
     - "&8This item can be reforged!"
 
   display-in-lore: true
+
+  stone:
+    name: "%reforge%&f Reforge Stone"
+    lore:
+      - "&7Place on the right of the"
+      - "&7reforge menu to apply the"
+      - "%reforge%&7 reforge!"
 
 targets:
   melee:

@@ -6,6 +6,12 @@ name: "<gradient:#1c92d2>Light</gradient:#f2fcfe>"
 enabled: true
 description: "Deal &a5%&r less damage and knockback, but attack &a3%&7&o faster."
 
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
 config:
   multiplier: 0.95 # Damage multiplier
   speed-multiplier: 1.03

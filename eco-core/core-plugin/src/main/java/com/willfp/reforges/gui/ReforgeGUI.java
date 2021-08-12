@@ -4,12 +4,14 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.eco.core.gui.menu.Menu;
 import com.willfp.eco.core.gui.slot.FillerMask;
+import com.willfp.eco.core.gui.slot.MaskMaterials;
 import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
+import com.willfp.reforges.reforges.util.ReforgeStatus;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
 import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
@@ -41,14 +43,18 @@ public class ReforgeGUI {
     @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @ConfigUpdater
     public static void update(@NotNull final EcoPlugin plugin) {
-        menu = Menu.builder(5)
+        menu = Menu.builder(6)
                 .setTitle("Reforge Item")
                 .setMask(
                         new FillerMask(
-                                Material.BLACK_STAINED_GLASS_PANE,
+                                new MaskMaterials(
+                                        Material.BLACK_STAINED_GLASS_PANE,
+                                        Material.MAGENTA_STAINED_GLASS_PANE
+                                ),
                                 "011111110",
-                                "011101110",
-                                "011101110",
+                                "012202210",
+                                "012111210",
+                                "010111010",
                                 "011111110",
                                 "011101110"
                         )
@@ -67,15 +73,19 @@ public class ReforgeGUI {
                         }
                     }).build();
 
-                    for (int i = 1; i <= 5; i++) {
+                    for (int i = 1; i <= 6; i++) {
                         builder.setSlot(i, 1, slot);
                         builder.setSlot(i, 9, slot);
                     }
-                }).setSlot(2, 5,
+                }).setSlot(4, 3,
                         Slot.builder()
                                 .setCaptive()
                                 .build()
-                ).setSlot(3, 5,
+                ).setSlot(4, 7,
+                        Slot.builder()
+                                .setCaptive()
+                                .build()
+                ).setSlot(2, 5,
                         Slot.builder(new ItemStack(Material.ANVIL))
                                 .setModifier((player, menu, previous) -> {
                                     ItemMeta meta = previous.getItemMeta();
@@ -134,7 +144,22 @@ public class ReforgeGUI {
                                     ReforgeTarget target = ReforgeTarget.getForMaterial(toReforge.getType());
                                     assert target != null;
 
-                                    Reforge reforge = ReforgeUtils.getRandomReforge(target);
+                                    Reforge reforge = null;
+                                    boolean usedStone = false;
+
+                                    if (menu.getCaptiveItems(player).size() == 2) {
+                                        Reforge stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1));
+                                        if (stone != null) {
+                                            if (stone.getTarget().getMaterials().contains(toReforge.getType())) {
+                                                reforge = stone;
+                                                usedStone = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (reforge == null) {
+                                        reforge = ReforgeUtils.getRandomReforge(target);
+                                    }
 
                                     if (reforge == null) {
                                         return;
@@ -165,6 +190,12 @@ public class ReforgeGUI {
 
                                     ReforgeUtils.setReforge(toReforge, reforge);
 
+                                    if (usedStone) {
+                                        ItemStack stone = menu.getCaptiveItems(player).get(1);
+                                        stone.setType(Material.AIR);
+                                        stone.setItemMeta(null);
+                                    }
+
                                     player.playSound(
                                             player.getLocation(),
                                             Sound.valueOf(plugin.getConfigYml().getString("gui.sound.id").toUpperCase()),
@@ -173,7 +204,7 @@ public class ReforgeGUI {
                                     );
                                 }).build()
                 )
-                .setSlot(5, 5,
+                .setSlot(6, 5,
                         Slot.builder(
                                 new ItemStackBuilder(Material.BARRIER)
                                         .setDisplayName("&cClose")

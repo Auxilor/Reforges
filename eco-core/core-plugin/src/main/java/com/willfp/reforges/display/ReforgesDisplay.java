@@ -5,12 +5,14 @@ import com.willfp.eco.core.display.Display;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.display.DisplayPriority;
 import com.willfp.eco.core.fast.FastItemStack;
+import com.willfp.eco.util.SkullUtils;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -40,10 +42,22 @@ public class ReforgesDisplay extends DisplayModule {
         assert meta != null;
 
         Reforge reforge = ReforgeUtils.getReforge(meta);
+        Reforge stone = ReforgeUtils.getReforgeStone(meta);
 
         FastItemStack fastItemStack = FastItemStack.wrap(itemStack);
         List<String> lore = fastItemStack.getLore();
         assert lore != null;
+
+        if (stone != null) {
+            meta.setDisplayName(this.getPlugin().getConfigYml().getString("reforge.stone.name").replace("%reforge%", stone.getName()));
+            SkullUtils.setSkullTexture((SkullMeta) meta, reforge.getConfig().getString("stone-config.texture"));
+            itemStack.setItemMeta(meta);
+            List<String> stoneLore = new ArrayList<>();
+            for (String string : this.getPlugin().getConfigYml().getStrings("reforge.stone.lore")) {
+                stoneLore.add(string.replace("%reforge%", stone.getName()));
+            }
+            lore.addAll(0, stoneLore);
+        }
 
         if (reforge != null) {
             if (this.getPlugin().getConfigYml().getBool("reforge.display-in-lore")) {
