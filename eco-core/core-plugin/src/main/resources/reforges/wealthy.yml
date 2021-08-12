@@ -4,7 +4,7 @@
 
 name: "<gradient:#BF953F>Wealthy</gradient:#FCF6BA>"
 enabled: true
-description: "Gain &e\$10&f for each mob you kill"
+description: "Gain &e\$10&r for each mob you kill"
 
 stone-config:
   requires-stone: true
