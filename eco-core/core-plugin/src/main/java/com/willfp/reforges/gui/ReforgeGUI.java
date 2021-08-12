@@ -7,10 +7,13 @@ import com.willfp.eco.core.gui.slot.FillerMask;
 import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
+import com.willfp.reforges.reforges.util.ReforgeUtils;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -119,9 +122,18 @@ public class ReforgeGUI {
                                         return;
                                     }
 
+                                    ReforgeTarget target = ReforgeTarget.getForMaterial(toReforge.getType());
+                                    assert target != null;
 
+                                    Reforge reforge = ReforgeUtils.getRandomReforge(target);
+                                    ReforgeUtils.setReforge(toReforge, reforge);
 
-                                    player.sendMessage("reforged");
+                                    player.playSound(
+                                            player.getLocation(),
+                                            Sound.valueOf(plugin.getConfigYml().getString("gui.sound.id").toUpperCase()),
+                                            1f,
+                                            (float) plugin.getConfigYml().getDouble("gui.sound.pitch")
+                                    );
                                 }).build()
                 )
                 .setSlot(5, 5,

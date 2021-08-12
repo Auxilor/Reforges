@@ -30,6 +30,10 @@ gui:
     lore:
       - '&7You cannot reforge this item!'
 
+  sound:
+    id: BLOCK_ANVIL_USE
+    pitch: 0.8
+
 reforge:
   cost: 5000
 
