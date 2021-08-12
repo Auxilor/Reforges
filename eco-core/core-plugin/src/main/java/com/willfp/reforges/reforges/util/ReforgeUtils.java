@@ -126,27 +126,25 @@ public class ReforgeUtils {
      */
     public static void setReforge(@NotNull final ItemStack item,
                                   @NotNull final Reforge reforge) {
-        ItemMeta meta = item.getItemMeta();
 
-        if (meta == null) {
+        if (item.getItemMeta() == null) {
             return;
         }
 
-        setReforge(meta, reforge);
+        Reforge previous = getReforge(item);
 
-        item.setItemMeta(meta);
-    }
+        if (previous != null) {
+            previous.handleRemoval(item);
+        }
 
-    /**
-     * Set reforge on an item.
-     *
-     * @param meta    The meta.
-     * @param reforge The reforge.
-     */
-    public static void setReforge(@NotNull final ItemMeta meta,
-                                  @NotNull final Reforge reforge) {
+        ItemMeta meta = item.getItemMeta();
+
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
         container.set(REFORGE_KEY, PersistentDataType.STRING, reforge.getKey());
+
+        item.setItemMeta(meta);
+
+        reforge.handleApplication(item);
     }
 }

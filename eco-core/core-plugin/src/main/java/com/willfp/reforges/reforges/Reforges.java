@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ public class Reforges {
     private static final BiMap<String, Reforge> BY_KEY = HashBiMap.create();
 
     public static final Reforge SHARP = new ReforgeSharp();
+    public static final Reforge LIGHT = new ReforgeLight();
 
     /**
      * Get all registered {@link Reforge}s.

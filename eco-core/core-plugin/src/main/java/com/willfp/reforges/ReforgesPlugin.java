@@ -27,19 +27,21 @@ public class ReforgesPlugin extends EcoPlugin {
      * Internal constructor called by bukkit on plugin load.
      */
     public ReforgesPlugin() {
-        super(0, 12412, "&#00ff00");
+        super(0, 12412, "&3");
         instance = this;
     }
 
     @Override
     protected void handleEnable() {
-        if (EconomyHandler.init()) {
+        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
+    }
+
+    @Override
+    protected void handleAfterLoad() {
+        if (!EconomyHandler.init()) {
             this.getLogger().severe("Vault economy is required!");
             this.getServer().getPluginManager().disablePlugin(this);
-            return;
         }
-
-        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
     }
 
     @Override

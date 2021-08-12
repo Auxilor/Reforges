@@ -9,6 +9,7 @@ import com.willfp.reforges.reforges.util.Watcher;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -89,6 +90,15 @@ public abstract class Reforge implements Listener, Watcher {
      * Get the reforge target.
      */
     public abstract ReforgeTarget getTarget();
+
+    public void handleApplication(@NotNull final ItemStack itemStack) {
+        // Override when needed
+    }
+
+    public void handleRemoval(@NotNull final ItemStack itemStack) {
+        // Override when needed
+    }
+
 
     @Override
     public boolean equals(final Object o) {
