@@ -76,4 +76,9 @@ public class ReforgesPlugin extends EcoPlugin {
     protected @Nullable DisplayModule createDisplayModule() {
         return new ReforgesDisplay(this);
     }
+
+    @Override
+    public String getMinimumEcoVersion() {
+        return "6.4.0";
+    }
 }
