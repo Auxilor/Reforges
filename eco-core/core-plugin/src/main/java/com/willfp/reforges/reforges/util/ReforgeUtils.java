@@ -32,6 +32,11 @@ public class ReforgeUtils {
     private static final NamespacedKey REFORGE_KEY = PLUGIN.getNamespacedKeyFactory().create("reforge");
 
     /**
+     * The key for storing the currently displayed stat.
+     */
+    private static final NamespacedKey REFORGE_AMOUNT = PLUGIN.getNamespacedKeyFactory().create("reforge_amount");
+
+    /**
      * Get a random reforge for a target.
      *
      * @param target The target.
@@ -146,5 +151,49 @@ public class ReforgeUtils {
         item.setItemMeta(meta);
 
         reforge.handleApplication(item);
+    }
+
+    /**
+     * Get the amount of reforges done to an item.
+     *
+     * @param item The item.
+     */
+    public static int getReforges(@NotNull final ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta == null) {
+            return 0;
+        }
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        if (!container.has(REFORGE_AMOUNT, PersistentDataType.INTEGER)) {
+            container.set(REFORGE_AMOUNT, PersistentDataType.INTEGER, 0);
+            item.setItemMeta(meta);
+        }
+
+        Integer amount = container.get(REFORGE_AMOUNT, PersistentDataType.INTEGER);
+
+        return amount == null ? 0 : amount;
+    }
+
+    /**
+     * Get the amount of reforges done to an item.
+     *
+     * @param item The item.
+     */
+    public static void incrementReforges(@NotNull final ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta == null) {
+            return;
+        }
+
+        int amount = getReforges(item);
+        amount++;
+
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        container.set(REFORGE_AMOUNT, PersistentDataType.INTEGER, amount);
+        item.setItemMeta(meta);
     }
 }

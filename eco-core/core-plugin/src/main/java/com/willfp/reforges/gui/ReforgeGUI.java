@@ -84,26 +84,31 @@ public class ReforgeGUI {
 
                                     ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
 
+                                    double cost = plugin.getConfigYml().getDouble("reforge.cost");
+                                    int reforges = ReforgeUtils.getReforges(previous);
+                                    cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+                                    double finalCost = cost;
+
                                     switch (status) {
                                         case INVALID_ITEM -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
                                             List<String> lore = plugin.getConfigYml().getStrings("gui.invalid-item.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
                                             meta.setLore(lore);
                                         }
                                         case ALLOW -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
                                             List<String> lore = plugin.getConfigYml().getStrings("gui.allow.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
                                             meta.setLore(lore);
                                         }
                                         default -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
                                             List<String> lore = plugin.getConfigYml().getStrings("gui.no-item.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
                                             meta.setLore(lore);
                                         }
                                     }
@@ -127,6 +132,8 @@ public class ReforgeGUI {
                                     }
 
                                     double cost = plugin.getConfigYml().getDouble("reforge.cost");
+                                    int reforges = ReforgeUtils.getReforges(toReforge);
+                                    cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
 
                                     if (!EconomyHandler.getInstance().has(player, cost)) {
                                         player.sendMessage(plugin.getLangYml().getMessage("insufficient-money"));
@@ -142,6 +149,8 @@ public class ReforgeGUI {
                                     }
 
                                     player.sendMessage(plugin.getLangYml().getMessage("applied-reforge").replace("%reforge%", reforge.getName()));
+
+                                    ReforgeUtils.incrementReforges(toReforge);
 
                                     EconomyHandler.getInstance().withdrawPlayer(player, cost);
 

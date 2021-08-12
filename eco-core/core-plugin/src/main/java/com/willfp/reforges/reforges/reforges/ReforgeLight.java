@@ -28,14 +28,14 @@ public class ReforgeLight extends Reforge {
         this.speedModifier = new AttributeModifier(
                 UUID.nameUUIDFromBytes("light-speed".getBytes()),
                 "light-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier"),
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1,
                 EquipmentSlot.HAND
         );
         this.kbModifier = new AttributeModifier(
                 UUID.nameUUIDFromBytes("light-kb".getBytes()),
                 "light-kb",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier"),
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1,
                 EquipmentSlot.HAND
         );

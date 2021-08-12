@@ -39,7 +39,9 @@ gui:
     pitch: 0.8
 
 reforge:
-  cost: 5000
+  cost: 7500
+
+  cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
 
   line-wrap: 32
 
