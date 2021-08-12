@@ -34,18 +34,19 @@ gui:
     id: BLOCK_ANVIL_USE
     pitch: 1
 
+  insufficient-money-sound:
+    id: ENTITY_VILLAGER_NO
+    pitch: 0.8
+
 reforge:
   cost: 5000
 
-  display-in-item-name: true
-  display-in-lore: true
-
   show-reforgable: true
-
   reforgable-suffix:
     - ""
     - "&8This item can be reforged!"
 
+  display-in-lore: true
   lore-suffix:
     - ""
     - "%reforge%"

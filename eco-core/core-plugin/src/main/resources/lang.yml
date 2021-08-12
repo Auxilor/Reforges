@@ -4,3 +4,4 @@ messages:
   not-player: "&cThis command must be run by a player"
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded! (Restart if you're removed weapons!)"
+  insufficient-money: "&cYou don't have enough money for this!"

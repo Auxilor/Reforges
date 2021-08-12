@@ -8,6 +8,7 @@ load: STARTUP
 depend:
   - eco
   - ProtocolLib
+  - Vault
 
 commands:
   reforges:

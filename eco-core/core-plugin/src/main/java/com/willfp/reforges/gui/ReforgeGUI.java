@@ -6,10 +6,12 @@ import com.willfp.eco.core.gui.menu.Menu;
 import com.willfp.eco.core.gui.slot.FillerMask;
 import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
+import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
+import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
@@ -19,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Objects;
 
 @UtilityClass
@@ -85,17 +88,23 @@ public class ReforgeGUI {
                                         case INVALID_ITEM -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
-                                            meta.setLore(plugin.getConfigYml().getStrings("gui.invalid-item.lore"));
+                                            List<String> lore = plugin.getConfigYml().getStrings("gui.invalid-item.lore");
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            meta.setLore(lore);
                                         }
                                         case ALLOW -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
-                                            meta.setLore(plugin.getConfigYml().getStrings("gui.allow.lore"));
+                                            List<String> lore = plugin.getConfigYml().getStrings("gui.allow.lore");
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            meta.setLore(lore);
                                         }
                                         default -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
-                                            meta.setLore(plugin.getConfigYml().getStrings("gui.no-item.lore"));
+                                            List<String> lore = plugin.getConfigYml().getStrings("gui.no-item.lore");
+                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(plugin.getConfigYml().getDouble("reforge.cost"))));
+                                            meta.setLore(lore);
                                         }
                                     }
 
@@ -116,6 +125,23 @@ public class ReforgeGUI {
                                     if (reforge == null) {
                                         return;
                                     }
+
+                                    double cost = plugin.getConfigYml().getDouble("reforge.cost");
+
+                                    if (!EconomyHandler.getInstance().has(player, cost)) {
+                                        player.sendMessage(plugin.getLangYml().getMessage("insufficient-money"));
+
+                                        player.playSound(
+                                                player.getLocation(),
+                                                Sound.valueOf(plugin.getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
+                                                1f,
+                                                (float) plugin.getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
+                                        );
+
+                                        return;
+                                    }
+
+                                    EconomyHandler.getInstance().withdrawPlayer(player, cost);
 
                                     ReforgeUtils.setReforge(toReforge, reforge);
 

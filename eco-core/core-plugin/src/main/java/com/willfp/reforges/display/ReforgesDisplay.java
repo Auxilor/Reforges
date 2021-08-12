@@ -4,15 +4,14 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.display.Display;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.display.DisplayPriority;
+import com.willfp.eco.core.fast.FastItemStack;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReforgesDisplay extends DisplayModule {
@@ -30,8 +29,6 @@ public class ReforgesDisplay extends DisplayModule {
                            @NotNull final Object... args) {
         ReforgeTarget target = ReforgeTarget.getForMaterial(itemStack.getType());
 
-        Bukkit.getLogger().info(target + " hmm");
-
         if (target == null) {
             return;
         }
@@ -41,9 +38,8 @@ public class ReforgesDisplay extends DisplayModule {
 
         Reforge reforge = ReforgeUtils.getReforge(meta);
 
-        Bukkit.getLogger().info(reforge + " yes?");
-
-        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        FastItemStack fastItemStack = FastItemStack.wrap(itemStack);
+        List<String> lore = fastItemStack.getLore();
         assert lore != null;
 
         if (reforge != null) {
@@ -61,12 +57,9 @@ public class ReforgesDisplay extends DisplayModule {
             List<String> addLore = this.getPlugin().getConfigYml().getStrings("reforge.reforgable-suffix");
 
             addLore.replaceAll(s -> Display.PREFIX + s);
-            Bukkit.getLogger().info(addLore.toString());
             lore.addAll(addLore);
         }
 
-        meta.setLore(lore);
-
-        itemStack.setItemMeta(meta);
+        fastItemStack.setLore(lore);
     }
 }

@@ -7,6 +7,7 @@ import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
+import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -32,6 +33,12 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     protected void handleEnable() {
+        if (EconomyHandler.init()) {
+            this.getLogger().severe("Vault economy is required!");
+            this.getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
     }
 
