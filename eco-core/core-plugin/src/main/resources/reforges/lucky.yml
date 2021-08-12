@@ -1,0 +1,18 @@
+#
+# Lucky Reforge
+#
+
+name: "<gradient:#43C6AC>Lucky</gradient:#F8FFAE>"
+enabled: true
+description: "&a5%&r chance to deal &a3x&r damage, or deal &a10%&r less damage"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  chance: 5
+  multiplier: 3
+  bad-multiplier: 0.9

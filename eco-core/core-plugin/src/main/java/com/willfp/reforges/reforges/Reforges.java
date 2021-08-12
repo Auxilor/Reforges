@@ -4,10 +4,14 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.reforges.reforges.reforges.ReforgeAerobic;
 import com.willfp.reforges.reforges.reforges.ReforgeDynamic;
 import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
+import com.willfp.reforges.reforges.reforges.ReforgeLucky;
+import com.willfp.reforges.reforges.reforges.ReforgeRich;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
+import com.willfp.reforges.reforges.reforges.ReforgeStreamlined;
 import com.willfp.reforges.reforges.reforges.ReforgeStrong;
 import com.willfp.reforges.reforges.reforges.ReforgeWealthy;
 import com.willfp.reforges.reforges.reforges.ReforgeWise;
@@ -32,6 +36,10 @@ public class Reforges {
     public static final Reforge GRAVITATED = new ReforgeGravitated();
     public static final Reforge STRONG = new ReforgeStrong();
     public static final Reforge WEALTHY = new ReforgeWealthy();
+    public static final Reforge RICH = new ReforgeRich();
+    public static final Reforge LUCKY = new ReforgeLucky();
+    public static final Reforge AEROBIC = new ReforgeAerobic();
+    public static final Reforge STREAMLINED = new ReforgeStreamlined();
 
     /**
      * Get all registered {@link Reforge}s.
