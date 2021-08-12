@@ -47,6 +47,10 @@ gui:
     id: BLOCK_ANVIL_USE
     pitch: 1
 
+  open-sound:
+    id: BLOCK_ANVIL_PLACE
+    pitch: 0.8
+
   stone-sound:
     id: ENTITY_ENDER_DRAGON_HURT
     pitch: 0.5

@@ -16,7 +16,8 @@ public class CommandReforges extends PluginCommand {
         super(plugin, "reforges", "reforges.command.reforges", false);
 
         this.addSubcommand(new CommandReload(plugin))
-                .addSubcommand(new CommandGive(plugin));
+                .addSubcommand(new CommandGive(plugin))
+                .addSubcommand(new CommandOpen(plugin));
     }
 
     @Override

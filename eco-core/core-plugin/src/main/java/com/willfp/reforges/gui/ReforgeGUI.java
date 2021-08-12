@@ -229,8 +229,7 @@ public class ReforgeGUI {
                         ).onLeftClick((event, slot) -> {
                             event.getWhoClicked().closeInventory();
                         }).build()
-                )
-                .build();
+                ).build();
     }
 
     static {
