@@ -2,7 +2,7 @@
 # Dynamic Reforge
 #
 
-name: "<gradient:#AAFFA9>Sharp</gradient:#11FFBD>"
+name: "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>"
 enabled: true
 description: "Deal &a2.5%&r more damage and &a5%&r more critical damage"
 
