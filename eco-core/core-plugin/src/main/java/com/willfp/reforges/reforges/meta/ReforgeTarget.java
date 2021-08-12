@@ -119,7 +119,9 @@ public class ReforgeTarget {
      */
     @Nullable
     public static ReforgeTarget getForMaterial(@NotNull final Material material) {
-        Optional<ReforgeTarget> matching = REGISTERED.stream().filter(rarity -> rarity.getMaterials().contains(material)).findFirst();
+        Optional<ReforgeTarget> matching = REGISTERED.stream()
+                .filter(rarity -> !rarity.getName().equalsIgnoreCase("all"))
+                .filter(rarity -> rarity.getMaterials().contains(material)).findFirst();
         return matching.orElse(null);
     }
 

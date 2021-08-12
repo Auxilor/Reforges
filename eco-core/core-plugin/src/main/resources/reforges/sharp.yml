@@ -2,9 +2,9 @@
 # Sharp Reforge
 #
 
-name: "&6Sharp"
+name: "<gradient:#f12711>Sharp</gradient:#f5af19>"
 enabled: true
-description: "Deal &a3%&8&o more damage"
+description: "Deal &a3%&7&o more damage"
 
 config:
   multiplier: 1.03 # Damage multiplier

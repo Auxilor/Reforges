@@ -31,6 +31,11 @@ public class ReforgesPlugin extends EcoPlugin {
     }
 
     @Override
+    protected void handleEnable() {
+        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
+    }
+
+    @Override
     protected void handleReload() {
         for (Reforge reforge : Reforges.values()) {
             HandlerList.unregisterAll(reforge);

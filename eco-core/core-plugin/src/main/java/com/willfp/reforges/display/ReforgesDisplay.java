@@ -1,16 +1,18 @@
 package com.willfp.reforges.display;
 
 import com.willfp.eco.core.EcoPlugin;
+import com.willfp.eco.core.display.Display;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.display.DisplayPriority;
-import com.willfp.eco.core.fast.FastItemStack;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReforgesDisplay extends DisplayModule {
@@ -28,31 +30,43 @@ public class ReforgesDisplay extends DisplayModule {
                            @NotNull final Object... args) {
         ReforgeTarget target = ReforgeTarget.getForMaterial(itemStack.getType());
 
+        Bukkit.getLogger().info(target + " hmm");
+
         if (target == null) {
             return;
         }
 
-        Reforge reforge = ReforgeUtils.getReforge(itemStack);
+        ItemMeta meta = itemStack.getItemMeta();
+        assert meta != null;
 
-        if (reforge == null) {
-            return;
+        Reforge reforge = ReforgeUtils.getReforge(meta);
+
+        Bukkit.getLogger().info(reforge + " yes?");
+
+        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        assert lore != null;
+
+        if (reforge != null) {
+            if (this.getPlugin().getConfigYml().getBool("reforge.display-in-lore")) {
+                List<String> addLore = this.getPlugin().getConfigYml().getStrings("reforge.lore-suffix");
+
+                addLore.replaceAll(s -> Display.PREFIX + s);
+                addLore.replaceAll(s -> s.replace("%reforge%", reforge.getName()));
+                addLore.replaceAll(s -> s.replace("%description%", reforge.getDescription()));
+                lore.addAll(addLore);
+            }
         }
 
-        FastItemStack fastItemStack = FastItemStack.wrap(itemStack);
+        if (reforge == null && this.getPlugin().getConfigYml().getBool("reforge.show-reforgable")) {
+            List<String> addLore = this.getPlugin().getConfigYml().getStrings("reforge.reforgable-suffix");
 
-        List<String> lore = fastItemStack.getLore();
-
-        if (this.getPlugin().getConfigYml().getBool("reforge.display-in-lore")) {
-            List<String> addLore = this.getPlugin().getConfigYml().getStrings("reforge.lore-suffix");
-
-            addLore.replaceAll(s -> s.replace("%reforge%", reforge.getName()));
-            addLore.replaceAll(s -> s.replace("%description%", reforge.getDescription()));
+            addLore.replaceAll(s -> Display.PREFIX + s);
+            Bukkit.getLogger().info(addLore.toString());
             lore.addAll(addLore);
         }
 
-        fastItemStack.setLore(lore);
+        meta.setLore(lore);
 
-        ItemMeta meta = itemStack.getItemMeta();
-        assert meta != null;
+        itemStack.setItemMeta(meta);
     }
 }

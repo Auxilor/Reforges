@@ -2,6 +2,7 @@ package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.gui.ReforgeStatus;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
@@ -46,7 +47,33 @@ public class ReforgeUtils {
 
         Collections.shuffle(applicable);
 
+        if (applicable.isEmpty()) {
+            return null;
+        }
+
         return applicable.get(0);
+    }
+
+    public static ReforgeStatus getStatus(@NotNull final List<ItemStack> captive) {
+        ItemStack toReforge = captive.isEmpty() ? null : captive.get(0);
+        ReforgeStatus status = null;
+
+        ReforgeTarget target = null;
+
+        if (toReforge == null) {
+            status = ReforgeStatus.NO_ITEM;
+        } else {
+            target = ReforgeTarget.getForMaterial(toReforge.getType());
+            if (target == null) {
+                status = ReforgeStatus.INVALID_ITEM;
+            }
+        }
+
+        if (target != null) {
+            status = ReforgeStatus.ALLOW;
+        }
+
+        return status;
     }
 
     /**
@@ -81,6 +108,10 @@ public class ReforgeUtils {
         }
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        if (!container.has(REFORGE_KEY, PersistentDataType.STRING)) {
+            return null;
+        }
 
         String active = container.get(REFORGE_KEY, PersistentDataType.STRING);
 

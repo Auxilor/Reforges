@@ -54,10 +54,12 @@ public class ReforgeGUI {
                                     .setDisplayName("&r")
                                     .build()
                     ).setModifier((player, menu, previous) -> {
-                        if (menu.getCaptiveItems(player).isEmpty()) {
-                            previous.setType(Material.RED_STAINED_GLASS_PANE);
-                        } else {
+
+                        ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
+                        if (status == ReforgeStatus.ALLOW) {
                             previous.setType(Material.LIME_STAINED_GLASS_PANE);
+                        } else {
+                            previous.setType(Material.RED_STAINED_GLASS_PANE);
                         }
                     }).build();
 
@@ -77,23 +79,7 @@ public class ReforgeGUI {
                                         return;
                                     }
 
-                                    ItemStack toReforge = menu.getCaptiveItems(player).isEmpty() ? null : menu.getCaptiveItems(player).get(0);
-                                    ReforgeStatus status = null;
-
-                                    ReforgeTarget target = null;
-
-                                    if (toReforge == null) {
-                                        status = ReforgeStatus.NO_ITEM;
-                                    } else {
-                                        target = ReforgeTarget.getForMaterial(toReforge.getType());
-                                        if (target == null) {
-                                            status = ReforgeStatus.INVALID_ITEM;
-                                        }
-                                    }
-
-                                    if (target != null) {
-                                        status = ReforgeStatus.ALLOW;
-                                    }
+                                    ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
 
                                     switch (status) {
                                         case INVALID_ITEM -> {
@@ -126,6 +112,11 @@ public class ReforgeGUI {
                                     assert target != null;
 
                                     Reforge reforge = ReforgeUtils.getRandomReforge(target);
+
+                                    if (reforge == null) {
+                                        return;
+                                    }
+
                                     ReforgeUtils.setReforge(toReforge, reforge);
 
                                     player.playSound(

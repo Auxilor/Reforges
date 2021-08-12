@@ -32,7 +32,7 @@ gui:
 
   sound:
     id: BLOCK_ANVIL_USE
-    pitch: 0.8
+    pitch: 1
 
 reforge:
   cost: 5000
@@ -40,10 +40,16 @@ reforge:
   display-in-item-name: true
   display-in-lore: true
 
+  show-reforgable: true
+
+  reforgable-suffix:
+    - ""
+    - "&8This item can be reforged!"
+
   lore-suffix:
     - ""
-    - "&fReforge: %name%"
-    - "&8&o%description"
+    - "%reforge%"
+    - "&7&o%description%"
 
 targets:
   melee:
