@@ -204,6 +204,13 @@ public class ReforgeGUI {
                                         ItemStack stone = menu.getCaptiveItems(player).get(1);
                                         stone.setItemMeta(null);
                                         stone.setAmount(0);
+
+                                        player.playSound(
+                                                player.getLocation(),
+                                                Sound.valueOf(plugin.getConfigYml().getString("gui.stone-sound.id").toUpperCase()),
+                                                1f,
+                                                (float) plugin.getConfigYml().getDouble("gui.stone-sound.pitch")
+                                        );
                                     }
 
                                     player.playSound(
