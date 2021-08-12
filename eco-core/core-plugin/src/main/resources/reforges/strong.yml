@@ -1,0 +1,11 @@
+#
+# Strong Reforge
+#
+
+name: "<gradient:#ED213A>Strong</gradient:#93291E>"
+enabled: true
+description: "Deal &a2%&r more damage and &a10%&r more knockback"
+
+config:
+  multiplier: 1.03 # Damage multiplier
+  knockback-multiplier: 1.1
