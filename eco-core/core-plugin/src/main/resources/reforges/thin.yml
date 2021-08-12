@@ -1,0 +1,17 @@
+#
+# Thin Reforge
+#
+
+name: "<gradient:#D1913C>Thin</gradient:#FFD194>"
+enabled: true
+description: "Take &a5%&r more damage but move &a2.5%&r faster"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  multiplier: 1.05 # Damage taken multiplier
+  speed-multiplier: 1.025

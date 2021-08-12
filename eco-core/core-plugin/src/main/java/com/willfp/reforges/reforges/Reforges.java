@@ -6,13 +6,17 @@ import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.reforges.reforges.reforges.ReforgeAerobic;
 import com.willfp.reforges.reforges.reforges.ReforgeDynamic;
+import com.willfp.reforges.reforges.reforges.ReforgeEvasive;
 import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeLucky;
+import com.willfp.reforges.reforges.reforges.ReforgeReinforced;
 import com.willfp.reforges.reforges.reforges.ReforgeRich;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
 import com.willfp.reforges.reforges.reforges.ReforgeStreamlined;
 import com.willfp.reforges.reforges.reforges.ReforgeStrong;
+import com.willfp.reforges.reforges.reforges.ReforgeThin;
+import com.willfp.reforges.reforges.reforges.ReforgeTough;
 import com.willfp.reforges.reforges.reforges.ReforgeWealthy;
 import com.willfp.reforges.reforges.reforges.ReforgeWise;
 import lombok.experimental.UtilityClass;
@@ -40,6 +44,10 @@ public class Reforges {
     public static final Reforge LUCKY = new ReforgeLucky();
     public static final Reforge AEROBIC = new ReforgeAerobic();
     public static final Reforge STREAMLINED = new ReforgeStreamlined();
+    public static final Reforge THIN = new ReforgeThin();
+    public static final Reforge TOUGH = new ReforgeTough();
+    public static final Reforge REINFORCED = new ReforgeReinforced();
+    public static final Reforge EVASIVE = new ReforgeEvasive();
 
     /**
      * Get all registered {@link Reforge}s.

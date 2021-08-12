@@ -1,0 +1,17 @@
+#
+# Tough Reforge
+#
+
+name: "<gradient:#a73737>Tough</gradient:#7a2828>"
+enabled: true
+description: "Take &a8%&r less damage but move &a5%&r slower"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  multiplier: 0.92 # Damage taken multiplier
+  speed-multiplier: 0.95
