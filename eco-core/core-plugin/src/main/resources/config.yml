@@ -3,6 +3,8 @@
 # by Auxilor
 #
 
+discover-recipes: true
+
 gui:
   allow:
     material: anvil
