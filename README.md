@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://i.imgur.com/nPWTJzV.png" alt="Reforges logo" width="256">
+  <img src="https://i.imgur.com/LoZExNf.png" alt="Reforges logo" width="256">
   <br>
 </h1>
 
@@ -21,10 +21,7 @@
     </a>
 </p>
 
-[![Title](https://i.imgur.com/XFSPL6M.png)]()
-[![Features](https://i.imgur.com/dXKoMCL.png)]()
-[![Docs](https://i.imgur.com/liqcxwv.png)](https://discord.gg/ZcwpSsE/)
-[![Compatibility](https://i.imgur.com/6jm7fVS.png)]()
+[![Thread](https://i.imgur.com/6VsGiyx.png)](https://reforges.willfp.com)
 
 ## License
 *Click here to read [the entire license](https://github.com/Auxilor/Reforges/blob/master/LICENSE.md).*
