@@ -1,0 +1,76 @@
+#
+# Reforges
+# by Auxilor
+#
+
+gui:
+  available:
+    name: "&aReforge Item"
+    lore:
+      - '&7Reforges the above item, giving'
+      - '&7it a random item modifier that'
+      - '&7boosts its stats.'
+      - ''
+      - '&7Cost'
+      - '&6\$%cost%'
+      - ''
+      - '&eClick to reforge!'
+  no-item:
+    name: "&eReforge Item"
+    lore:
+      - '&7Place an item above to reforge'
+      - '&7it! Reforging items adds a'
+      - '&7random modifier to the item that'
+      - '&7grants stat boosts'
+
+reforge:
+  cost: 5000
+
+targets:
+  melee:
+    - wooden_axe
+    - stone_axe
+    - iron_axe
+    - golden_axe
+    - diamond_axe
+    - netherite_axe
+    - wooden_sword
+    - stone_sword
+    - iron_sword
+    - golden_sword
+    - diamond_sword
+    - netherite_sword
+  trident:
+    - trident
+  bow:
+    - bow
+    - crossbow
+  armor:
+    - turtle_helmet
+    - leather_helmet
+    - chainmail_helmet
+    - iron_helmet
+    - golden_helmet
+    - diamond_helmet
+    - netherite_helmet
+
+    - leather_chestplate
+    - chainmail_chestplate
+    - iron_chestplate
+    - golden_chestplate
+    - diamond_chestplate
+    - netherite_chestplate
+
+    - leather_leggings
+    - chainmail_leggings
+    - iron_leggings
+    - golden_leggings
+    - diamond_leggings
+    - netherite_leggings
+
+    - leather_boots
+    - chainmail_boots
+    - iron_boots
+    - golden_boots
+    - diamond_boots
+    - netherite_boots

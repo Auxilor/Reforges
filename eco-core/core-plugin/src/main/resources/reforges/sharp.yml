@@ -1,0 +1,10 @@
+#
+# Sharp Reforge
+#
+
+name: "&6Sharp"
+enabled: true
+description: "Deal &a3%&r more damage"
+
+config:
+  multiplier: 1.03 # Damage multiplier

@@ -1,0 +1,42 @@
+name: Reforges
+version: ${projectVersion}
+main: com.willfp.reforges.ReforgesPlugin
+api-version: 1.16
+authors: [ Auxilor ]
+website: willfp.com
+load: STARTUP
+depend:
+  - eco
+  - ProtocolLib
+
+commands:
+  reforges:
+    description: Base Command
+    permission: reforges.command.reforges
+  reforge:
+    description: Open reforge menu
+    permission: reforges.command.reforge
+
+permissions:
+  reforges.*:
+    description: All reforges permissions
+    default: op
+    children:
+      reforges.command.*: true
+  reforges.command.*:
+    description: All commands
+    default: op
+    children:
+      reforges.command.reload: true
+      reforges.command.reforges: true
+      reforges.command.reforge: true
+
+  reforges.command.reload:
+    description: Allows reloading the config
+    default: op
+  reforges.command.reforges:
+    description: Allows the user of /reforges.
+    default: true
+  reforges.command.reforge:
+    description: Allows the user of /reforge.
+    default: op
