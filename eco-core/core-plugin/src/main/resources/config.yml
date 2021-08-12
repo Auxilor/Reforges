@@ -41,16 +41,14 @@ gui:
 reforge:
   cost: 5000
 
+  line-wrap: 32
+
   show-reforgable: true
   reforgable-suffix:
     - ""
     - "&8This item can be reforged!"
 
   display-in-lore: true
-  lore-suffix:
-    - ""
-    - "%reforge%"
-    - "&7&o%description%"
 
 targets:
   melee:

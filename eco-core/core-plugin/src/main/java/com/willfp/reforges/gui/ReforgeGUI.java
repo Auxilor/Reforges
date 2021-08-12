@@ -141,6 +141,8 @@ public class ReforgeGUI {
                                         return;
                                     }
 
+                                    player.sendMessage(plugin.getLangYml().getMessage("applied-reforge").replace("%reforge%", reforge.getName()));
+
                                     EconomyHandler.getInstance().withdrawPlayer(player, cost);
 
                                     ReforgeUtils.setReforge(toReforge, reforge);

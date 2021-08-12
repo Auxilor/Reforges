@@ -5,3 +5,6 @@ messages:
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded! (Restart if you're removed weapons!)"
   insufficient-money: "&cYou don't have enough money for this!"
+  applied-reforge: "Applied %reforge%&r reforge!"
+
+description-color: "&7&o"
