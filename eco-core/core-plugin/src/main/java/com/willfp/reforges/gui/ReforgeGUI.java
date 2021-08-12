@@ -21,6 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,30 +86,38 @@ public class ReforgeGUI {
                                     ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
 
                                     double cost = plugin.getConfigYml().getDouble("reforge.cost");
-                                    int reforges = ReforgeUtils.getReforges(previous);
-                                    cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
-                                    double finalCost = cost;
+                                    if (status == ReforgeStatus.ALLOW) {
+                                        ItemStack item = menu.getCaptiveItems(player).get(0);
+                                        int reforges = ReforgeUtils.getReforges(item);
+                                        cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+                                    }
 
                                     switch (status) {
                                         case INVALID_ITEM -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
-                                            List<String> lore = plugin.getConfigYml().getStrings("gui.invalid-item.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
+                                            List<String> lore = new ArrayList<>();
+                                            for (String string : plugin.getConfigYml().getStrings("gui.invalid-item.lore")) {
+                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                            }
                                             meta.setLore(lore);
                                         }
                                         case ALLOW -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
-                                            List<String> lore = plugin.getConfigYml().getStrings("gui.allow.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
+                                            List<String> lore = new ArrayList<>();
+                                            for (String string : plugin.getConfigYml().getStrings("gui.allow.lore")) {
+                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                            }
                                             meta.setLore(lore);
                                         }
                                         default -> {
                                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
                                             meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
-                                            List<String> lore = plugin.getConfigYml().getStrings("gui.no-item.lore");
-                                            lore.replaceAll(s -> s.replace("%cost%", NumberUtils.format(finalCost)));
+                                            List<String> lore = new ArrayList<>();
+                                            for (String string : plugin.getConfigYml().getStrings("gui.no-item.lore")) {
+                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                            }
                                             meta.setLore(lore);
                                         }
                                     }

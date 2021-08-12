@@ -5,6 +5,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.reforges.reforges.reforges.ReforgeDynamic;
+import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
 import com.willfp.reforges.reforges.reforges.ReforgeWise;
@@ -26,6 +27,7 @@ public class Reforges {
     public static final Reforge LIGHT = new ReforgeLight();
     public static final Reforge WISE = new ReforgeWise();
     public static final Reforge DYNAMIC = new ReforgeDynamic();
+    public static final Reforge GRAVITATED = new ReforgeGravitated();
 
     /**
      * Get all registered {@link Reforge}s.

@@ -1,0 +1,10 @@
+#
+# Gravitated Reforge
+#
+
+name: "<gradient:#1e3c72>Gravitated</gradient:#2a5298>"
+enabled: true
+description: "Deal &a8%&r more critical damage"
+
+config:
+  crit-multiplier: 1.08
