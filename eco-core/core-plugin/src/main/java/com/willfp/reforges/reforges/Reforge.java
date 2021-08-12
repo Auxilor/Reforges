@@ -5,13 +5,15 @@ import com.willfp.eco.core.Prerequisite;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.config.ReforgeConfig;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
+import com.willfp.reforges.reforges.util.Watcher;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public abstract class Reforge {
+public abstract class Reforge implements Listener, Watcher {
     /**
      * Instance of Reforges for reforges to be able to access.
      */
@@ -35,6 +37,18 @@ public abstract class Reforge {
      */
     @Getter
     private boolean enabled;
+
+    /**
+     * The display name.
+     */
+    @Getter
+    private String name;
+
+    /**
+     * The display name.
+     */
+    @Getter
+    private String description;
 
     /**
      * Create a new Reforge.
@@ -61,6 +75,8 @@ public abstract class Reforge {
      */
     public void update() {
         enabled = config.getBool("enabled");
+        name = config.getString("name");
+        description = config.getString("description");
 
         postUpdate();
     }

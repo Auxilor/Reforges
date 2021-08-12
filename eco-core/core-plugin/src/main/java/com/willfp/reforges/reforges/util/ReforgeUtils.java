@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
+import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import lombok.experimental.UtilityClass;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @UtilityClass
 public class ReforgeUtils {
@@ -24,6 +29,25 @@ public class ReforgeUtils {
      * The key for storing the currently displayed stat.
      */
     private static final NamespacedKey REFORGE_KEY = PLUGIN.getNamespacedKeyFactory().create("reforge");
+
+    /**
+     * Get a random reforge for a target.
+     *
+     * @param target The target.
+     */
+    public static Reforge getRandomReforge(@NotNull final ReforgeTarget target) {
+        List<Reforge> applicable = new ArrayList<>();
+
+        for (Reforge reforge : Reforges.values()) {
+            if (reforge.getTarget().equals(target)) {
+                applicable.add(reforge);
+            }
+        }
+
+        Collections.shuffle(applicable);
+
+        return applicable.get(0);
+    }
 
     /**
      * Get reforge on an item.

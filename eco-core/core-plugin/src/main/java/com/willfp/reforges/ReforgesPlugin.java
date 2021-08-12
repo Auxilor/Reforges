@@ -5,7 +5,10 @@ import com.willfp.eco.core.command.impl.PluginCommand;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.display.ReforgesDisplay;
+import com.willfp.reforges.reforges.Reforge;
+import com.willfp.reforges.reforges.Reforges;
 import lombok.Getter;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,6 +28,18 @@ public class ReforgesPlugin extends EcoPlugin {
     public ReforgesPlugin() {
         super(0, 12412, "&#00ff00");
         instance = this;
+    }
+
+    @Override
+    protected void handleReload() {
+        for (Reforge reforge : Reforges.values()) {
+            HandlerList.unregisterAll(reforge);
+            this.getScheduler().runLater(() -> {
+                if (reforge.isEnabled()) {
+                    this.getEventManager().registerListener(reforge);
+                }
+            }, 1);
+        }
     }
 
     @Override

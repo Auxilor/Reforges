@@ -6,6 +6,7 @@ import com.willfp.reforges.ReforgesPlugin;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -107,6 +108,18 @@ public class ReforgeTarget {
      */
     public static ReforgeTarget getByName(@NotNull final String name) {
         Optional<ReforgeTarget> matching = REGISTERED.stream().filter(rarity -> rarity.getName().equalsIgnoreCase(name)).findFirst();
+        return matching.orElse(null);
+    }
+
+    /**
+     * Get target from material.
+     *
+     * @param material The material.
+     * @return The target.
+     */
+    @Nullable
+    public static ReforgeTarget getForMaterial(@NotNull final Material material) {
+        Optional<ReforgeTarget> matching = REGISTERED.stream().filter(rarity -> rarity.getMaterials().contains(material)).findFirst();
         return matching.orElse(null);
     }
 

@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.reforges.reforges.reforges.ReforgeSharp;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,10 +16,10 @@ import java.util.Set;
 @SuppressWarnings({"unused", "checkstyle:JavadocVariable"})
 public class Reforges {
     public static final String CONFIG_LOCATION = "config.";
-    public static final String OBTAINING_LOCATION = "obtaining.";
-    public static final String GENERAL_LOCATION = "general-config.";
 
     private static final BiMap<String, Reforge> BY_KEY = HashBiMap.create();
+
+    public static final Reforge SHARP = new ReforgeSharp();
 
     /**
      * Get all registered {@link Reforge}s.

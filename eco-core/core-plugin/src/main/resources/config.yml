@@ -26,6 +26,14 @@ gui:
 reforge:
   cost: 5000
 
+  display-in-item-name: true
+  display-in-lore: true
+
+  lore-suffix:
+    - ""
+    - "&fReforge: %name%"
+    - "&8&o%description"
+
 targets:
   melee:
     - wooden_axe
