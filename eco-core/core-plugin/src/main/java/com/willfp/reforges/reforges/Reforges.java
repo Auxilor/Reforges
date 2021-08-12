@@ -5,11 +5,14 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.reforges.reforges.reforges.ReforgeAerobic;
+import com.willfp.reforges.reforges.reforges.ReforgeAffluent;
 import com.willfp.reforges.reforges.reforges.ReforgeDynamic;
 import com.willfp.reforges.reforges.reforges.ReforgeEvasive;
 import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeLucky;
+import com.willfp.reforges.reforges.reforges.ReforgeNautical;
+import com.willfp.reforges.reforges.reforges.ReforgePointy;
 import com.willfp.reforges.reforges.reforges.ReforgeReinforced;
 import com.willfp.reforges.reforges.reforges.ReforgeRich;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
@@ -17,6 +20,7 @@ import com.willfp.reforges.reforges.reforges.ReforgeStreamlined;
 import com.willfp.reforges.reforges.reforges.ReforgeStrong;
 import com.willfp.reforges.reforges.reforges.ReforgeThin;
 import com.willfp.reforges.reforges.reforges.ReforgeTough;
+import com.willfp.reforges.reforges.reforges.ReforgeVersatile;
 import com.willfp.reforges.reforges.reforges.ReforgeWealthy;
 import com.willfp.reforges.reforges.reforges.ReforgeWise;
 import lombok.experimental.UtilityClass;
@@ -48,6 +52,10 @@ public class Reforges {
     public static final Reforge TOUGH = new ReforgeTough();
     public static final Reforge REINFORCED = new ReforgeReinforced();
     public static final Reforge EVASIVE = new ReforgeEvasive();
+    public static final Reforge NAUTICAL = new ReforgeNautical();
+    public static final Reforge POINTY = new ReforgePointy();
+    public static final Reforge VERSATILE = new ReforgeVersatile();
+    public static final Reforge AFFLUENT = new ReforgeAffluent();
 
     /**
      * Get all registered {@link Reforge}s.

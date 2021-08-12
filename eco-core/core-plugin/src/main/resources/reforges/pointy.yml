@@ -1,0 +1,16 @@
+#
+# Pointy Reforge
+#
+
+name: "<gradient:#076585>Pointy</gradient:#ffffff>"
+enabled: true
+description: "Deal &a10%&r more damage"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  multiplier: 1.10 # Damage multiplier

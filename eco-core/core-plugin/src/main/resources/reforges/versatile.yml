@@ -1,0 +1,16 @@
+#
+# Versatile Reforge
+#
+
+name: "<gradient:#ED4264>Versatile</gradient:#FFEDBC>"
+enabled: true
+description: "Deal &a45%&r more melee damage"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  multiplier: 1.45 # Damage multiplier
