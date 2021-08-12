@@ -12,7 +12,7 @@ stone-config:
   craftable: true
   recipe:
     - air
-    - air
+    - ecoitems:blank_reforge_stone ? air
     - air
     - iron_block
     - daylight_sensor
