@@ -1,0 +1,16 @@
+#
+# Wealthy Reforge
+#
+
+name: "<gradient:#BF953F>Wealthy</gradient:#FCF6BA>"
+enabled: true
+description: "Gain &e\$10&f for each mob you kill"
+
+stone-config:
+  requires-stone: true
+  texture: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVmNDg2MWFhNWIyMmVlMjhhOTBlNzVkYWI0NWQyMjFlZmQxNGMwYjFlY2M4ZWU5OThmYjY3ZTQzYmI4ZjNkZSJ9fX0=
+  craftable: false
+  recipe: []
+
+config:
+  money: 10

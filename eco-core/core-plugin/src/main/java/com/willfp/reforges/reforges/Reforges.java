@@ -9,6 +9,7 @@ import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
 import com.willfp.reforges.reforges.reforges.ReforgeStrong;
+import com.willfp.reforges.reforges.reforges.ReforgeWealthy;
 import com.willfp.reforges.reforges.reforges.ReforgeWise;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -30,6 +31,7 @@ public class Reforges {
     public static final Reforge DYNAMIC = new ReforgeDynamic();
     public static final Reforge GRAVITATED = new ReforgeGravitated();
     public static final Reforge STRONG = new ReforgeStrong();
+    public static final Reforge WEALTHY = new ReforgeWealthy();
 
     /**
      * Get all registered {@link Reforge}s.

@@ -16,6 +16,19 @@ gui:
       - '&6\$%cost%'
       - ''
       - '&eClick to reforge!'
+  allow-stone:
+    material: anvil
+    name: "&aReforge Item"
+    lore:
+      - '&7Reforges the above item with'
+      - '&7a reforge stone, giving it'
+      - '&7the %stone%&7 reforge to'
+      - '&7boost its stats.'
+      - ''
+      - '&7Cost'
+      - '&6\$%cost%'
+      - ''
+      - '&eClick to reforge!'
   no-item:
     material: anvil
     name: "&eReforge Item"

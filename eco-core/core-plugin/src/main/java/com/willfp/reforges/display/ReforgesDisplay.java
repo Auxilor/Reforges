@@ -10,6 +10,7 @@ import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -34,7 +35,7 @@ public class ReforgesDisplay extends DisplayModule {
                            @NotNull final Object... args) {
         ReforgeTarget target = ReforgeTarget.getForMaterial(itemStack.getType());
 
-        if (target == null) {
+        if (target == null && itemStack.getType() != Material.PLAYER_HEAD) {
             return;
         }
 
@@ -46,17 +47,20 @@ public class ReforgesDisplay extends DisplayModule {
 
         FastItemStack fastItemStack = FastItemStack.wrap(itemStack);
         List<String> lore = fastItemStack.getLore();
-        assert lore != null;
 
         if (stone != null) {
             meta.setDisplayName(this.getPlugin().getConfigYml().getString("reforge.stone.name").replace("%reforge%", stone.getName()));
-            SkullUtils.setSkullTexture((SkullMeta) meta, reforge.getConfig().getString("stone-config.texture"));
+            SkullUtils.setSkullTexture((SkullMeta) meta, stone.getConfig().getString("stone-config.texture"));
             itemStack.setItemMeta(meta);
             List<String> stoneLore = new ArrayList<>();
             for (String string : this.getPlugin().getConfigYml().getStrings("reforge.stone.lore")) {
-                stoneLore.add(string.replace("%reforge%", stone.getName()));
+                stoneLore.add(Display.PREFIX + string.replace("%reforge%", stone.getName()));
             }
             lore.addAll(0, stoneLore);
+        } else {
+            if (itemStack.getType() == Material.PLAYER_HEAD) {
+                return;
+            }
         }
 
         if (reforge != null) {
@@ -81,7 +85,7 @@ public class ReforgesDisplay extends DisplayModule {
             }
         }
 
-        if (reforge == null && this.getPlugin().getConfigYml().getBool("reforge.show-reforgable")) {
+        if (reforge == null && this.getPlugin().getConfigYml().getBool("reforge.show-reforgable") && itemStack.getType() != Material.PLAYER_HEAD) {
             List<String> addLore = this.getPlugin().getConfigYml().getStrings("reforge.reforgable-suffix");
 
             addLore.replaceAll(s -> Display.PREFIX + s);

@@ -4,7 +4,7 @@
 
 name: "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>"
 enabled: true
-description: "Deal &a2.5%&r more damage and &a5%&r more critical damage"
+description: "Deal &a5%&r more damage and &a10%&r more critical damage"
 
 stone-config:
   requires-stone: true
@@ -22,5 +22,5 @@ stone-config:
     - air
 
 config:
-  multiplier: 1.025
-  crit-multiplier: 1.05
+  multiplier: 1.05
+  crit-multiplier: 1.10

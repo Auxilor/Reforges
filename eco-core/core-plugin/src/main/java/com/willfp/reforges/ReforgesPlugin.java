@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.command.impl.PluginCommand;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.reforges.commands.CommandReforge;
+import com.willfp.reforges.commands.CommandReforges;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
@@ -66,7 +67,8 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected List<PluginCommand> loadPluginCommands() {
         return Arrays.asList(
-                new CommandReforge(this)
+                new CommandReforge(this),
+                new CommandReforges(this)
         );
     }
 

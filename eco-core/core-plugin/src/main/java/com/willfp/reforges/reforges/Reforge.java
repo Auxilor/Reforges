@@ -7,6 +7,7 @@ import com.willfp.eco.core.recipe.Recipes;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.config.ReforgeConfig;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
+import com.willfp.reforges.reforges.util.ReforgeUtils;
 import com.willfp.reforges.reforges.util.Watcher;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -94,9 +95,16 @@ public abstract class Reforge implements Listener, Watcher {
         description = config.getString("description");
 
         requiresStone = config.getBool("stone-config.requires-stone");
-        stone = new SkullBuilder()
-                .setSkullTexture(config.getString("stone-config.texture"))
-                .build();
+        if (requiresStone) {
+            stone = new SkullBuilder()
+                    .setSkullTexture(config.getString("stone-config.texture"))
+                    .build();
+        } else {
+            stone = new SkullBuilder()
+                    .build();
+        }
+
+        ReforgeUtils.setReforgeStone(stone, this);
 
         if (config.getBool("stone-config.craftable")) {
             Recipes.createAndRegisterRecipe(

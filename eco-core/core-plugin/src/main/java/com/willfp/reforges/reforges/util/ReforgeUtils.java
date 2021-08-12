@@ -6,6 +6,7 @@ import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import lombok.experimental.UtilityClass;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -49,7 +50,7 @@ public class ReforgeUtils {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (reforge.getTarget().equals(target)) {
+            if (reforge.getTarget().equals(target) && !reforge.isRequiresStone()) {
                 applicable.add(reforge);
             }
         }
@@ -65,11 +66,12 @@ public class ReforgeUtils {
 
     public static ReforgeStatus getStatus(@NotNull final List<ItemStack> captive) {
         ItemStack toReforge = captive.isEmpty() ? null : captive.get(0);
+        ItemStack stone = captive.size() == 2 ? captive.get(1) : null;
         ReforgeStatus status = null;
 
         ReforgeTarget target = null;
 
-        if (toReforge == null) {
+        if (toReforge == null || toReforge.getType() == Material.AIR) {
             status = ReforgeStatus.NO_ITEM;
         } else {
             target = ReforgeTarget.getForMaterial(toReforge.getType());
@@ -80,6 +82,13 @@ public class ReforgeUtils {
 
         if (target != null) {
             status = ReforgeStatus.ALLOW;
+        }
+
+        if (status == ReforgeStatus.ALLOW) {
+            Reforge reforgeStone = getReforgeStone(stone);
+            if (reforgeStone != null && reforgeStone.getTarget().getMaterials().contains(toReforge.getType())) {
+                status = ReforgeStatus.ALLOW_STONE;
+            }
         }
 
         return status;
@@ -211,12 +220,6 @@ public class ReforgeUtils {
             return;
         }
 
-        Reforge previous = getReforge(item);
-
-        if (previous != null) {
-            previous.handleRemoval(item);
-        }
-
         ItemMeta meta = item.getItemMeta();
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
@@ -224,8 +227,6 @@ public class ReforgeUtils {
         container.set(REFORGE_STONE_KEY, PersistentDataType.STRING, reforge.getKey());
 
         item.setItemMeta(meta);
-
-        reforge.handleApplication(item);
     }
 
     /**

@@ -10,6 +10,6 @@ messages:
   invalid-player: "&cInvalid player!"
   needs-stone: "&cYou must specify a reforge stone"
   invalid-stone: "&cInvalid reforge!"
-  give-success: "Gave &a%reforge%&r to &a%recipient%"
+  give-success: "Gave &a%reforge%&r reforge stone to &a%recipient%"
 
 description-color: "&7&o"

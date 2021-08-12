@@ -66,7 +66,7 @@ public class ReforgeGUI {
                     ).setModifier((player, menu, previous) -> {
 
                         ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
-                        if (status == ReforgeStatus.ALLOW) {
+                        if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
                             previous.setType(Material.LIME_STAINED_GLASS_PANE);
                         } else {
                             previous.setType(Material.RED_STAINED_GLASS_PANE);
@@ -118,6 +118,16 @@ public class ReforgeGUI {
                                             List<String> lore = new ArrayList<>();
                                             for (String string : plugin.getConfigYml().getStrings("gui.allow.lore")) {
                                                 lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                            }
+                                            meta.setLore(lore);
+                                        }
+                                        case ALLOW_STONE -> {
+                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow-stone.material").toUpperCase())));
+                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow-stone.name"));
+                                            List<String> lore = new ArrayList<>();
+                                            for (String string : plugin.getConfigYml().getStrings("gui.allow-stone.lore")) {
+                                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                                        .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1)).getName()));
                                             }
                                             meta.setLore(lore);
                                         }
@@ -192,8 +202,8 @@ public class ReforgeGUI {
 
                                     if (usedStone) {
                                         ItemStack stone = menu.getCaptiveItems(player).get(1);
-                                        stone.setType(Material.AIR);
                                         stone.setItemMeta(null);
+                                        stone.setAmount(0);
                                     }
 
                                     player.playSound(

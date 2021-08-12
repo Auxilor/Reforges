@@ -7,6 +7,11 @@ public enum ReforgeStatus {
     ALLOW,
 
     /**
+     * Allow the reforge with a stone.
+     */
+    ALLOW_STONE,
+
+    /**
      * Invalid item to reforge.
      */
     INVALID_ITEM,

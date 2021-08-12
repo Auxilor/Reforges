@@ -13,7 +13,7 @@ public class CommandReforges extends PluginCommand {
      * @param plugin The plugin for the commands to listen for.
      */
     public CommandReforges(@NotNull final EcoPlugin plugin) {
-        super(plugin, "reforge", "reforges.command.reforges", false);
+        super(plugin, "reforges", "reforges.command.reforges", false);
 
         this.addSubcommand(new CommandReload(plugin))
                 .addSubcommand(new CommandGive(plugin));
