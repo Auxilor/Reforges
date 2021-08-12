@@ -4,7 +4,8 @@
 #
 
 gui:
-  available:
+  allow:
+    material: anvil
     name: "&aReforge Item"
     lore:
       - '&7Reforges the above item, giving'
@@ -16,12 +17,18 @@ gui:
       - ''
       - '&eClick to reforge!'
   no-item:
+    material: anvil
     name: "&eReforge Item"
     lore:
       - '&7Place an item above to reforge'
       - '&7it! Reforging items adds a'
       - '&7random modifier to the item that'
       - '&7grants stat boosts'
+  invalid-item:
+    material: barrier
+    name: "&cError!"
+    lore:
+      - '&7You cannot reforge this item!'
 
 reforge:
   cost: 5000

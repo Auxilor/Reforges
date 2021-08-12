@@ -7,6 +7,7 @@ import com.willfp.eco.core.gui.slot.FillerMask;
 import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
@@ -14,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 @UtilityClass
 public class ReforgeGUI {
@@ -28,6 +31,7 @@ public class ReforgeGUI {
      *
      * @param plugin The plugin.
      */
+    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @ConfigUpdater
     public static void update(@NotNull final EcoPlugin plugin) {
         menu = Menu.builder(5)
@@ -70,13 +74,42 @@ public class ReforgeGUI {
                                         return;
                                     }
 
-                                    if (menu.getCaptiveItems(player).isEmpty()) {
-                                        meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
-                                        meta.setLore(plugin.getConfigYml().getStrings("gui.no-item.lore"));
+                                    ItemStack toReforge = menu.getCaptiveItems(player).isEmpty() ? null : menu.getCaptiveItems(player).get(0);
+                                    ReforgeStatus status = null;
+
+                                    ReforgeTarget target = null;
+
+                                    if (toReforge == null) {
+                                        status = ReforgeStatus.NO_ITEM;
                                     } else {
-                                        meta.setDisplayName(plugin.getConfigYml().getString("gui.available.name"));
-                                        meta.setLore(plugin.getConfigYml().getStrings("gui.available.lore"));
+                                        target = ReforgeTarget.getForMaterial(toReforge.getType());
+                                        if (target == null) {
+                                            status = ReforgeStatus.INVALID_ITEM;
+                                        }
                                     }
+
+                                    if (target != null) {
+                                        status = ReforgeStatus.ALLOW;
+                                    }
+
+                                    switch (status) {
+                                        case INVALID_ITEM -> {
+                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
+                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
+                                            meta.setLore(plugin.getConfigYml().getStrings("gui.invalid-item.lore"));
+                                        }
+                                        case ALLOW -> {
+                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
+                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
+                                            meta.setLore(plugin.getConfigYml().getStrings("gui.allow.lore"));
+                                        }
+                                        default -> {
+                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
+                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
+                                            meta.setLore(plugin.getConfigYml().getStrings("gui.no-item.lore"));
+                                        }
+                                    }
+
                                     previous.setItemMeta(meta);
                                 })
                                 .onLeftClick((event, slot, menu) -> {
@@ -85,6 +118,9 @@ public class ReforgeGUI {
                                     if (toReforge == null) {
                                         return;
                                     }
+
+
+
                                     player.sendMessage("reforged");
                                 }).build()
                 )
