@@ -2,6 +2,7 @@ package com.willfp.reforges.reforges;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.Prerequisite;
+import com.willfp.eco.core.display.Display;
 import com.willfp.eco.core.items.builder.SkullBuilder;
 import com.willfp.eco.core.recipe.Recipes;
 import com.willfp.reforges.ReforgesPlugin;
@@ -15,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Reforge implements Listener, Watcher {
@@ -95,9 +98,16 @@ public abstract class Reforge implements Listener, Watcher {
         description = config.getString("description");
 
         requiresStone = config.getBool("stone-config.requires-stone");
+
         if (requiresStone) {
+            List<String> stoneLore = new ArrayList<>();
+            for (String string : this.getPlugin().getConfigYml().getStrings("reforge.stone.lore")) {
+                stoneLore.add(Display.PREFIX + string.replace("%reforge%", this.getName()));
+            }
             stone = new SkullBuilder()
                     .setSkullTexture(config.getString("stone-config.texture"))
+                    .setDisplayName(this.getPlugin().getConfigYml().getString("reforge.stone.name").replace("%reforge%", this.getName()))
+                    .addLoreLines(stoneLore)
                     .build();
         } else {
             stone = new SkullBuilder()
