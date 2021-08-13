@@ -53,16 +53,8 @@ public class ReforgeLight extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
-                "light-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        ));
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
-                "light-kb",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        ));
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK);
         itemStack.setItemMeta(meta);
     }
 }

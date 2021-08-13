@@ -47,11 +47,7 @@ public class ReforgeTough extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED,  new AttributeModifier(
-                "tough-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        ));
+        meta.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED);
         itemStack.setItemMeta(meta);
     }
 }

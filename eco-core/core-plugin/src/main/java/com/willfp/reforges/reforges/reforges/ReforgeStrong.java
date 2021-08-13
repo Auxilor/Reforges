@@ -48,11 +48,7 @@ public class ReforgeStrong extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
-                "strong-kb",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        ));
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK);
         itemStack.setItemMeta(meta);
     }
 }
