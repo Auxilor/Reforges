@@ -13,25 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class ReforgeLight extends Reforge {
-    private AttributeModifier speedModifier;
-    private AttributeModifier kbModifier;
-
     public ReforgeLight() {
         super("light");
-    }
-
-    @Override
-    protected void postUpdate() {
-        this.speedModifier = new AttributeModifier(
-                "light-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        );
-        this.kbModifier = new AttributeModifier(
-                "light-kb",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        );
     }
 
     @Override
@@ -51,8 +34,16 @@ public class ReforgeLight extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, speedModifier);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, kbModifier);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
+                "light-speed",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                "light-kb",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
     }
@@ -62,8 +53,16 @@ public class ReforgeLight extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, speedModifier);
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, kbModifier);
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
+                "light-speed",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                "light-kb",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         itemStack.setItemMeta(meta);
     }
 }

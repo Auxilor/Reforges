@@ -13,19 +13,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class ReforgeTough extends Reforge {
-    private AttributeModifier speedModifier;
-
     public ReforgeTough() {
         super("tough");
-    }
-
-    @Override
-    protected void postUpdate() {
-        this.speedModifier = new AttributeModifier(
-                "tough-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        );
     }
 
     @Override
@@ -44,7 +33,11 @@ public class ReforgeTough extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, speedModifier);
+        meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(
+                "tough-speed",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
     }
@@ -54,7 +47,11 @@ public class ReforgeTough extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, speedModifier);
+        meta.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED,  new AttributeModifier(
+                "tough-speed",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         itemStack.setItemMeta(meta);
     }
 }

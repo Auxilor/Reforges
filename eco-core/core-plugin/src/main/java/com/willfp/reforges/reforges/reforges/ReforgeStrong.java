@@ -13,8 +13,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class ReforgeStrong extends Reforge {
-    private AttributeModifier kbModifier;
-
     public ReforgeStrong() {
         super("strong");
     }
@@ -22,15 +20,6 @@ public class ReforgeStrong extends Reforge {
     @Override
     public ReforgeTarget getTarget() {
         return ReforgeTarget.MELEE;
-    }
-
-    @Override
-    protected void postUpdate() {
-        this.kbModifier = new AttributeModifier(
-                "strong-kb",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1
-        );
     }
 
     @Override
@@ -45,7 +34,11 @@ public class ReforgeStrong extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, kbModifier);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                "strong-kb",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         itemStack.setItemMeta(meta);
     }
@@ -55,7 +48,11 @@ public class ReforgeStrong extends Reforge {
         ItemMeta meta = itemStack.getItemMeta();
         assert meta != null;
 
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, kbModifier);
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                "strong-kb",
+                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
+        ));
         itemStack.setItemMeta(meta);
     }
 }
