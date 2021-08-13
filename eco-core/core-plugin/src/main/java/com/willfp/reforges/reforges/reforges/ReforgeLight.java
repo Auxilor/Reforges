@@ -7,13 +7,10 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class ReforgeLight extends Reforge {
     private AttributeModifier speedModifier;
@@ -26,18 +23,14 @@ public class ReforgeLight extends Reforge {
     @Override
     protected void postUpdate() {
         this.speedModifier = new AttributeModifier(
-                UUID.nameUUIDFromBytes("light-speed".getBytes()),
                 "light-speed",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1,
-                EquipmentSlot.HAND
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
         );
         this.kbModifier = new AttributeModifier(
-                UUID.nameUUIDFromBytes("light-kb".getBytes()),
                 "light-kb",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
-                AttributeModifier.Operation.MULTIPLY_SCALAR_1,
-                EquipmentSlot.HAND
+                AttributeModifier.Operation.MULTIPLY_SCALAR_1
         );
     }
 

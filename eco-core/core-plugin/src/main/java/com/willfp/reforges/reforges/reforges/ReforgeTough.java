@@ -12,8 +12,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
-
 public class ReforgeTough extends Reforge {
     private AttributeModifier speedModifier;
 
@@ -24,7 +22,6 @@ public class ReforgeTough extends Reforge {
     @Override
     protected void postUpdate() {
         this.speedModifier = new AttributeModifier(
-                UUID.nameUUIDFromBytes("tough-speed".getBytes()),
                 "tough-speed",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
