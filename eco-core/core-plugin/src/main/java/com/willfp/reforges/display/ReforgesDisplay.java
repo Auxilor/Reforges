@@ -46,7 +46,7 @@ public class ReforgesDisplay extends DisplayModule {
         Reforge reforge = ReforgeUtils.getReforge(meta);
         Reforge stone = ReforgeUtils.getReforgeStone(meta);
 
-        if (reforge == null && stone == null) {
+        if (reforge == null && stone == null && itemStack.getType() != Material.PLAYER_HEAD) {
             if (this.getPlugin().getConfigYml().getBool("reforge.show-reforgable")) {
                 List<String> addLore = new ArrayList<>();
 
