@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ReforgeUtils {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (reforge.getTarget().equals(target) && !reforge.isRequiresStone()) {
+            if (Arrays.asList(reforge.getTarget()).contains(target) && !reforge.isRequiresStone()) {
                 applicable.add(reforge);
             }
         }
@@ -86,7 +87,7 @@ public class ReforgeUtils {
 
         if (status == ReforgeStatus.ALLOW) {
             Reforge reforgeStone = getReforgeStone(stone);
-            if (reforgeStone != null && reforgeStone.getTarget().getMaterials().contains(toReforge.getType())) {
+            if (reforgeStone != null && Arrays.stream(reforgeStone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getMaterials().contains(toReforge.getType()))) {
                 status = ReforgeStatus.ALLOW_STONE;
             }
         }

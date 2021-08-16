@@ -14,8 +14,8 @@ public class ReforgePointy extends Reforge {
     }
 
     @Override
-    public ReforgeTarget getTarget() {
-        return ReforgeTarget.TRIDENT;
+    public ReforgeTarget[] getTarget() {
+        return new ReforgeTarget[]{ReforgeTarget.TRIDENT};
     }
 
     @Override

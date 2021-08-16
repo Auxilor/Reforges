@@ -135,7 +135,7 @@ public abstract class Reforge implements Listener, Watcher {
     /**
      * Get the reforge target.
      */
-    public abstract ReforgeTarget getTarget();
+    public abstract ReforgeTarget[] getTarget();
 
     public void handleApplication(@NotNull final ItemStack itemStack) {
         // Override when needed

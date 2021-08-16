@@ -18,8 +18,8 @@ public class ReforgeTough extends Reforge {
     }
 
     @Override
-    public ReforgeTarget getTarget() {
-        return ReforgeTarget.ARMOR;
+    public ReforgeTarget[] getTarget() {
+        return new ReforgeTarget[]{ReforgeTarget.ARMOR};
     }
 
     @Override

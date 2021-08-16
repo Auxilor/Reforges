@@ -41,6 +41,11 @@ public class ReforgeTarget {
     public static final ReforgeTarget BOW = new ReforgeTarget("bow");
 
     /**
+     * Pickaxes.
+     */
+    public static final ReforgeTarget PICKAXE = new ReforgeTarget("pickaxe");
+
+    /**
      * All registered targets.
      */
     private static final Set<ReforgeTarget> REGISTERED = new HashSet<>();

@@ -19,8 +19,8 @@ public class ReforgeRich extends Reforge {
     }
 
     @Override
-    public ReforgeTarget getTarget() {
-        return ReforgeTarget.BOW;
+    public ReforgeTarget[] getTarget() {
+        return new ReforgeTarget[]{ReforgeTarget.BOW};
     }
 
     @EventHandler

@@ -24,6 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -160,7 +161,7 @@ public class ReforgeGUI {
                                     if (menu.getCaptiveItems(player).size() == 2) {
                                         Reforge stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1));
                                         if (stone != null) {
-                                            if (stone.getTarget().getMaterials().contains(toReforge.getType())) {
+                                            if (Arrays.stream(stone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getMaterials().contains(toReforge.getType()))) {
                                                 reforge = stone;
                                                 usedStone = true;
                                             }

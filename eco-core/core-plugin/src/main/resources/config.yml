@@ -83,6 +83,13 @@ reforge:
       - "%reforge%&7 reforge!"
 
 targets:
+  pickaxe:
+    - wooden_pickaxe
+    - stone_pickaxe
+    - iron_pickaxe
+    - golden_pickaxe
+    - diamond_pickaxe
+    - netherite_pickaxe
   melee:
     - wooden_axe
     - stone_axe

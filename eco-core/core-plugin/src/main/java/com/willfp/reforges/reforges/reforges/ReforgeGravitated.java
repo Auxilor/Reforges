@@ -13,8 +13,8 @@ public class ReforgeGravitated extends Reforge {
     }
 
     @Override
-    public ReforgeTarget getTarget() {
-        return ReforgeTarget.MELEE;
+    public ReforgeTarget[] getTarget() {
+        return new ReforgeTarget[]{ReforgeTarget.MELEE};
     }
 
     @Override
