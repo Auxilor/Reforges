@@ -7,6 +7,7 @@ import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager;
 import com.willfp.eco.util.ArrowUtils;
 import com.willfp.reforges.reforges.Reforge;
+import org.bukkit.block.Block;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.EntityType;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Trident;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -33,6 +35,39 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
      */
     public WatcherTriggers(@NotNull final EcoPlugin plugin) {
         super(plugin);
+    }
+
+    /**
+     * Called when a player breaks a block.
+     *
+     * @param event The event to listen for.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onBlockBreak(@NotNull final BlockBreakEvent event) {
+        if (McmmoManager.isFake(event)) {
+            return;
+        }
+
+        Player player = event.getPlayer();
+        Block block = event.getBlock();
+
+        if (!AntigriefManager.canBreakBlock(player, block)) {
+            return;
+        }
+
+        if (event.isCancelled()) {
+            return;
+        }
+
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+
+        Reforge reforge = ReforgeUtils.getReforge(itemStack);
+
+        if (reforge == null) {
+            return;
+        }
+
+        reforge.onBlockBreak(player, block, event);
     }
 
     /**

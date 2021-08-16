@@ -10,6 +10,7 @@ import com.willfp.reforges.reforges.reforges.ReforgeDurable;
 import com.willfp.reforges.reforges.reforges.ReforgeDynamic;
 import com.willfp.reforges.reforges.reforges.ReforgeEvasive;
 import com.willfp.reforges.reforges.reforges.ReforgeGravitated;
+import com.willfp.reforges.reforges.reforges.ReforgeImmediate;
 import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeLucky;
 import com.willfp.reforges.reforges.reforges.ReforgeNautical;
@@ -58,6 +59,7 @@ public class Reforges {
     public static final Reforge VERSATILE = new ReforgeVersatile();
     public static final Reforge AFFLUENT = new ReforgeAffluent();
     public static final Reforge DURABLE = new ReforgeDurable();
+    public static final Reforge IMMEDIATE = new ReforgeImmediate();
 
     /**
      * Get all registered {@link Reforge}s.

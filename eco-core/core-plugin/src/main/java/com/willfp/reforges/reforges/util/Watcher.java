@@ -1,10 +1,12 @@
 package com.willfp.reforges.reforges.util;
 
+import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.entity.Trident;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
@@ -15,6 +17,20 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public interface Watcher {
+
+    /**
+     * Called when a player breaks a block.
+     *
+     * @param player The player.
+     * @param block  The block that was broken.
+     * @param event  The event that called this watcher.
+     */
+    default void onBlockBreak(@NotNull final Player player,
+                              @NotNull final Block block,
+                              @NotNull final BlockBreakEvent event) {
+        // Empty default as enchantments only override required watchers.
+    }
+
     /**
      * Called when an entity shoots another entity with an arrow.
      *
