@@ -1,0 +1,17 @@
+#
+# Prospecting Reforge
+#
+
+name: "<gradient:#00B4DB>Prospecting</gradient:#0083B0>"
+enabled: true
+description: "&a5%&r chance to get &e$2&f from mining a block"
+
+stone-config:
+  requires-stone: false
+  texture: ''
+  craftable: false
+  recipe: []
+
+config:
+  chance: 5
+  money: 2

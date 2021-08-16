@@ -15,6 +15,7 @@ import com.willfp.reforges.reforges.reforges.ReforgeLight;
 import com.willfp.reforges.reforges.reforges.ReforgeLucky;
 import com.willfp.reforges.reforges.reforges.ReforgeNautical;
 import com.willfp.reforges.reforges.reforges.ReforgePointy;
+import com.willfp.reforges.reforges.reforges.ReforgeProspecting;
 import com.willfp.reforges.reforges.reforges.ReforgeReinforced;
 import com.willfp.reforges.reforges.reforges.ReforgeRich;
 import com.willfp.reforges.reforges.reforges.ReforgeSharp;
@@ -60,6 +61,7 @@ public class Reforges {
     public static final Reforge AFFLUENT = new ReforgeAffluent();
     public static final Reforge DURABLE = new ReforgeDurable();
     public static final Reforge IMMEDIATE = new ReforgeImmediate();
+    public static final Reforge PROSPECTING = new ReforgeProspecting();
 
     /**
      * Get all registered {@link Reforge}s.
