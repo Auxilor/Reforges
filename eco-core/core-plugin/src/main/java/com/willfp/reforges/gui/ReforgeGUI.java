@@ -159,24 +159,24 @@ public class ReforgeGUI {
                         }
                     }
                 })
-                .setSlot(plugin.getConfigYml().getInt("menu.item-slot.row"),
-                        plugin.getConfigYml().getInt("menu.item-slot.column"),
+                .setSlot(plugin.getConfigYml().getInt("gui.item-slot.row"),
+                        plugin.getConfigYml().getInt("gui.item-slot.column"),
                         Slot.builder()
                                 .setCaptive()
                                 .build()
                 )
-                .setSlot(plugin.getConfigYml().getInt("menu.stone-slot.row"),
-                        plugin.getConfigYml().getInt("menu.stone-slot.column"),
+                .setSlot(plugin.getConfigYml().getInt("gui.stone-slot.row"),
+                        plugin.getConfigYml().getInt("gui.stone-slot.column"),
                         Slot.builder()
                                 .setCaptive()
                                 .build()
                 )
                 .setSlot(2, 5, activatorSlot)
-                .setSlot(plugin.getConfigYml().getInt("menu.close.location.row"),
-                        plugin.getConfigYml().getInt("menu.close.location.column"),
+                .setSlot(plugin.getConfigYml().getInt("gui.close.location.row"),
+                        plugin.getConfigYml().getInt("gui.close.location.column"),
                         Slot.builder(
                                 new ItemStackBuilder(closeMaterial)
-                                        .setDisplayName(plugin.getLangYml().getString("menu.close.material"))
+                                        .setDisplayName(plugin.getLangYml().getString("gui.close.material"))
                                         .build()
                         ).onLeftClick((event, slot) -> {
                             event.getWhoClicked().closeInventory();
