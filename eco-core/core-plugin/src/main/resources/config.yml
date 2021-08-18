@@ -33,6 +33,8 @@ gui:
     allow-material: lime_stained_glass_pane
     deny-material: red_stained_glass_pane
 
+    # 1 is a show-allowed slot,
+    # 0 is not.
     pattern:
       - "100000001"
       - "100000001"
