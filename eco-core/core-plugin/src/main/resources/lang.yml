@@ -5,6 +5,7 @@ messages:
   invalid-command: "&cUnknown subcommand!"
   reloaded: "Reloaded! (Restart if you're removed weapons!)"
   insufficient-money: "&cYou don't have enough money for this!"
+  insufficient-xp: "&cYou don't have enough xp levels for this!"
   applied-reforge: "Applied %reforge%&r reforge!"
   needs-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"

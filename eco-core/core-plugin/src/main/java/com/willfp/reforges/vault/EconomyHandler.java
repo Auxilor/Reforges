@@ -1,6 +1,7 @@
 package com.willfp.reforges.vault;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -13,6 +14,10 @@ public class EconomyHandler {
      */
     @Getter
     private static Economy instance = null;
+
+    @Getter
+    @Setter
+    private static boolean enabled = false;
 
     /**
      * Initialize the economy manager.

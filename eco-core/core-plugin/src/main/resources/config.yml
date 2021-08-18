@@ -57,6 +57,10 @@ gui:
       row: 6
       column: 5
 
+  # Placeholders:
+  # %cost% - The economy cost
+  # %xp% - The levels required
+
   allow:
     material: anvil
     name: "&aReforge Item"
@@ -114,6 +118,7 @@ gui:
 
 reforge:
   cost: 7500
+  xp-cost: 0 # In levels
 
   cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
 

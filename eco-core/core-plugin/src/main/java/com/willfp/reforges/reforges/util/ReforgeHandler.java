@@ -58,12 +58,33 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
-        double cost = this.getPlugin().getConfigYml().getDouble("reforge.cost");
-        int reforges = ReforgeUtils.getReforges(toReforge);
-        cost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
 
-        if (!EconomyHandler.getInstance().has(player, cost)) {
-            player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
+        if (EconomyHandler.isEnabled()) {
+            double cost = this.getPlugin().getConfigYml().getDouble("reforge.cost");
+            int reforges = ReforgeUtils.getReforges(toReforge);
+            cost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+            if (!EconomyHandler.getInstance().has(player, cost)) {
+                player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
+
+                player.playSound(
+                        player.getLocation(),
+                        Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
+                        1f,
+                        (float) this.getPlugin().getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
+                );
+
+                return;
+            }
+
+
+            EconomyHandler.getInstance().withdrawPlayer(player, cost);
+        }
+
+        int xpCost = this.getPlugin().getConfigYml().getInt("reforge.xp-cost");
+        int reforges = ReforgeUtils.getReforges(toReforge);
+        xpCost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+        if (player.getLevel() < xpCost) {
+            player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-xp"));
 
             player.playSound(
                     player.getLocation(),
@@ -75,11 +96,11 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
+        player.setLevel(player.getLevel() - xpCost);
+
         player.sendMessage(this.getPlugin().getLangYml().getMessage("applied-reforge").replace("%reforge%", reforge.getName()));
 
         ReforgeUtils.incrementReforges(toReforge);
-
-        EconomyHandler.getInstance().withdrawPlayer(player, cost);
 
         ReforgeUtils.setReforge(toReforge, reforge);
 
