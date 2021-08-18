@@ -4,6 +4,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.reforges.reforges.reforges.ReforgeAcute;
 import com.willfp.reforges.reforges.reforges.ReforgeAerobic;
 import com.willfp.reforges.reforges.reforges.ReforgeAffluent;
 import com.willfp.reforges.reforges.reforges.ReforgeDurable;
@@ -62,6 +63,7 @@ public class Reforges {
     public static final Reforge DURABLE = new ReforgeDurable();
     public static final Reforge IMMEDIATE = new ReforgeImmediate();
     public static final Reforge PROSPECTING = new ReforgeProspecting();
+    public static final Reforge ACUTE = new ReforgeAcute();
 
     /**
      * Get all registered {@link Reforge}s.

@@ -46,6 +46,11 @@ public class ReforgeTarget {
     public static final ReforgeTarget PICKAXE = new ReforgeTarget("pickaxe");
 
     /**
+     * Axes.
+     */
+    public static final ReforgeTarget AXE = new ReforgeTarget("axe");
+
+    /**
      * All registered targets.
      */
     private static final Set<ReforgeTarget> REGISTERED = new HashSet<>();
@@ -57,6 +62,7 @@ public class ReforgeTarget {
         REGISTERED.add(TRIDENT);
         REGISTERED.add(BOW);
         REGISTERED.add(PICKAXE);
+        REGISTERED.add(AXE);
         update(ReforgesPlugin.getInstance());
     }
 

@@ -90,6 +90,13 @@ targets:
     - golden_pickaxe
     - diamond_pickaxe
     - netherite_pickaxe
+  axe:
+    - wooden_axe
+    - stone_axe
+    - iron_axe
+    - golden_axe
+    - diamond_axe
+    - netherite_axe
   melee:
     - wooden_axe
     - stone_axe
