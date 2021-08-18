@@ -56,6 +56,7 @@ public class ReforgeTarget {
         REGISTERED.add(ARMOR);
         REGISTERED.add(TRIDENT);
         REGISTERED.add(BOW);
+        REGISTERED.add(PICKAXE);
         update(ReforgesPlugin.getInstance());
     }
 
