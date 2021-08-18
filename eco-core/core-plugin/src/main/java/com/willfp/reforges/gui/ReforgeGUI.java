@@ -11,6 +11,7 @@ import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
+import com.willfp.reforges.reforges.util.ReforgeHandler;
 import com.willfp.reforges.reforges.util.ReforgeStatus;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
 import com.willfp.reforges.vault.EconomyHandler;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class ReforgeGUI {
@@ -44,188 +46,137 @@ public class ReforgeGUI {
     @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @ConfigUpdater
     public static void update(@NotNull final EcoPlugin plugin) {
-        menu = Menu.builder(6)
-                .setTitle("Reforge Item")
+        ReforgeHandler handler = new ReforgeHandler(plugin);
+        Slot activatorSlot = Slot.builder(new ItemStack(Material.ANVIL))
+                .setModifier((player, menu, previous) -> {
+                    ItemMeta meta = previous.getItemMeta();
+                    if (meta == null) {
+                        return;
+                    }
+
+                    ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
+
+                    double cost = plugin.getConfigYml().getDouble("reforge.cost");
+                    if (status == ReforgeStatus.ALLOW) {
+                        ItemStack item = menu.getCaptiveItems(player).get(0);
+                        int reforges = ReforgeUtils.getReforges(item);
+                        cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+                    }
+
+                    switch (status) {
+                        case INVALID_ITEM -> {
+                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
+                            meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
+                            List<String> lore = new ArrayList<>();
+                            for (String string : plugin.getConfigYml().getStrings("gui.invalid-item.lore")) {
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                            }
+                            meta.setLore(lore);
+                        }
+                        case ALLOW -> {
+                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
+                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
+                            List<String> lore = new ArrayList<>();
+                            for (String string : plugin.getConfigYml().getStrings("gui.allow.lore")) {
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                            }
+                            meta.setLore(lore);
+                        }
+                        case ALLOW_STONE -> {
+                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow-stone.material").toUpperCase())));
+                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow-stone.name"));
+                            List<String> lore = new ArrayList<>();
+                            for (String string : plugin.getConfigYml().getStrings("gui.allow-stone.lore")) {
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                        .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1)).getName()));
+                            }
+                            meta.setLore(lore);
+                        }
+                        default -> {
+                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
+                            meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
+                            List<String> lore = new ArrayList<>();
+                            for (String string : plugin.getConfigYml().getStrings("gui.no-item.lore")) {
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                            }
+                            meta.setLore(lore);
+                        }
+                    }
+
+                    previous.setItemMeta(meta);
+                })
+                .onLeftClick(handler::handleReforgeClick)
+                .build();
+
+        String[] maskPattern = plugin.getConfigYml().getStrings("gui.mask.pattern", false).toArray(new String[0]);
+        Material[] maskMaterials = plugin.getConfigYml()
+                .getStrings("gui.mask.materials", false)
+                .stream()
+                .map(string -> Material.getMaterial(string.toUpperCase()))
+                .filter(Objects::nonNull)
+                .toArray(Material[]::new);
+
+        Material allowMaterial = Material.getMaterial(plugin.getConfigYml().getString("gui.show-allowed.allow-material", false).toUpperCase());
+        Material denyMaterial = Material.getMaterial(plugin.getConfigYml().getString("gui.show-allowed.deny-material", false).toUpperCase());
+        assert allowMaterial != null;
+        assert denyMaterial != null;
+
+        Material closeMaterial = Material.getMaterial(plugin.getConfigYml().getString("gui.close.material", false).toUpperCase());
+        assert closeMaterial != null;
+
+        menu = Menu.builder(plugin.getConfigYml().getInt("gui.rows"))
+                .setTitle(plugin.getLangYml().getString("menu.title"))
                 .setMask(
                         new FillerMask(
                                 new MaskMaterials(
-                                        Material.BLACK_STAINED_GLASS_PANE,
-                                        Material.MAGENTA_STAINED_GLASS_PANE
+                                        maskMaterials
                                 ),
-                                "011111110",
-                                "012202210",
-                                "012111210",
-                                "010111010",
-                                "011111110",
-                                "011101110"
+                                maskPattern
                         )
-                ).modfiy(builder -> {
+                )
+                .modfiy(builder -> {
                     Slot slot = Slot.builder(
-                            new ItemStackBuilder(Material.RED_STAINED_GLASS_PANE)
+                            new ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
                                     .setDisplayName("&r")
                                     .build()
                     ).setModifier((player, menu, previous) -> {
-
                         ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
                         if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-                            previous.setType(Material.LIME_STAINED_GLASS_PANE);
+                            previous.setType(allowMaterial);
                         } else {
-                            previous.setType(Material.RED_STAINED_GLASS_PANE);
+                            previous.setType(denyMaterial);
                         }
                     }).build();
 
-                    for (int i = 1; i <= 6; i++) {
-                        builder.setSlot(i, 1, slot);
-                        builder.setSlot(i, 9, slot);
+                    List<String> allowedPattern = plugin.getConfigYml().getStrings("gui.show-allowed.pattern");
+
+                    for (int i = 1; i <= allowedPattern.size(); i++) {
+                        String row = allowedPattern.get(i - 1);
+                        for (int j = 1; j <= 9; j++) {
+                            if (row.charAt(j - 1) != '0') {
+                                builder.setSlot(i, j, slot);
+                            }
+                        }
                     }
-                }).setSlot(4, 3,
+                })
+                .setSlot(plugin.getConfigYml().getInt("menu.item-slot.row"),
+                        plugin.getConfigYml().getInt("menu.item-slot.column"),
                         Slot.builder()
                                 .setCaptive()
                                 .build()
-                ).setSlot(4, 7,
-                        Slot.builder()
-                                .setCaptive()
-                                .build()
-                ).setSlot(2, 5,
-                        Slot.builder(new ItemStack(Material.ANVIL))
-                                .setModifier((player, menu, previous) -> {
-                                    ItemMeta meta = previous.getItemMeta();
-                                    if (meta == null) {
-                                        return;
-                                    }
-
-                                    ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
-
-                                    double cost = plugin.getConfigYml().getDouble("reforge.cost");
-                                    if (status == ReforgeStatus.ALLOW) {
-                                        ItemStack item = menu.getCaptiveItems(player).get(0);
-                                        int reforges = ReforgeUtils.getReforges(item);
-                                        cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
-                                    }
-
-                                    switch (status) {
-                                        case INVALID_ITEM -> {
-                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
-                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
-                                            List<String> lore = new ArrayList<>();
-                                            for (String string : plugin.getConfigYml().getStrings("gui.invalid-item.lore")) {
-                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
-                                            }
-                                            meta.setLore(lore);
-                                        }
-                                        case ALLOW -> {
-                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow.material").toUpperCase())));
-                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
-                                            List<String> lore = new ArrayList<>();
-                                            for (String string : plugin.getConfigYml().getStrings("gui.allow.lore")) {
-                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
-                                            }
-                                            meta.setLore(lore);
-                                        }
-                                        case ALLOW_STONE -> {
-                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.allow-stone.material").toUpperCase())));
-                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.allow-stone.name"));
-                                            List<String> lore = new ArrayList<>();
-                                            for (String string : plugin.getConfigYml().getStrings("gui.allow-stone.lore")) {
-                                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
-                                                        .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1)).getName()));
-                                            }
-                                            meta.setLore(lore);
-                                        }
-                                        default -> {
-                                            previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.no-item.material").toUpperCase())));
-                                            meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
-                                            List<String> lore = new ArrayList<>();
-                                            for (String string : plugin.getConfigYml().getStrings("gui.no-item.lore")) {
-                                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
-                                            }
-                                            meta.setLore(lore);
-                                        }
-                                    }
-
-                                    previous.setItemMeta(meta);
-                                })
-                                .onLeftClick((event, slot, menu) -> {
-                                    Player player = (Player) event.getWhoClicked();
-                                    ItemStack toReforge = menu.getCaptiveItems(player).isEmpty() ? null : menu.getCaptiveItems(player).get(0);
-                                    if (toReforge == null) {
-                                        return;
-                                    }
-
-                                    ReforgeTarget target = ReforgeTarget.getForMaterial(toReforge.getType());
-                                    assert target != null;
-
-                                    Reforge reforge = null;
-                                    boolean usedStone = false;
-
-                                    if (menu.getCaptiveItems(player).size() == 2) {
-                                        Reforge stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1));
-                                        if (stone != null) {
-                                            if (Arrays.stream(stone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getMaterials().contains(toReforge.getType()))) {
-                                                reforge = stone;
-                                                usedStone = true;
-                                            }
-                                        }
-                                    }
-
-                                    if (reforge == null) {
-                                        reforge = ReforgeUtils.getRandomReforge(target);
-                                    }
-
-                                    if (reforge == null) {
-                                        return;
-                                    }
-
-                                    double cost = plugin.getConfigYml().getDouble("reforge.cost");
-                                    int reforges = ReforgeUtils.getReforges(toReforge);
-                                    cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
-
-                                    if (!EconomyHandler.getInstance().has(player, cost)) {
-                                        player.sendMessage(plugin.getLangYml().getMessage("insufficient-money"));
-
-                                        player.playSound(
-                                                player.getLocation(),
-                                                Sound.valueOf(plugin.getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
-                                                1f,
-                                                (float) plugin.getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
-                                        );
-
-                                        return;
-                                    }
-
-                                    player.sendMessage(plugin.getLangYml().getMessage("applied-reforge").replace("%reforge%", reforge.getName()));
-
-                                    ReforgeUtils.incrementReforges(toReforge);
-
-                                    EconomyHandler.getInstance().withdrawPlayer(player, cost);
-
-                                    ReforgeUtils.setReforge(toReforge, reforge);
-
-                                    if (usedStone) {
-                                        ItemStack stone = menu.getCaptiveItems(player).get(1);
-                                        stone.setItemMeta(null);
-                                        stone.setAmount(0);
-
-                                        player.playSound(
-                                                player.getLocation(),
-                                                Sound.valueOf(plugin.getConfigYml().getString("gui.stone-sound.id").toUpperCase()),
-                                                1f,
-                                                (float) plugin.getConfigYml().getDouble("gui.stone-sound.pitch")
-                                        );
-                                    }
-
-                                    player.playSound(
-                                            player.getLocation(),
-                                            Sound.valueOf(plugin.getConfigYml().getString("gui.sound.id").toUpperCase()),
-                                            1f,
-                                            (float) plugin.getConfigYml().getDouble("gui.sound.pitch")
-                                    );
-                                }).build()
                 )
-                .setSlot(6, 5,
+                .setSlot(plugin.getConfigYml().getInt("menu.stone-slot.row"),
+                        plugin.getConfigYml().getInt("menu.stone-slot.column"),
+                        Slot.builder()
+                                .setCaptive()
+                                .build()
+                )
+                .setSlot(2, 5, activatorSlot)
+                .setSlot(plugin.getConfigYml().getInt("menu.close.location.row"),
+                        plugin.getConfigYml().getInt("menu.close.location.column"),
                         Slot.builder(
-                                new ItemStackBuilder(Material.BARRIER)
-                                        .setDisplayName("&cClose")
+                                new ItemStackBuilder(closeMaterial)
+                                        .setDisplayName(plugin.getLangYml().getString("menu.close.material"))
                                         .build()
                         ).onLeftClick((event, slot) -> {
                             event.getWhoClicked().closeInventory();

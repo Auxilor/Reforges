@@ -6,11 +6,60 @@
 discover-recipes: true
 
 gui:
+  rows: 6
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    materials:
+      - black_stained_glass_pane
+      - magenta_stained_glass_pane
+    pattern:
+      - "011111110"
+      - "012202210"
+      - "012111210"
+      - "010111010"
+      - "011111110"
+      - "011101110"
+  show-allowed:
+    allow-material: lime_stained_glass_pane
+    deny-material: red_stained_glass_pane
+
+    pattern:
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+
+  stone-slot:
+    row: 4
+    column: 7
+
+  item-slot:
+    row: 4
+    column: 3
+
+  close:
+    material: barrier
+    location:
+      row: 6
+      column: 5
+
   allow:
     material: anvil
     name: "&aReforge Item"
     lore:
-      - '&7Reforges the above item, giving'
+      - '&7Reforges the item on the left, giving'
       - '&7it a random item modifier that'
       - '&7boosts its stats.'
       - ''
@@ -22,7 +71,7 @@ gui:
     material: anvil
     name: "&aReforge Item"
     lore:
-      - '&7Reforges the above item with'
+      - '&7Reforges the item on the left with'
       - '&7a reforge stone, giving it'
       - '&7the %stone%&7 reforge to'
       - '&7boost its stats.'
