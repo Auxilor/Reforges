@@ -125,6 +125,10 @@ public abstract class Reforge implements Listener, Watcher {
             );
         }
 
+        if (!this.isEnabled()) {
+            Reforges.removeReforge(this);
+        }
+
         postUpdate();
     }
 
