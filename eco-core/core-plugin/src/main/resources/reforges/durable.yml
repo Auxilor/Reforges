@@ -2,7 +2,7 @@
 # Durable Reforge
 #
 
-name: "<gradient:#FC354C>Durable</gradient:#0ABFBC>"
+name: "<gradient:#0EA3C3>Durable</gradient:#0BCBC8>"
 enabled: true
 description: "Take &a15%&r less durability damage"
 
