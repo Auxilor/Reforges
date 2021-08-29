@@ -180,7 +180,7 @@ public class ReforgeGUI {
                         plugin.getConfigYml().getInt("gui.close.location.column"),
                         Slot.builder(
                                 new ItemStackBuilder(closeMaterial)
-                                        .setDisplayName(plugin.getLangYml().getString("gui.close.material"))
+                                        .setDisplayName(plugin.getLangYml().getString("menu.close"))
                                         .build()
                         ).onLeftClick((event, slot) -> {
                             event.getWhoClicked().closeInventory();
