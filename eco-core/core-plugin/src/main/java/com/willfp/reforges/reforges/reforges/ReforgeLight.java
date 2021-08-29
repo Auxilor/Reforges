@@ -35,11 +35,13 @@ public class ReforgeLight extends Reforge {
         assert meta != null;
 
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
+                this.getUuid(),
                 "light-speed",
-                this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
+                (this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1),
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
         ));
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                this.getUuid(),
                 "light-kb",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1

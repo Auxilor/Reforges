@@ -34,6 +34,7 @@ public class ReforgeTough extends Reforge {
         assert meta != null;
 
         meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(
+                this.getUuid(),
                 "tough-speed",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1

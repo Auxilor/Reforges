@@ -34,6 +34,7 @@ public class ReforgeThin extends Reforge {
         assert meta != null;
 
         meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(
+                this.getUuid(),
                 "thin-speed",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "speed-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public abstract class Reforge implements Listener, Watcher {
     /**
@@ -32,6 +33,12 @@ public abstract class Reforge implements Listener, Watcher {
      */
     @Getter
     private final String key;
+
+    /**
+     * The UUID used in attribute modifiers.
+     */
+    @Getter
+    private final UUID uuid;
 
     /**
      * The reforges config.
@@ -79,6 +86,7 @@ public abstract class Reforge implements Listener, Watcher {
                       @NotNull final Prerequisite... prerequisites) {
         this.key = key;
         this.config = new ReforgeConfig(this.getKey(), this.getClass(), this.plugin);
+        this.uuid = UUID.nameUUIDFromBytes(key.getBytes());
 
         if (!Prerequisite.areMet(prerequisites)) {
             return;

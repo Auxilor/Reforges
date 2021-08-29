@@ -35,6 +35,7 @@ public class ReforgeStrong extends Reforge {
         assert meta != null;
 
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
+                this.getUuid(),
                 "strong-kb",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
