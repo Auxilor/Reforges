@@ -9,26 +9,19 @@ import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
-import com.willfp.reforges.reforges.Reforge;
-import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import com.willfp.reforges.reforges.util.ReforgeHandler;
 import com.willfp.reforges.reforges.util.ReforgeStatus;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
-import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @UtilityClass
 public class ReforgeGUI {
@@ -63,13 +56,21 @@ public class ReforgeGUI {
                         cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
                     }
 
+                    int xpcost = plugin.getConfigYml().getInt("reforge.xp-cost");
+                    if (status == ReforgeStatus.ALLOW) {
+                        ItemStack item = menu.getCaptiveItems(player).get(0);
+                        int reforges = ReforgeUtils.getReforges(item);
+                        xpcost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+                    }
+
                     switch (status) {
                         case INVALID_ITEM -> {
                             previous.setType(Objects.requireNonNull(Material.getMaterial(plugin.getConfigYml().getString("gui.invalid-item.material").toUpperCase())));
                             meta.setDisplayName(plugin.getConfigYml().getString("gui.invalid-item.name"));
                             List<String> lore = new ArrayList<>();
                             for (String string : plugin.getConfigYml().getStrings("gui.invalid-item.lore")) {
-                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                .replace("%xpcost%", NumberUtils.format(xpcost)));
                             }
                             meta.setLore(lore);
                         }
@@ -78,7 +79,8 @@ public class ReforgeGUI {
                             meta.setDisplayName(plugin.getConfigYml().getString("gui.allow.name"));
                             List<String> lore = new ArrayList<>();
                             for (String string : plugin.getConfigYml().getStrings("gui.allow.lore")) {
-                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                        .replace("%xpcost%", NumberUtils.format(xpcost)));
                             }
                             meta.setLore(lore);
                         }
@@ -88,6 +90,7 @@ public class ReforgeGUI {
                             List<String> lore = new ArrayList<>();
                             for (String string : plugin.getConfigYml().getStrings("gui.allow-stone.lore")) {
                                 lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                        .replace("%xpcost%", NumberUtils.format(xpcost))
                                         .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1)).getName()));
                             }
                             meta.setLore(lore);
@@ -97,7 +100,8 @@ public class ReforgeGUI {
                             meta.setDisplayName(plugin.getConfigYml().getString("gui.no-item.name"));
                             List<String> lore = new ArrayList<>();
                             for (String string : plugin.getConfigYml().getStrings("gui.no-item.lore")) {
-                                lore.add(string.replace("%cost%", NumberUtils.format(cost)));
+                                lore.add(string.replace("%cost%", NumberUtils.format(cost))
+                                        .replace("%xpcost%", NumberUtils.format(xpcost)));
                             }
                             meta.setLore(lore);
                         }
