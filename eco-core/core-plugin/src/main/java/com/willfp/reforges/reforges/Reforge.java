@@ -41,6 +41,12 @@ public abstract class Reforge implements Listener, Watcher {
     private final UUID uuid;
 
     /**
+     * The alternative UUID used in attribute modifiers.
+     */
+    @Getter
+    private final UUID altUuid;
+
+    /**
      * The reforges config.
      */
     @Getter
@@ -87,6 +93,7 @@ public abstract class Reforge implements Listener, Watcher {
         this.key = key;
         this.config = new ReforgeConfig(this.getKey(), this.getClass(), this.plugin);
         this.uuid = UUID.nameUUIDFromBytes(key.getBytes());
+        this.altUuid = UUID.nameUUIDFromBytes((key + "2").getBytes());
 
         if (!Prerequisite.areMet(prerequisites)) {
             return;

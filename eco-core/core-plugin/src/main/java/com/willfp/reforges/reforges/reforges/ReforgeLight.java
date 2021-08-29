@@ -41,7 +41,7 @@ public class ReforgeLight extends Reforge {
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
         ));
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(
-                this.getUuid(),
+                this.getAltUuid(),
                 "light-kb",
                 this.getConfig().getDouble(Reforges.CONFIG_LOCATION + "knockback-multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
