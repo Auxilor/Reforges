@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.display.Display;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.display.DisplayPriority;
+import com.willfp.eco.core.fast.FastItemStack;
 import com.willfp.eco.util.SkullUtils;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
@@ -39,8 +40,9 @@ public class ReforgesDisplay extends DisplayModule {
         }
 
         ItemMeta meta = itemStack.getItemMeta();
+        FastItemStack fastItemStack = FastItemStack.wrap(itemStack);
         assert meta != null;
-        List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        List<String> lore = fastItemStack.getLore();
         assert lore != null;
 
         Reforge reforge = ReforgeUtils.getReforge(meta);
@@ -91,7 +93,7 @@ public class ReforgesDisplay extends DisplayModule {
             }
         }
 
-        meta.setLore(lore);
         itemStack.setItemMeta(meta);
+        fastItemStack.setLore(lore);
     }
 }
