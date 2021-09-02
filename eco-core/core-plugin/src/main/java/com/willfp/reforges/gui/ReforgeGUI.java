@@ -2,6 +2,7 @@ package com.willfp.reforges.gui;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.eco.core.drops.DropQueue;
 import com.willfp.eco.core.gui.menu.Menu;
 import com.willfp.eco.core.gui.slot.FillerMask;
 import com.willfp.eco.core.gui.slot.MaskMaterials;
@@ -15,6 +16,7 @@ import com.willfp.reforges.reforges.util.ReforgeUtils;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
@@ -182,7 +184,11 @@ public class ReforgeGUI {
                                 new ItemStackBuilder(closeMaterial)
                                         .setDisplayName(plugin.getLangYml().getString("menu.close"))
                                         .build()
-                        ).onLeftClick((event, slot) -> {
+                        ).onLeftClick((event, slot, menu) -> {
+                            new DropQueue((Player) event.getWhoClicked())
+                                    .addItems(menu.getCaptiveItems((Player) event.getWhoClicked()))
+                                    .setLocation(event.getWhoClicked().getEyeLocation())
+                                    .push();
                             event.getWhoClicked().closeInventory();
                         }).build()
                 ).build();
