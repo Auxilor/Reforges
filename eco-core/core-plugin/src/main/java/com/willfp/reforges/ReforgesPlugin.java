@@ -3,11 +3,13 @@ package com.willfp.reforges;
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.command.impl.PluginCommand;
 import com.willfp.eco.core.display.DisplayModule;
+import com.willfp.eco.core.items.Items;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
+import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import com.willfp.reforges.vault.EconomyHandler;
@@ -37,6 +39,7 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected void handleEnable() {
         this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
+        Items.registerArgParser(new ReforgeArgParser());
     }
 
     @Override
