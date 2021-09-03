@@ -185,13 +185,15 @@ public class ReforgeGUI {
                                         .setDisplayName(plugin.getLangYml().getString("menu.close"))
                                         .build()
                         ).onLeftClick((event, slot, menu) -> {
-                            new DropQueue((Player) event.getWhoClicked())
-                                    .addItems(menu.getCaptiveItems((Player) event.getWhoClicked()))
-                                    .setLocation(event.getWhoClicked().getEyeLocation())
-                                    .push();
                             event.getWhoClicked().closeInventory();
                         }).build()
-                ).build();
+                ).onClose((event, menu) -> {
+                    new DropQueue((Player) event.getPlayer())
+                            .addItems(menu.getCaptiveItems((Player) event.getPlayer()))
+                            .setLocation(event.getPlayer().getEyeLocation())
+                            .push();
+                })
+                .build();
     }
 
     static {
