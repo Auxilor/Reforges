@@ -30,10 +30,7 @@ public class ReforgeLight extends Reforge {
     }
 
     @Override
-    public void handleApplication(@NotNull final ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        assert meta != null;
-
+    public ItemMeta handleApplication(@NotNull final ItemMeta meta) {
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier(
                 this.getUuid(),
                 "light-speed",
@@ -47,16 +44,13 @@ public class ReforgeLight extends Reforge {
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
         ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemStack.setItemMeta(meta);
+        return meta;
     }
 
     @Override
-    public void handleRemoval(@NotNull final ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        assert meta != null;
-
+    public ItemMeta handleRemoval(@NotNull final ItemMeta meta) {
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_KNOCKBACK);
-        itemStack.setItemMeta(meta);
+        return meta;
     }
 }

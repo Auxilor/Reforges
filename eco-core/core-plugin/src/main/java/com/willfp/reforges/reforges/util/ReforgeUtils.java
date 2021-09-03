@@ -158,13 +158,24 @@ public class ReforgeUtils {
 
         ItemMeta meta = item.getItemMeta();
 
+        setReforge(meta, reforge);
+
+        item.setItemMeta(meta);
+    }
+
+    /**
+     * Set reforge on an item.
+     *
+     * @param meta    The meta.
+     * @param reforge The reforge.
+     */
+    public static void setReforge(@NotNull final ItemMeta meta,
+                                  @NotNull final Reforge reforge) {
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
         container.set(REFORGE_KEY, PersistentDataType.STRING, reforge.getKey());
 
-        item.setItemMeta(meta);
-
-        reforge.handleApplication(item);
+        reforge.handleApplication(meta);
     }
 
     /**

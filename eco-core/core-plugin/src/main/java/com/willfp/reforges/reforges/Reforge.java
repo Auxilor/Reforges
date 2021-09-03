@@ -14,6 +14,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -156,12 +157,22 @@ public abstract class Reforge implements Listener, Watcher {
      */
     public abstract ReforgeTarget[] getTarget();
 
-    public void handleApplication(@NotNull final ItemStack itemStack) {
-        // Override when needed
+    public final void handleApplication(@NotNull final ItemStack itemStack) {
+        itemStack.setItemMeta(this.handleApplication(Objects.requireNonNull(itemStack.getItemMeta())));
     }
 
-    public void handleRemoval(@NotNull final ItemStack itemStack) {
+    public ItemMeta handleApplication(@NotNull final ItemMeta meta) {
         // Override when needed
+        return meta;
+    }
+
+    public final void handleRemoval(@NotNull final ItemStack itemStack) {
+        itemStack.setItemMeta(this.handleRemoval(Objects.requireNonNull(itemStack.getItemMeta())));
+    }
+
+    public ItemMeta handleRemoval(@NotNull final ItemMeta meta) {
+        // Override when needed
+        return meta;
     }
 
 

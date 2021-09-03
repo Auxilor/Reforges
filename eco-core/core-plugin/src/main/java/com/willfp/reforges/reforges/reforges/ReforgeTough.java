@@ -29,10 +29,7 @@ public class ReforgeTough extends Reforge {
     }
 
     @Override
-    public void handleApplication(@NotNull final ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        assert meta != null;
-
+    public ItemMeta handleApplication(@NotNull final ItemMeta meta) {
         meta.addAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED, new AttributeModifier(
                 this.getUuid(),
                 "tough-speed",
@@ -40,15 +37,12 @@ public class ReforgeTough extends Reforge {
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
         ));
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        itemStack.setItemMeta(meta);
+        return meta;
     }
 
     @Override
-    public void handleRemoval(@NotNull final ItemStack itemStack) {
-        ItemMeta meta = itemStack.getItemMeta();
-        assert meta != null;
-
+    public ItemMeta handleRemoval(@NotNull final ItemMeta meta) {
         meta.removeAttributeModifier(Attribute.GENERIC_MOVEMENT_SPEED);
-        itemStack.setItemMeta(meta);
+        return meta;
     }
 }
