@@ -83,6 +83,6 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     public String getMinimumEcoVersion() {
-        return "6.4.0";
+        return "6.7.0";
     }
 }
