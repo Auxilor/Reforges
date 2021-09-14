@@ -10,6 +10,7 @@ import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
+import com.willfp.reforges.reforges.util.WatcherTriggers;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import com.willfp.reforges.vault.EconomyHandler;
@@ -67,7 +68,8 @@ public class ReforgesPlugin extends EcoPlugin {
     protected List<Listener> loadListeners() {
         return Arrays.asList(
                 new DiscoverRecipeListener(this),
-                new AntiPlaceListener(this)
+                new AntiPlaceListener(this),
+                new WatcherTriggers(this)
         );
     }
 

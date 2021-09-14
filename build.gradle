@@ -68,7 +68,15 @@ shadowJar {
 }
 
 jar {
-    archiveFileName = findProperty("plugin-name") + " v" + findProperty("version") + " " + "unshaded" + ".jar"
+    archiveFileName = findProperty("plugin-name") + " v" + findProperty("version") + ".jar"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
 
 group = 'com.willfp'

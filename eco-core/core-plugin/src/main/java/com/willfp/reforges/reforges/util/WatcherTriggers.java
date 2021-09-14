@@ -44,6 +44,7 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
      */
     @EventHandler(ignoreCancelled = true)
     public void onBlockBreak(@NotNull final BlockBreakEvent event) {
+
         if (McmmoManager.isFake(event)) {
             return;
         }
@@ -52,10 +53,6 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
         Block block = event.getBlock();
 
         if (!AntigriefManager.canBreakBlock(player, block)) {
-            return;
-        }
-
-        if (event.isCancelled()) {
             return;
         }
 
