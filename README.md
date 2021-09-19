@@ -7,8 +7,8 @@
 <h4 align="center">Source code for Reforges, a premium spigot plugin.</h4>
 
 <p align="center">
-    <a href="https://www.spigotmc.org/resources/reforges.94630/">
-        <img alt="spigot" src="https://img.shields.io/badge/spigot-reforges-green?style=for-the-badge"/>
+    <a href="https://polymart.org/resource/1-16-1-17-reforges.1330">
+        <img alt="spigot" src="https://img.shields.io/badge/polymart-reforges-green?style=for-the-badge"/>
     </a>
     <a href="https://bstats.org/plugin/bukkit/Reforges" alt="bstats servers">
         <img src="https://img.shields.io/bstats/servers/12412?color=green&style=for-the-badge"/>
