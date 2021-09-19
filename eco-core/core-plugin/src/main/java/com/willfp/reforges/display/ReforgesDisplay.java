@@ -31,7 +31,7 @@ public class ReforgesDisplay extends DisplayModule {
     }
 
     @Override
-    protected void display(@NotNull final ItemStack itemStack,
+    public void display(@NotNull final ItemStack itemStack,
                            @NotNull final Object... args) {
         ReforgeTarget target = ReforgeTarget.getForMaterial(itemStack.getType());
 
