@@ -33,7 +33,7 @@ public class ReforgesPlugin extends EcoPlugin {
      * Internal constructor called by bukkit on plugin load.
      */
     public ReforgesPlugin() {
-        super(95273, 12412, "&3", true);
+        super(1330, 12412, "&3", true);
         instance = this;
     }
 
