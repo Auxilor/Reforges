@@ -55,7 +55,7 @@ public class CommandGive extends Subcommand {
     @ConfigUpdater
     public static void reload() {
         STONE_NAMES.clear();
-        STONE_NAMES.addAll(Reforges.values().stream().filter(Reforge::isEnabled)
+        STONE_NAMES.addAll(Reforges.values().stream()
                 .filter(Reforge::isRequiresStone)
                 .map(Reforge::getId)
                 .collect(Collectors.toList()));
@@ -96,7 +96,7 @@ public class CommandGive extends Subcommand {
 
             Reforge reforge = Reforges.getByKey(key);
 
-            if (reforge == null || !reforge.isEnabled()) {
+            if (reforge == null) {
                 sender.sendMessage(this.getPlugin().getLangYml().getMessage("invalid-stone"));
                 return;
             }

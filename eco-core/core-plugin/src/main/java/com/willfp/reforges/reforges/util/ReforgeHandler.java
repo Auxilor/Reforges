@@ -13,8 +13,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-
 public class ReforgeHandler extends PluginDependent<EcoPlugin> {
     /**
      * Pass an {@link EcoPlugin} in order to interface with it.
@@ -43,7 +41,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         if (menu.getCaptiveItems(player).size() == 2) {
             Reforge stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1));
             if (stone != null) {
-                if (Arrays.stream(stone.getTargets()).anyMatch(reforgeTarget -> reforgeTarget.getItems().contains(toReforge.getType()))) {
+                if (stone.getTargets().stream().anyMatch(reforgeTarget -> reforgeTarget.matches(toReforge))) {
                     reforge = stone;
                     usedStone = true;
                 }

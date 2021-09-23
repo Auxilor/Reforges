@@ -58,18 +58,19 @@ public class ReforgeTarget {
     }
 
     /**
-     * Create new target.
+     * If an item matches the target.
      *
-     * @param name   The name of the target.
-     * @param plugin Instance of reforges.
+     * @param itemStack The ItemStack.
+     * @return If matches.
      */
-    public ReforgeTarget(@NotNull final String name,
-                         @NotNull final ReforgesPlugin plugin) {
-        this.name = name;
-        this.items = new HashSet<>();
+    public boolean matches(@NotNull final ItemStack itemStack) {
+        for (TestableItem item : this.items) {
+            if (item.matches(itemStack)) {
+                return true;
+            }
+        }
 
-        this.items.addAll(plugin.getTargetYml().getTargetItems(name));
-        items.removeIf(item -> item instanceof EmptyTestableItem);
+        return false;
     }
 
     /**
@@ -91,8 +92,9 @@ public class ReforgeTarget {
     @Nullable
     public static ReforgeTarget getForItem(@NotNull final ItemStack item) {
         Optional<ReforgeTarget> matching = REGISTERED.values().stream()
-                .filter(rarity -> !rarity.getName().equalsIgnoreCase("all"))
-                .filter(rarity -> rarity.getItems().stream().anyMatch(testableItem -> testableItem.matches(item))).findFirst();
+                .filter(target -> !target.getName().equalsIgnoreCase("all"))
+                .filter(target -> target.matches(item))
+                .findFirst();
         return matching.orElse(null);
     }
 
