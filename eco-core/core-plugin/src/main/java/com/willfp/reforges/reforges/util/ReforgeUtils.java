@@ -51,7 +51,7 @@ public class ReforgeUtils {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (Arrays.asList(reforge.getTarget()).contains(target) && !reforge.isRequiresStone()) {
+            if (Arrays.asList(reforge.getTargets()).contains(target) && !reforge.isRequiresStone()) {
                 applicable.add(reforge);
             }
         }
@@ -87,7 +87,9 @@ public class ReforgeUtils {
 
         if (status == ReforgeStatus.ALLOW) {
             Reforge reforgeStone = getReforgeStone(stone);
-            if (reforgeStone != null && Arrays.stream(reforgeStone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getItems().contains(toReforge.getType()))) {
+            if (reforgeStone != null && reforgeStone.getTargets().stream()
+                    .anyMatch(reforgeTarget -> reforgeTarget.getItems().stream()
+                            .anyMatch(item -> item.matches(toReforge)))) {
                 status = ReforgeStatus.ALLOW_STONE;
             }
         }
@@ -173,7 +175,7 @@ public class ReforgeUtils {
                                   @NotNull final Reforge reforge) {
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
-        container.set(REFORGE_KEY, PersistentDataType.STRING, reforge.getKey());
+        container.set(REFORGE_KEY, PersistentDataType.STRING, reforge.getId());
 
         reforge.handleApplication(meta);
     }
@@ -236,7 +238,7 @@ public class ReforgeUtils {
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
-        container.set(REFORGE_STONE_KEY, PersistentDataType.STRING, reforge.getKey());
+        container.set(REFORGE_STONE_KEY, PersistentDataType.STRING, reforge.getId());
 
         item.setItemMeta(meta);
     }

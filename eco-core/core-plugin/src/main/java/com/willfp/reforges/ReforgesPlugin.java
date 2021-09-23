@@ -6,8 +6,11 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.items.Items;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
+import com.willfp.reforges.config.ReforgesJson;
+import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
-import com.willfp.reforges.reforges.Reforge;
+import com.willfp.reforges.effects.Effect;
+import com.willfp.reforges.effects.Effects;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.WatcherTriggers;
@@ -30,10 +33,24 @@ public class ReforgesPlugin extends EcoPlugin {
     private static ReforgesPlugin instance;
 
     /**
+     * target.yml.
+     */
+    @Getter
+    private final TargetYml targetYml;
+
+    /**
+     * reforges.json.
+     */
+    @Getter
+    private final ReforgesJson reforgesJson;
+
+    /**
      * Internal constructor called by bukkit on plugin load.
      */
     public ReforgesPlugin() {
         super(1330, 12412, "&3", true);
+        this.targetYml = new TargetYml(this);
+        this.reforgesJson = new ReforgesJson(this);
         instance = this;
     }
 
@@ -54,13 +71,11 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     protected void handleReload() {
-        for (Reforge reforge : Reforges.values()) {
-            HandlerList.unregisterAll(reforge);
-            this.getScheduler().runLater(() -> {
-                if (reforge.isEnabled()) {
-                    this.getEventManager().registerListener(reforge);
-                }
-            }, 1);
+        for (Effect effect : Effects.values()) {
+            HandlerList.unregisterAll(effect);
+            this.getScheduler().run(() -> {
+                    this.getEventManager().registerListener(effect);
+            });
         }
     }
 

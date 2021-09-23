@@ -43,7 +43,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         if (menu.getCaptiveItems(player).size() == 2) {
             Reforge stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player).get(1));
             if (stone != null) {
-                if (Arrays.stream(stone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getItems().contains(toReforge.getType()))) {
+                if (Arrays.stream(stone.getTargets()).anyMatch(reforgeTarget -> reforgeTarget.getItems().contains(toReforge.getType()))) {
                     reforge = stone;
                     usedStone = true;
                 }

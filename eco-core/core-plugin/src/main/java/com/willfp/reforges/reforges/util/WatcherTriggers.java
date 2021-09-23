@@ -2,10 +2,13 @@ package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
+import com.willfp.eco.core.config.interfaces.JSONConfig;
 import com.willfp.eco.core.events.PlayerJumpEvent;
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager;
 import com.willfp.eco.util.ArrowUtils;
+import com.willfp.eco.util.NumberUtils;
+import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.reforges.Reforge;
 import org.bukkit.block.Block;
 import org.bukkit.entity.AbstractArrow;
@@ -26,6 +29,8 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Listener {
     /**
@@ -64,7 +69,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onBlockBreak(player, block, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onBlockBreak(player, block, event, entry.getValue());
+        }
     }
 
     /**
@@ -114,7 +124,13 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onArrowDamage(attacker, victim, arrow, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onArrowDamage(attacker, victim, arrow, event, entry.getValue());
+            entry.getKey().onAnyDamage(attacker, victim, event, entry.getValue());
+        }
     }
 
     /**
@@ -160,7 +176,13 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onTridentDamage(attacker, victim, trident, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onTridentDamage(attacker, victim, trident, event, entry.getValue());
+            entry.getKey().onAnyDamage(attacker, victim, event, entry.getValue());
+        }
     }
 
     /**
@@ -187,7 +209,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
                 continue;
             }
 
-            reforge.onJump(player, event);
+            for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+                if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                    continue;
+                }
+                entry.getKey().onJump(player, event, entry.getValue());
+            }
         }
     }
 
@@ -234,7 +261,13 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onMeleeAttack(attacker, victim, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onMeleeAttack(attacker, victim, event, entry.getValue());
+            entry.getKey().onAnyDamage(attacker, victim, event, entry.getValue());
+        }
     }
 
     /**
@@ -267,7 +300,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onBowShoot(shooter, arrow, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onBowShoot(shooter, arrow, event, entry.getValue());
+        }
     }
 
     /**
@@ -309,7 +347,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onProjectileLaunch(shooter, projectile, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onProjectileLaunch(shooter, projectile, event, entry.getValue());
+        }
     }
 
     /**
@@ -348,7 +391,13 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
                 continue;
             }
 
-            reforge.onFallDamage(victim, event);
+
+            for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+                if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                    continue;
+                }
+                entry.getKey().onFallDamage(victim, event, entry.getValue());
+            }
         }
     }
 
@@ -387,7 +436,13 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onArrowHit(shooter, event);
+
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onArrowHit(shooter, event, entry.getValue());
+        }
     }
 
     /**
@@ -421,7 +476,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onTridentHit(shooter, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onTridentHit(shooter, event, entry.getValue());
+        }
     }
 
     /**
@@ -456,7 +516,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
                 continue;
             }
 
-            reforge.onDamageWearingArmor(victim, event);
+            for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+                if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                    continue;
+                }
+                entry.getKey().onDamageWearingArmor(victim, event, entry.getValue());
+            }
         }
     }
 
@@ -492,6 +557,12 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             return;
         }
 
-        reforge.onTridentLaunch(shooter, trident, event);
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+
+            entry.getKey().onTridentLaunch(shooter, trident, event, entry.getValue());
+        }
     }
 }
