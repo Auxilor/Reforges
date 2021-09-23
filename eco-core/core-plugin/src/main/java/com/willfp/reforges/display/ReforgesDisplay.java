@@ -33,7 +33,7 @@ public class ReforgesDisplay extends DisplayModule {
     @Override
     public void display(@NotNull final ItemStack itemStack,
                            @NotNull final Object... args) {
-        ReforgeTarget target = ReforgeTarget.getForMaterial(itemStack.getType());
+        ReforgeTarget target = ReforgeTarget.getForItem(itemStack);
 
         if (target == null && itemStack.getType() != Material.PLAYER_HEAD) {
             return;
@@ -48,7 +48,7 @@ public class ReforgesDisplay extends DisplayModule {
         Reforge reforge = ReforgeUtils.getReforge(meta);
         Reforge stone = ReforgeUtils.getReforgeStone(meta);
 
-        if (reforge == null && stone == null && itemStack.getType() != Material.PLAYER_HEAD) {
+        if (reforge == null && stone == null && target != null) {
             if (this.getPlugin().getConfigYml().getBool("reforge.show-reforgable")) {
                 List<String> addLore = new ArrayList<>();
 

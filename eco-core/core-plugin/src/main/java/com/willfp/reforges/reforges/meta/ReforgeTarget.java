@@ -2,14 +2,17 @@ package com.willfp.reforges.reforges.meta;
 
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.eco.core.items.Items;
+import com.willfp.eco.core.items.TestableItem;
+import com.willfp.eco.core.recipe.parts.EmptyTestableItem;
 import com.willfp.reforges.ReforgesPlugin;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -75,19 +78,19 @@ public class ReforgeTarget {
      * The materials of the target.
      */
     @Getter
-    private final Set<Material> materials;
+    private final Set<TestableItem> items;
 
     /**
      * Create new target.
      *
-     * @param name      The name of the target.
-     * @param materials The items for the target.
+     * @param name  The name of the target.
+     * @param items The items for the target.
      */
     public ReforgeTarget(@NotNull final String name,
-                         @NotNull final Set<Material> materials) {
+                         @NotNull final Set<TestableItem> items) {
         this.name = name;
-        materials.removeIf(Objects::isNull);
-        this.materials = materials;
+        items.removeIf(item -> item instanceof EmptyTestableItem);
+        this.items = items;
     }
 
     /**
@@ -97,7 +100,7 @@ public class ReforgeTarget {
      */
     public ReforgeTarget(@NotNull final String name) {
         this.name = name;
-        this.materials = new HashSet<>();
+        this.items = new HashSet<>();
 
         update();
     }
@@ -106,10 +109,10 @@ public class ReforgeTarget {
      * Update the configs.
      */
     public void update() {
-        this.materials.clear();
-        this.materials.addAll(ReforgesPlugin.getInstance().getConfigYml().getStrings("targets." + name, false).stream().map(
-                s -> Material.getMaterial(s.toUpperCase())
-        ).collect(Collectors.toSet()));
+        this.items.clear();
+        this.items.addAll(ReforgesPlugin.getInstance().getConfigYml().getStrings("targets." + name, false).stream()
+                .map(Items::lookup)
+                .collect(Collectors.toSet()));
     }
 
     /**
@@ -124,16 +127,16 @@ public class ReforgeTarget {
     }
 
     /**
-     * Get target from material.
+     * Get target from item.
      *
-     * @param material The material.
+     * @param item The item.
      * @return The target.
      */
     @Nullable
-    public static ReforgeTarget getForMaterial(@NotNull final Material material) {
+    public static ReforgeTarget getForItem(@NotNull final ItemStack item) {
         Optional<ReforgeTarget> matching = REGISTERED.stream()
                 .filter(rarity -> !rarity.getName().equalsIgnoreCase("all"))
-                .filter(rarity -> rarity.getMaterials().contains(material)).findFirst();
+                .filter(rarity -> rarity.getItems().stream().anyMatch(testableItem -> testableItem.matches(item))).findFirst();
         return matching.orElse(null);
     }
 
@@ -144,14 +147,14 @@ public class ReforgeTarget {
      */
     @ConfigUpdater
     public static void update(@NotNull final ReforgesPlugin plugin) {
-        ALL.materials.clear();
+        ALL.items.clear();
         for (ReforgeTarget reforgeTarget : REGISTERED) {
             if (reforgeTarget.name.equals("all")) {
                 continue;
             }
 
             reforgeTarget.update();
-            ALL.materials.addAll(reforgeTarget.materials);
+            ALL.items.addAll(reforgeTarget.items);
         }
     }
 

@@ -75,7 +75,7 @@ public class ReforgeUtils {
         if (toReforge == null || toReforge.getType() == Material.AIR) {
             status = ReforgeStatus.NO_ITEM;
         } else {
-            target = ReforgeTarget.getForMaterial(toReforge.getType());
+            target = ReforgeTarget.getForItem(toReforge);
             if (target == null) {
                 status = ReforgeStatus.INVALID_ITEM;
             }
@@ -87,7 +87,7 @@ public class ReforgeUtils {
 
         if (status == ReforgeStatus.ALLOW) {
             Reforge reforgeStone = getReforgeStone(stone);
-            if (reforgeStone != null && Arrays.stream(reforgeStone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getMaterials().contains(toReforge.getType()))) {
+            if (reforgeStone != null && Arrays.stream(reforgeStone.getTarget()).anyMatch(reforgeTarget -> reforgeTarget.getItems().contains(toReforge.getType()))) {
                 status = ReforgeStatus.ALLOW_STONE;
             }
         }
