@@ -34,7 +34,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
-        ReforgeTarget target = ReforgeTarget.getForItem(toReforge.getType());
+        ReforgeTarget target = ReforgeTarget.getForItem(toReforge);
         assert target != null;
 
         Reforge reforge = null;
