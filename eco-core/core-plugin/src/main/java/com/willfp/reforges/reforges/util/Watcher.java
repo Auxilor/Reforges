@@ -11,7 +11,6 @@ import org.bukkit.entity.Trident;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -113,21 +112,6 @@ public interface Watcher {
     }
 
     /**
-     * Called when an entity shoots a bow.
-     *
-     * @param shooter The entity that shot the bow.
-     * @param arrow   The arrow that was shot.
-     * @param event   The event that called this watcher.
-     * @param config  The effect config.
-     */
-    default void onBowShoot(@NotNull final LivingEntity shooter,
-                            @NotNull final Arrow arrow,
-                            @NotNull final EntityShootBowEvent event,
-                            @NotNull final JSONConfig config) {
-        // Empty default as effects only override required watchers.
-    }
-
-    /**
      * Called when an entity shoots a projectile.
      *
      * @param shooter    The entity that shot the bow.
@@ -156,15 +140,15 @@ public interface Watcher {
     }
 
     /**
-     * Called when an arrow hits a block or entity.
+     * Called when a projectile hits a block or entity.
      *
      * @param shooter The entity that shot the arrow.
      * @param event   The event that called this watcher.
      * @param config  The effect config.
      */
-    default void onArrowHit(@NotNull final LivingEntity shooter,
-                            @NotNull final ProjectileHitEvent event,
-                            @NotNull final JSONConfig config) {
+    default void onProjectileHit(@NotNull final LivingEntity shooter,
+                                 @NotNull final ProjectileHitEvent event,
+                                 @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -180,19 +164,6 @@ public interface Watcher {
                         @NotNull final LivingEntity victim,
                         @NotNull final EntityDeathByEntityEvent event,
                         @NotNull final JSONConfig config) {
-        // Empty default as effects only override required watchers.
-    }
-
-    /**
-     * Called when a trident hits a block or entity.
-     *
-     * @param shooter The entity that threw the trident.
-     * @param event   The event that called this watcher.
-     * @param config  The effect config.
-     */
-    default void onTridentHit(@NotNull final LivingEntity shooter,
-                              @NotNull final ProjectileHitEvent event,
-                              @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 

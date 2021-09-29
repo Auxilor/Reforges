@@ -13,7 +13,8 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.EntityShootBowEvent
+import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.entity.ProjectileLaunchEvent
 
 class WatcherTriggers(
     private val plugin: EcoPlugin
@@ -228,28 +229,117 @@ class WatcherTriggers(
     }
 
     @EventHandler(ignoreCancelled = true)
-    fun onBowShoot(event: EntityShootBowEvent) {
+    fun onProjectileLaunch(event: ProjectileLaunchEvent) {
         if (McmmoManager.isFake(event)) {
             return
         }
-        if (event.projectile.type != EntityType.ARROW) {
+
+        val shooter = event.entity.shooter
+
+        if (shooter !is LivingEntity) {
             return
         }
 
-        val shooter = event.entity
+        val equipment = shooter.equipment ?: return
 
-        val arrow = event.projectile as Arrow
+        var item = equipment.itemInMainHand
 
-        val bow = ArrowUtils.getBow(arrow) ?: return
+        if (event.entity is Trident) {
+            item = (event.entity as Trident).item
+        }
 
-        val reforge = ReforgeUtils.getReforge(bow) ?: return
+        val reforge = ReforgeUtils.getReforge(item) ?: return
 
         for ((effect, config) in reforge.effects) {
             if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                 continue
             }
-            effect.onBowShoot(shooter, arrow, event, config)
+            effect.onProjectileLaunch(shooter, event.entity, event, config)
         }
     }
 
+    @EventHandler(ignoreCancelled = true)
+    fun onFallDamage(event: EntityDamageEvent) {
+        if (McmmoManager.isFake(event)) {
+            return
+        }
+
+        if (event.cause != EntityDamageEvent.DamageCause.FALL) {
+            return
+        }
+
+        val victim = event.entity
+
+        if (victim !is LivingEntity) {
+            return
+        }
+
+        val equipment = victim.equipment ?: return
+
+        for (itemStack in equipment.armorContents) {
+            val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
+
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onFallDamage(victim, event, config)
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onProjectileHit(event: ProjectileHitEvent) {
+        if (McmmoManager.isFake(event)) {
+            return
+        }
+
+        val projectile = event.entity
+        val shooter = projectile.shooter
+
+        if (shooter !is LivingEntity) {
+            return
+        }
+
+        val item = when (projectile) {
+            is Arrow -> ArrowUtils.getBow(projectile)
+            is Trident -> projectile.item
+            else -> null
+        } ?: return
+
+        val reforge = ReforgeUtils.getReforge(item) ?: return
+
+        for ((effect, config) in reforge.effects) {
+            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                continue
+            }
+            effect.onProjectileHit(shooter, event, config)
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onDamageWearingArmor(event: EntityDamageEvent) {
+        if (McmmoManager.isFake(event)) {
+            return
+        }
+
+        val victim = event.entity
+
+        if (victim !is LivingEntity) {
+            return
+        }
+
+        val equipment = victim.equipment ?: return
+
+        for (itemStack in equipment.armorContents) {
+            val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
+
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onDamageWearingArmor(victim, event, config)
+            }
+        }
+    }
 }

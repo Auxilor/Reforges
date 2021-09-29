@@ -1,11 +1,13 @@
 package com.willfp.reforges.display
 
+import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.SkullUtils
 import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.paper.toBukkit
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import org.bukkit.ChatColor
@@ -14,6 +16,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 
+@Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     override fun display(
         itemStack: ItemStack,
@@ -67,14 +70,16 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name")) {
-                val displayName = plugin.paperHandler.getDisplayName(itemStack)
-                val newName = "${reforge.name} ${ChatColor.RESET}${displayName}"
-                meta.setDisplayName(newName)
-                meta.persistentDataContainer.set(
-                    plugin.namespacedKeyFactory.create("shadowed_name"),
-                    PersistentDataType.STRING,
-                    displayName
-                )
+                if (Prerequisite.HAS_PAPER.isMet) {
+                    val displayName = itemStack.displayName().toBukkit()
+                    val newName = "${reforge.name} ${ChatColor.RESET}${displayName}"
+                    meta.setDisplayName(newName)
+                    meta.persistentDataContainer.set(
+                        plugin.namespacedKeyFactory.create("shadowed_name"),
+                        PersistentDataType.STRING,
+                        displayName
+                    )
+                }
             }
         }
         itemStack.itemMeta = meta
@@ -85,7 +90,6 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         if (!plugin.configYml.getBool("reforge.display-in-name")) {
             return
         }
-
 
         val target = ReforgeTarget.getForItem(itemStack)
 
