@@ -7,17 +7,21 @@ import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.SkullUtils
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.paper.toBukkit
+import com.willfp.reforges.paper.toComponent
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextReplacementConfig
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
+    private val shadowKey = plugin.namespacedKeyFactory.create("shadowed_name")
+
     override fun display(
         itemStack: ItemStack,
         vararg args: Any
@@ -52,7 +56,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             meta.setDisplayName(plugin.configYml.getString("reforge.stone.name").replace("%reforge%", stone.name))
             SkullUtils.setSkullTexture(
                 meta as SkullMeta,
-                SkullUtils.getSkullTexture(stone.stone.itemMeta as SkullMeta) ?: return
+                stone.config.getString("stone.texture")
             )
             itemStack.itemMeta = meta
             val stoneLore = plugin.configYml.getStrings("reforge.stone.lore").map {
@@ -69,41 +73,20 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 addLore.replaceAll { "${Display.PREFIX}$it" }
                 lore.addAll(addLore)
             }
-            if (plugin.configYml.getBool("reforge.display-in-name")) {
-                if (Prerequisite.HAS_PAPER.isMet) {
-                    val displayName = itemStack.displayName().toBukkit()
-                    val newName = "${reforge.name} ${ChatColor.RESET}${displayName}"
-                    meta.setDisplayName(newName)
-                    meta.persistentDataContainer.set(
-                        plugin.namespacedKeyFactory.create("shadowed_name"),
-                        PersistentDataType.STRING,
-                        displayName
-                    )
-                }
+            if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
+                var displayName = if (meta.hasDisplayName()) meta.displayName()!! else Component.translatable(itemStack)
+                displayName = displayName.replaceText(
+                    TextReplacementConfig.builder()
+                        .matchLiteral(ChatColor.stripColor(reforge.name + " "))
+                        .replacement("")
+                        .build()
+                )
+                val newName = reforge.name.toComponent().decoration(TextDecoration.ITALIC, false)
+                    .append(Component.text(" ").append(displayName))
+                meta.displayName(newName)
             }
         }
         itemStack.itemMeta = meta
         fastItemStack.lore = lore
-    }
-
-    override fun revert(itemStack: ItemStack) {
-        if (!plugin.configYml.getBool("reforge.display-in-name")) {
-            return
-        }
-
-        val target = ReforgeTarget.getForItem(itemStack)
-
-        if (target == null && itemStack.type != Material.PLAYER_HEAD) {
-            return
-        }
-
-        val meta = itemStack.itemMeta ?: return
-        val shadowed = meta.persistentDataContainer.get(
-            plugin.namespacedKeyFactory.create("shadowed_name"),
-            PersistentDataType.STRING
-        ) ?: return
-        meta.setDisplayName(shadowed)
-
-        itemStack.itemMeta = meta
     }
 }

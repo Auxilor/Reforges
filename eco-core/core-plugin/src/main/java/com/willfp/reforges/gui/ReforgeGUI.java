@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Objects;
 
 @UtilityClass
+@SuppressWarnings("deprecation")
 public class ReforgeGUI {
     /**
      * The reforge GUI.

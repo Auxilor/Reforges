@@ -29,7 +29,6 @@ public class ReforgesPlugin extends EcoPlugin {
     /**
      * Instance of Reforges.
      */
-    @Getter
     private static ReforgesPlugin instance;
 
     /**
@@ -102,5 +101,14 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     public String getMinimumEcoVersion() {
         return "6.8.0";
+    }
+
+    /**
+     * Get an instance of Reforges.
+     *
+     * @return The instance.
+     */
+    public static ReforgesPlugin getInstance() {
+        return instance;
     }
 }

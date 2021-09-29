@@ -9,6 +9,7 @@ private val serializer = LegacyComponentSerializer.builder()
     .character('§')
     .build()
 
+
 fun String.toComponent(): Component {
     return serializer.deserialize(this)
 }

@@ -15,7 +15,7 @@ import org.bukkit.inventory.meta.ItemMeta
 import java.util.*
 
 class Reforge(
-    private val config: JSONConfig,
+    internal val config: JSONConfig,
     private val plugin: ReforgesPlugin
 ) {
     val id = config.getString("id")
@@ -35,7 +35,7 @@ class Reforge(
 
     val stone: ItemStack = SkullBuilder().apply {
         if (config.has("stone.texture")) {
-            setSkullTexture(config.getString("texture"))
+            setSkullTexture(config.getString("stone.texture"))
         }
         setDisplayName(plugin.configYml.getString("stone.name").replace("%reforge%", name))
         addLoreLines(

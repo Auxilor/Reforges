@@ -135,9 +135,6 @@ class WatcherTriggers(
         }
         val player = event.player
         for (itemStack in player.inventory.armorContents) {
-            if (itemStack == null) {
-                continue
-            }
             val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
             for ((effect, config) in reforge.effects) {
                 if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
