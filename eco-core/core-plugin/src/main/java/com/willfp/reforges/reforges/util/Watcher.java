@@ -1,6 +1,7 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.config.interfaces.JSONConfig;
+import com.willfp.eco.core.events.EntityDeathByEntityEvent;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
@@ -164,6 +165,21 @@ public interface Watcher {
     default void onArrowHit(@NotNull final LivingEntity shooter,
                             @NotNull final ProjectileHitEvent event,
                             @NotNull final JSONConfig config) {
+        // Empty default as effects only override required watchers.
+    }
+
+    /**
+     * Called when an entity kills another entity.
+     *
+     * @param killer The killer.
+     * @param victim The victim.
+     * @param event  The event.
+     * @param config The effect config.
+     */
+    default void onKill(@NotNull final LivingEntity killer,
+                        @NotNull final LivingEntity victim,
+                        @NotNull final EntityDeathByEntityEvent event,
+                        @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 

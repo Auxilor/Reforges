@@ -3,6 +3,7 @@ package com.willfp.reforges.reforges.util;
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
 import com.willfp.eco.core.config.interfaces.JSONConfig;
+import com.willfp.eco.core.events.EntityDeathByEntityEvent;
 import com.willfp.eco.core.events.PlayerJumpEvent;
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager;
@@ -13,6 +14,7 @@ import com.willfp.reforges.reforges.Reforge;
 import org.bukkit.block.Block;
 import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -267,6 +269,57 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
             }
             entry.getKey().onMeleeAttack(attacker, victim, event, entry.getValue());
             entry.getKey().onAnyDamage(attacker, victim, event, entry.getValue());
+        }
+    }
+
+    /**
+     * Called when an entity kills another entity.
+     *
+     * @param event The event to listen for.
+     */
+    @EventHandler(ignoreCancelled = true)
+    public void onKill(@NotNull final EntityDeathByEntityEvent event) {
+        if (McmmoManager.isFake(event)) {
+            return;
+        }
+
+        LivingEntity killer = null;
+        Entity uncast = event.getKiller();
+        if (uncast instanceof LivingEntity) {
+            killer = (LivingEntity) uncast;
+        } else if (uncast instanceof Projectile projectile) {
+            if (projectile.getShooter() instanceof LivingEntity) {
+                killer = (Player) projectile.getShooter();
+            }
+        }
+
+        if (killer == null) {
+            return;
+        }
+
+        LivingEntity victim = event.getVictim();
+
+        if (killer instanceof Player && !AntigriefManager.canInjure((Player) killer, victim)) {
+            return;
+        }
+
+        EntityEquipment entityEquipment = killer.getEquipment();
+
+        if (entityEquipment == null) {
+            return;
+        }
+
+        Reforge reforge = ReforgeUtils.getReforge(entityEquipment.getItemInMainHand());
+
+        if (reforge == null) {
+            return;
+        }
+
+        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
+            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
+                continue;
+            }
+            entry.getKey().onKill(killer, victim, event, entry.getValue());
         }
     }
 
