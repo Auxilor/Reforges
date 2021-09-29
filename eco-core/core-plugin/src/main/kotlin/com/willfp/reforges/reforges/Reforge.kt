@@ -22,12 +22,12 @@ class Reforge(
 
     val name = config.getString("name")
 
-    val description = config.getString("description")
+    val description: List<String> = config.getStrings("description")
 
     val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
 
     val effects = config.getSubsections("effects").map {
-        val effect = Effects.getByName(it.getString("id")) ?: return@map null
+        val effect = Effects.getByID(it.getString("id")) ?: return@map null
         ConfiguredEffect(effect, it)
     }.filterNotNull().toSet()
 

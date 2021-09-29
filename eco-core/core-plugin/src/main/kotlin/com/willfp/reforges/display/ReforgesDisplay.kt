@@ -8,7 +8,6 @@ import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.SkullUtils
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
-import org.apache.commons.lang.WordUtils
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -61,27 +60,17 @@ class ReforgesDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority
                 val addLore: MutableList<String> = ArrayList()
                 addLore.add(" ")
                 addLore.add(reforge.name)
-                val description = mutableListOf(
-                    *WordUtils.wrap(
-                        reforge.description,
-                        plugin.configYml.getInt("reforge.line-wrap"),
-                        "\n",
-                        false
-                    ).split("\\r?\\n").toTypedArray()
-                )
-                description.replaceAll { s: String ->
-                    plugin.langYml.getString("description-color") + s.replace(
-                        "%description%",
-                        reforge.description
-                    )
-                }
-                description.replaceAll { s: String ->
-                    s.replace(
-                        "§r",
-                        plugin.langYml.getString("description-color")
-                    )
-                }
-                addLore.addAll(description)
+                addLore.addAll(reforge.description)
+                addLore.replaceAll { "${Display.PREFIX}$it" }
+                lore.addAll(addLore)
+            }
+            if (plugin.configYml.getBool("reforge.display-in-name")) {
+                val
+
+                val addLore: MutableList<String> = ArrayList()
+                addLore.add(" ")
+                addLore.add(reforge.name)
+                addLore.addAll(reforge.description)
                 addLore.replaceAll { "${Display.PREFIX}$it" }
                 lore.addAll(addLore)
             }

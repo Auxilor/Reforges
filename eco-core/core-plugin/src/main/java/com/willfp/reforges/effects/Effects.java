@@ -3,6 +3,7 @@ package com.willfp.reforges.effects;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.willfp.reforges.effects.effects.EffectAttackSpeedMultiplier;
 import com.willfp.reforges.effects.effects.EffectCritMultiplier;
 import com.willfp.reforges.effects.effects.EffectDamageMultiplier;
 import com.willfp.reforges.effects.effects.EffectIncomingDamageMultiplier;
@@ -21,7 +22,7 @@ public class Effects {
     /**
      * All registered effects.
      */
-    private static final BiMap<String, Effect> BY_NAME = HashBiMap.create();
+    private static final BiMap<String, Effect> BY_ID = HashBiMap.create();
 
     public static final Effect DAMAGE_MULTIPLIER = new EffectDamageMultiplier();
     public static final Effect CRIT_MULTIPLIER = new EffectCritMultiplier();
@@ -29,16 +30,17 @@ public class Effects {
     public static final Effect KNOCKBACK_MULTIPLIER = new EffectKnockbackMultiplier();
     public static final Effect REWARD_BLOCK_BREAK = new EffectRewardBlockBreak();
     public static final Effect INCOMING_DAMAGE_MULTIPLIER = new EffectIncomingDamageMultiplier();
+    public static final Effect ATTACK_SPEED_MULTIPLIER = new EffectAttackSpeedMultiplier();
 
     /**
-     * Get effect matching name.
+     * Get effect matching id.
      *
-     * @param name The name to query.
+     * @param id The id to query.
      * @return The matching effect, or null if not found.
      */
     @Nullable
-    public static Effect getByName(@NotNull final String name) {
-        return BY_NAME.get(name);
+    public static Effect getByID(@NotNull final String id) {
+        return BY_ID.get(id);
     }
 
     /**
@@ -47,7 +49,7 @@ public class Effects {
      * @return The effects.
      */
     public static List<Effect> values() {
-        return ImmutableList.copyOf(BY_NAME.values());
+        return ImmutableList.copyOf(BY_ID.values());
     }
 
     /**
@@ -56,7 +58,7 @@ public class Effects {
      * @param effect The effect to add.
      */
     public static void addNewEffect(@NotNull final Effect effect) {
-        BY_NAME.remove(effect.getName());
-        BY_NAME.put(effect.getName(), effect);
+        BY_ID.remove(effect.getId());
+        BY_ID.put(effect.getId(), effect);
     }
 }

@@ -3,7 +3,10 @@
     {
       "id": "dynamic",
       "name": "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>",
-      "description": "Deal &a5%&r more damage and &a10%&r more critical damage",
+      "description": [
+        "&a+5% &fDamage",
+        "&a+10% &fCrit Damage"
+      ],
       "targets": [
         "melee"
       ],
@@ -15,11 +18,9 @@
           "air",
           "ecoitems:blank_reforge_stone ? air",
           "air",
-
           "iron_block",
           "daylight_sensor",
           "iron_block",
-
           "air",
           "phantom_membrane",
           "air"
@@ -36,7 +37,6 @@
         }
       ],
       "conditions": [
-
       ]
     }
   ]

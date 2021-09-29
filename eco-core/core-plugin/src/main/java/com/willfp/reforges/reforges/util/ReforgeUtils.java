@@ -51,7 +51,7 @@ public class ReforgeUtils {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (Arrays.asList(reforge.getTargets()).contains(target) && !reforge.isRequiresStone()) {
+            if (Arrays.asList(reforge.getTargets()).contains(target) && !reforge.getRequiresStone()) {
                 applicable.add(reforge);
             }
         }

@@ -1,6 +1,7 @@
 package com.willfp.reforges;
 
 import com.willfp.eco.core.EcoPlugin;
+import com.willfp.eco.core.Prerequisite;
 import com.willfp.eco.core.command.impl.PluginCommand;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.items.Items;
@@ -11,6 +12,7 @@ import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.effects.Effects;
+import com.willfp.reforges.paper.PaperHandler;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.WatcherTriggers;
@@ -18,6 +20,7 @@ import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
@@ -45,6 +48,13 @@ public class ReforgesPlugin extends EcoPlugin {
     private final ReforgesJson reforgesJson;
 
     /**
+     * Paper handler.
+     */
+    @Getter
+    @Setter
+    private PaperHandler paperHandler;
+
+    /**
      * Internal constructor called by bukkit on plugin load.
      */
     public ReforgesPlugin() {
@@ -52,6 +62,17 @@ public class ReforgesPlugin extends EcoPlugin {
         this.targetYml = new TargetYml(this);
         this.reforgesJson = new ReforgesJson(this);
         instance = this;
+
+        /*
+        I still use the spigot api for most things and don't want to suppress deprecation warnings
+        every 2 seconds, so I'm moving all paper related things off to their own module.
+         */
+        if (Prerequisite.HAS_PAPER.isMet()) {
+            try {
+                Class.forName("com.willfp.reforges.paper.PaperLoader");
+            } catch (ClassNotFoundException ignored) {
+            }
+        }
     }
 
     @Override

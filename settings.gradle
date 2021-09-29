@@ -3,3 +3,4 @@ rootProject.name = 'Reforges'
 // Core
 include ':eco-core'
 include ':eco-core:core-plugin'
+include ':eco-core:core-paper'

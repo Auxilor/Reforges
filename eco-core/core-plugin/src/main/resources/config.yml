@@ -122,8 +122,6 @@ reforge:
 
   cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
 
-  line-wrap: 32
-
   show-reforgable: true
   reforgable-suffix:
     - ""
