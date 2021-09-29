@@ -5,7 +5,9 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
 import com.willfp.reforges.effects.effects.EffectCritMultiplier;
 import com.willfp.reforges.effects.effects.EffectDamageMultiplier;
+import com.willfp.reforges.effects.effects.EffectIncomingDamageMultiplier;
 import com.willfp.reforges.effects.effects.EffectKnockbackMultiplier;
+import com.willfp.reforges.effects.effects.EffectRewardBlockBreak;
 import com.willfp.reforges.effects.effects.EffectRewardKill;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -25,6 +27,8 @@ public class Effects {
     public static final Effect CRIT_MULTIPLIER = new EffectCritMultiplier();
     public static final Effect REWARD_KILL = new EffectRewardKill();
     public static final Effect KNOCKBACK_MULTIPLIER = new EffectKnockbackMultiplier();
+    public static final Effect REWARD_BLOCK_BREAK = new EffectRewardBlockBreak();
+    public static final Effect INCOMING_DAMAGE_MULTIPLIER = new EffectIncomingDamageMultiplier();
 
     /**
      * Get effect matching name.
