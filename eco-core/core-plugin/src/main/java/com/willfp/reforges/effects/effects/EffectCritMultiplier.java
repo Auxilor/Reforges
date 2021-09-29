@@ -15,10 +15,10 @@ public class EffectCritMultiplier extends Effect {
     }
 
     @Override
-    public void onMeleeAttack(@NotNull final LivingEntity attacker,
-                              @NotNull final LivingEntity victim,
-                              @NotNull final EntityDamageByEntityEvent event,
-                              @NotNull final JSONConfig config) {
+    public void onAnyDamage(@NotNull final LivingEntity attacker,
+                            @NotNull final LivingEntity victim,
+                            @NotNull final EntityDamageByEntityEvent event,
+                            @NotNull final JSONConfig config) {
         if (attacker.getVelocity().getY() > 0) {
             return;
         }

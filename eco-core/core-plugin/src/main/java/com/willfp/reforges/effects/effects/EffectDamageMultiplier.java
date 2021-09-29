@@ -15,10 +15,10 @@ public class EffectDamageMultiplier extends Effect {
     }
 
     @Override
-    public void onMeleeAttack(@NotNull final LivingEntity attacker,
-                              @NotNull final LivingEntity victim,
-                              @NotNull final EntityDamageByEntityEvent event,
-                              @NotNull final JSONConfig config) {
+    public void onAnyDamage(@NotNull final LivingEntity attacker,
+                            @NotNull final LivingEntity victim,
+                            @NotNull final EntityDamageByEntityEvent event,
+                            @NotNull final JSONConfig config) {
         event.setDamage(event.getDamage() * config.getDouble("multiplier"));
     }
 }
