@@ -148,6 +148,7 @@ public class Reforge {
     }
 
     public final void handleApplication(@NotNull final ItemStack itemStack) {
+        handleRemoval(itemStack);
         itemStack.setItemMeta(this.handleApplication(Objects.requireNonNull(itemStack.getItemMeta())));
     }
 
@@ -156,7 +157,6 @@ public class Reforge {
             entry.getKey().handleApplication(meta, entry.getValue());
         }
 
-        // Override when needed
         return meta;
     }
 

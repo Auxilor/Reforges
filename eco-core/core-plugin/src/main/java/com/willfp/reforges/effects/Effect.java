@@ -9,6 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public abstract class Effect implements Listener, Watcher {
     /**
      * Instance of Reforges.
@@ -23,12 +25,19 @@ public abstract class Effect implements Listener, Watcher {
     private final String name;
 
     /**
+     * The effect uuid.
+     */
+    @Getter
+    private final UUID uuid;
+
+    /**
      * Create a new effect.
      *
      * @param name The effect name.
      */
     protected Effect(@NotNull final String name) {
         this.name = name;
+        this.uuid = UUID.nameUUIDFromBytes(name.getBytes());
 
         Effects.addNewEffect(this);
     }
