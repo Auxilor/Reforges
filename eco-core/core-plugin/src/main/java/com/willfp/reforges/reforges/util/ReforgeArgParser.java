@@ -6,13 +6,14 @@ import com.willfp.reforges.reforges.Reforges;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
 public class ReforgeArgParser implements LookupArgParser {
     @Override
-    public Predicate<ItemStack> parseArguments(@NotNull final String[] args,
-                                               @NotNull final ItemMeta meta) {
+    public @Nullable Predicate<ItemStack> parseArguments(@NotNull final String[] args,
+                                                         @NotNull final ItemMeta meta) {
         Reforge reforge = null;
         for (String arg : args) {
             String[] split = arg.split(":");
@@ -30,7 +31,7 @@ public class ReforgeArgParser implements LookupArgParser {
         }
 
         if (reforge == null) {
-            return itemStack -> true;
+            return null;
         }
 
         ReforgeUtils.setReforge(meta, reforge);
