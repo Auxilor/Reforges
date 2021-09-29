@@ -1,18 +1,20 @@
 package com.willfp.reforges.display
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.SkullUtils
+import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
+import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.persistence.PersistentDataType
 
-class ReforgesDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
+class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
     override fun display(
         itemStack: ItemStack,
         vararg args: Any
@@ -65,17 +67,39 @@ class ReforgesDisplay(plugin: EcoPlugin) : DisplayModule(plugin, DisplayPriority
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name")) {
-                val
-
-                val addLore: MutableList<String> = ArrayList()
-                addLore.add(" ")
-                addLore.add(reforge.name)
-                addLore.addAll(reforge.description)
-                addLore.replaceAll { "${Display.PREFIX}$it" }
-                lore.addAll(addLore)
+                val displayName = plugin.paperHandler.getDisplayName(itemStack)
+                val newName = "${reforge.name} ${ChatColor.RESET}${displayName}"
+                meta.setDisplayName(newName)
+                meta.persistentDataContainer.set(
+                    plugin.namespacedKeyFactory.create("shadowed_name"),
+                    PersistentDataType.STRING,
+                    displayName
+                )
             }
         }
         itemStack.itemMeta = meta
         fastItemStack.lore = lore
+    }
+
+    override fun revert(itemStack: ItemStack) {
+        if (!plugin.configYml.getBool("reforge.display-in-name")) {
+            return
+        }
+
+
+        val target = ReforgeTarget.getForItem(itemStack)
+
+        if (target == null && itemStack.type != Material.PLAYER_HEAD) {
+            return
+        }
+
+        val meta = itemStack.itemMeta ?: return
+        val shadowed = meta.persistentDataContainer.get(
+            plugin.namespacedKeyFactory.create("shadowed_name"),
+            PersistentDataType.STRING
+        ) ?: return
+        meta.setDisplayName(shadowed)
+
+        itemStack.itemMeta = meta
     }
 }
