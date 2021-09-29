@@ -73,9 +73,7 @@ public class ReforgesPlugin extends EcoPlugin {
     protected void handleReload() {
         for (Effect effect : Effects.values()) {
             HandlerList.unregisterAll(effect);
-            this.getScheduler().run(() -> {
-                    this.getEventManager().registerListener(effect);
-            });
+            this.getScheduler().run(() -> this.getEventManager().registerListener(effect));
         }
     }
 
@@ -83,7 +81,7 @@ public class ReforgesPlugin extends EcoPlugin {
     protected List<Listener> loadListeners() {
         return Arrays.asList(
                 new DiscoverRecipeListener(this),
-                new AntiPlaceListener(this),
+                new AntiPlaceListener(),
                 new WatcherTriggers(this)
         );
     }
@@ -103,6 +101,6 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     public String getMinimumEcoVersion() {
-        return "6.7.0";
+        return "6.8.0";
     }
 }

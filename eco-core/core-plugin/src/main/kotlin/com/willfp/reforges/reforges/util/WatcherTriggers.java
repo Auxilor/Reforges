@@ -9,7 +9,6 @@ import com.willfp.eco.core.integrations.antigrief.AntigriefManager;
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager;
 import com.willfp.eco.util.ArrowUtils;
 import com.willfp.eco.util.NumberUtils;
-import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.reforges.Reforge;
 import org.bukkit.block.Block;
 import org.bukkit.entity.AbstractArrow;
@@ -45,95 +44,10 @@ public class WatcherTriggers extends PluginDependent<EcoPlugin> implements Liste
     }
 
     /**
-     * Called when a player breaks a block.
-     *
-     * @param event The event to listen for.
-     */
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockBreak(@NotNull final BlockBreakEvent event) {
-
-        if (McmmoManager.isFake(event)) {
-            return;
-        }
-
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-
-        if (!AntigriefManager.canBreakBlock(player, block)) {
-            return;
-        }
-
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-
-        Reforge reforge = ReforgeUtils.getReforge(itemStack);
-
-        if (reforge == null) {
-            return;
-        }
-
-        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
-            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
-                continue;
-            }
-            entry.getKey().onBlockBreak(player, block, event, entry.getValue());
-        }
-    }
-
-    /**
      * Called when an entity shoots another entity with an arrow.
      *
      * @param event The event to listen for.
      */
-    @EventHandler(ignoreCancelled = true)
-    public void onArrowDamage(@NotNull final EntityDamageByEntityEvent event) {
-        if (McmmoManager.isFake(event)) {
-            return;
-        }
-
-        if (!(event.getDamager() instanceof Arrow arrow)) {
-            return;
-        }
-
-        if (!(event.getEntity() instanceof LivingEntity victim)) {
-            return;
-        }
-
-        if (arrow.getShooter() == null) {
-            return;
-        }
-
-        if (!(arrow.getShooter() instanceof LivingEntity attacker)) {
-            return;
-        }
-
-        if (attacker instanceof Player && !AntigriefManager.canInjure((Player) attacker, victim)) {
-            return;
-        }
-
-        if (event.isCancelled()) {
-            return;
-        }
-
-        ItemStack bow = ArrowUtils.getBow(arrow);
-
-        if (bow == null) {
-            return;
-        }
-
-        Reforge reforge = ReforgeUtils.getReforge(bow);
-
-        if (reforge == null) {
-            return;
-        }
-
-        for (Map.Entry<Effect, JSONConfig> entry : reforge.getEffects().entrySet()) {
-            if (NumberUtils.randFloat(0, 100) > (entry.getValue().has("chance") ? entry.getValue().getDouble("chance") : 100)) {
-                continue;
-            }
-            entry.getKey().onArrowDamage(attacker, victim, arrow, event, entry.getValue());
-            entry.getKey().onAnyDamage(attacker, victim, event, entry.getValue());
-        }
-    }
 
     /**
      * Called when an entity damages another entity with a trident throw.

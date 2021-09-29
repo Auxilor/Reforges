@@ -10,6 +10,8 @@ depend:
   - ProtocolLib
 softdepend:
   - Vault
+libraries:
+  - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 
 commands:
   reforges:

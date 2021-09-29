@@ -56,7 +56,7 @@ public class CommandGive extends Subcommand {
     public static void reload() {
         STONE_NAMES.clear();
         STONE_NAMES.addAll(Reforges.values().stream()
-                .filter(Reforge::isRequiresStone)
+                .filter(Reforge::getRequiresStone)
                 .map(Reforge::getId)
                 .collect(Collectors.toList()));
     }
