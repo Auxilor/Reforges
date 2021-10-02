@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.willfp.reforges.effects.effects.EffectAttackSpeedMultiplier;
 import com.willfp.reforges.effects.effects.EffectCritMultiplier;
 import com.willfp.reforges.effects.effects.EffectDamageMultiplier;
+import com.willfp.reforges.effects.effects.EffectDurabilityMultiplier;
 import com.willfp.reforges.effects.effects.EffectIncomingDamageMultiplier;
 import com.willfp.reforges.effects.effects.EffectKnockbackMultiplier;
 import com.willfp.reforges.effects.effects.EffectRewardBlockBreak;
@@ -31,6 +32,7 @@ public class Effects {
     public static final Effect REWARD_BLOCK_BREAK = new EffectRewardBlockBreak();
     public static final Effect INCOMING_DAMAGE_MULTIPLIER = new EffectIncomingDamageMultiplier();
     public static final Effect ATTACK_SPEED_MULTIPLIER = new EffectAttackSpeedMultiplier();
+    public static final Effect DURABILITY_MULTIPLIER = new EffectDurabilityMultiplier();
 
     /**
      * Get effect matching id.
