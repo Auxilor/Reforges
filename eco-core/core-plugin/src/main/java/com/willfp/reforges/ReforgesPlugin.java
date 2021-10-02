@@ -56,13 +56,13 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     protected void handleEnable() {
-        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
         Items.registerArgParser(new ReforgeArgParser());
     }
 
     @Override
     protected void handleAfterLoad() {
         EconomyHandler.setEnabled(EconomyHandler.init());
+        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
 
         if (!EconomyHandler.isEnabled()) {
             this.getLogger().severe("Vault economy support not enabled");

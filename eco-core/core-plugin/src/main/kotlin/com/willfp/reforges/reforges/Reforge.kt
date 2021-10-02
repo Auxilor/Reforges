@@ -41,12 +41,12 @@ class Reforge(
     val requiresStone = config.getBool("stone.enabled")
 
     val stone: ItemStack = SkullBuilder().apply {
-        if (config.has("stone.texture")) {
+        if (config.getBool("stone.enabled")) {
             setSkullTexture(config.getString("stone.texture"))
+            setDisplayName(plugin.configYml.getString("stone.name").replace("%reforge%", name))
+            addLoreLines(
+                plugin.configYml.getStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
         }
-        setDisplayName(plugin.configYml.getString("stone.name").replace("%reforge%", name))
-        addLoreLines(
-            plugin.configYml.getStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
     }.build()
 
     init {
