@@ -19,6 +19,11 @@ import org.bukkit.inventory.meta.SkullMeta
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
+    private val replacement = TextReplacementConfig.builder()
+        .match("§w(.+)§w")
+        .replacement("")
+        .build()
+
     override fun display(
         itemStack: ItemStack,
         vararg args: Any
@@ -74,10 +79,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 val displayName =
                     (if (meta.hasDisplayName()) meta.displayName()!! else Component.translatable(itemStack))
                         .replaceText(
-                            TextReplacementConfig.builder()
-                                .match("§w(.)§w")
-                                .replacement("")
-                                .build()
+                            replacement
                         )
                 val newName = StringUtils.toComponent("§w${reforge.name} §w")
                     .decoration(TextDecoration.ITALIC, false).append(displayName)
@@ -101,10 +103,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             val displayName = meta.displayName() ?: return
             meta.displayName(
                 displayName.replaceText(
-                    TextReplacementConfig.builder()
-                        .match("§w(.)§w")
-                        .replacement("")
-                        .build()
+                    replacement
                 )
             )
         }
