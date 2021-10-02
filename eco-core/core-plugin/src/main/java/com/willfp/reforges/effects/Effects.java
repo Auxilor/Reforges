@@ -9,6 +9,7 @@ import com.willfp.reforges.effects.effects.EffectDamageMultiplier;
 import com.willfp.reforges.effects.effects.EffectDurabilityMultiplier;
 import com.willfp.reforges.effects.effects.EffectIncomingDamageMultiplier;
 import com.willfp.reforges.effects.effects.EffectKnockbackMultiplier;
+import com.willfp.reforges.effects.effects.EffectMovementSpeedMultiplier;
 import com.willfp.reforges.effects.effects.EffectRewardBlockBreak;
 import com.willfp.reforges.effects.effects.EffectRewardKill;
 import lombok.experimental.UtilityClass;
@@ -33,6 +34,7 @@ public class Effects {
     public static final Effect INCOMING_DAMAGE_MULTIPLIER = new EffectIncomingDamageMultiplier();
     public static final Effect ATTACK_SPEED_MULTIPLIER = new EffectAttackSpeedMultiplier();
     public static final Effect DURABILITY_MULTIPLIER = new EffectDurabilityMultiplier();
+    public static final Effect MOVEMENT_SPEED_MULTIPLIER = new EffectMovementSpeedMultiplier();
 
     /**
      * Get effect matching id.
