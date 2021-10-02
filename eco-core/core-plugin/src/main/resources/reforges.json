@@ -21,16 +21,17 @@
           "multiplier": 3,
           "chance": 2
         }
-      ]
+      ],
+      "conditions": []
     },
     {
-      "id": "acute",
-      "name": "<gradient:#4776E6>Acute</gradient:#8E54E9>",
+      "id": "aerobic",
+      "name": "<gradient:#B993D6>Aerobic</gradient:#8CA6DB>",
       "description": [
-        "&a+2% &fTriple Damage Chance"
+        "&a+9% &fDamage when shot in air"
       ],
       "targets": [
-        "axe"
+        "bow"
       ],
       "stone": {
         "enabled": false,
@@ -41,8 +42,12 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 3,
-          "chance": 2
+          "multiplier": 1.09
+        }
+      ],
+      "conditions": [
+        {
+          "id":
         }
       ]
     },

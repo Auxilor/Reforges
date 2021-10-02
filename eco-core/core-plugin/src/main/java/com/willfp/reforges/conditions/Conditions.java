@@ -12,6 +12,7 @@ import com.willfp.reforges.conditions.conditions.ConditionBelowHungerPercent;
 import com.willfp.reforges.conditions.conditions.ConditionBelowXPLevel;
 import com.willfp.reforges.conditions.conditions.ConditionBelowY;
 import com.willfp.reforges.conditions.conditions.ConditionHasPermission;
+import com.willfp.reforges.conditions.conditions.ConditionInAir;
 import com.willfp.reforges.conditions.conditions.ConditionInBiome;
 import com.willfp.reforges.conditions.conditions.ConditionInWater;
 import com.willfp.reforges.conditions.conditions.ConditionInWorld;
@@ -42,6 +43,7 @@ public class Conditions {
     public static final Condition IN_BIOME = new ConditionInBiome();
     public static final Condition HAS_PERMISSION = new ConditionHasPermission();
     public static final Condition IS_SNEAKING = new ConditionIsSneaking();
+    public static final Condition IN_AIR = new ConditionInAir();
 
     /**
      * Get condition matching name.s
