@@ -293,7 +293,7 @@
       "effects": [
         {
           "id": "incoming_damage_multiplier",
-          "amount": 0.96
+          "multiplier": 0.96
         }
       ],
       "conditions": [
@@ -352,7 +352,7 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "amount": 1.03
+          "multiplier": 1.03
         }
       ],
       "conditions": [
@@ -376,7 +376,7 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "amount": 1.04
+          "multiplier": 1.04
         }
       ],
       "conditions": [
