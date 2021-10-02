@@ -39,7 +39,6 @@ public class ReforgeGUI {
      *
      * @param plugin The plugin.
      */
-    @SuppressWarnings("checkstyle:MissingSwitchDefault")
     @ConfigUpdater
     public static void update(@NotNull final EcoPlugin plugin) {
         ReforgeHandler handler = new ReforgeHandler(plugin);
