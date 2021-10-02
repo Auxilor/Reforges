@@ -25,6 +25,10 @@ class ConditionInBiome: Condition("in_biome") {
     }
 
     override fun isConditionMet(player: Player, config: JSONConfig): Boolean {
-        return config.getStrings("biomes").contains(player.world.getBiome(player.location).name.lowercase())
+        return config.getStrings("biomes").contains(player.world.getBiome(
+            player.location.blockX,
+            player.location.blockY,
+            player.location.blockZ
+        ).name.lowercase())
     }
 }

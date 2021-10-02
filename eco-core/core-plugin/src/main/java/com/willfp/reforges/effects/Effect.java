@@ -23,7 +23,6 @@ public abstract class Effect implements Listener, Watcher {
     /**
      * The effect ID.
      */
-    @Getter
     private final String id;
 
     /**
@@ -34,6 +33,15 @@ public abstract class Effect implements Listener, Watcher {
     protected Effect(@NotNull final String id) {
         this.id = id;
         Effects.addNewEffect(this);
+    }
+
+    /**
+     * Get the effect ID.
+     *
+     * @return The ID.
+     */
+    public String getId() {
+        return id;
     }
 
     /**

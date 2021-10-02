@@ -254,7 +254,7 @@
       "id": "prospecting",
       "name": "<gradient:#00B4DB>Prospecting</gradient:#0083B0>",
       "description": [
-        "&a+5% &fChance to get &e2$&f for mining a block"
+        "&a+5% &fChance to get &e\u00242&f for mining a block"
       ],
       "targets": [
         "pickaxe"
@@ -303,7 +303,7 @@
       "id": "rich",
       "name": "<gradient:#DBDBDB>Rich</gradient:#F2F2F2>",
       "description": [
-        "&a+50$ &fFor each mob kill"
+        "&a+\u002450 &fFor each mob kill"
       ],
       "targets": [
         "trident",
