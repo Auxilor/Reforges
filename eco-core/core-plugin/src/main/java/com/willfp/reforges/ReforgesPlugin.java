@@ -6,6 +6,7 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.items.Items;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
+import com.willfp.reforges.conditions.Conditions;
 import com.willfp.reforges.config.ReforgesJson;
 import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
@@ -74,6 +75,7 @@ public class ReforgesPlugin extends EcoPlugin {
             HandlerList.unregisterAll(effect);
             this.getScheduler().run(() -> this.getEventManager().registerListener(effect));
         }
+        this.getScheduler().runTimer((Runnable) Conditions.HAS_PERMISSION, 103, 100);
     }
 
     @Override
