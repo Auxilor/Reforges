@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class ReforgeUtils {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (Arrays.asList(reforge.getTargets()).contains(target) && !reforge.getRequiresStone()) {
+            if (reforge.getTargets().contains(target) && !reforge.getRequiresStone()) {
                 applicable.add(reforge);
             }
         }

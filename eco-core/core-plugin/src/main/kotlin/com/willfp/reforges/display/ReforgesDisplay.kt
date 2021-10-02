@@ -11,14 +11,14 @@ import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.translation.Translatable
+import net.kyori.adventure.text.TextReplacementConfig
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 
+@Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
-    private val shadowKey = plugin.namespacedKeyFactory.create("shadowed_name")
-
     override fun display(
         itemStack: ItemStack,
         vararg args: Any
@@ -71,15 +71,17 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
-                var displayName = if (meta.hasDisplayName()) meta.displayName else StringUtils.toLegacy(
-                    Component.translatable(itemStack as Translatable)
-                )
-                displayName = displayName.replace(
-                    reforge.name + " ",
-                    ""
-                )
-                val newName = reforge.name + " " + displayName
-                meta.setDisplayName(newName)
+                val displayName =
+                    (if (meta.hasDisplayName()) meta.displayName()!! else Component.translatable(itemStack))
+                        .replaceText(
+                            TextReplacementConfig.builder()
+                                .match("§w(.)§w")
+                                .replacement("")
+                                .build()
+                        )
+                val newName = StringUtils.toComponent("§w${reforge.name} §w")
+                    .decoration(TextDecoration.ITALIC, false).append(displayName)
+                meta.displayName(newName)
             }
         }
         itemStack.itemMeta = meta
@@ -94,15 +96,17 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         }
 
         val meta = itemStack.itemMeta ?: return
-        val reforge = ReforgeUtils.getReforge(meta) ?: return
 
-        if (plugin.configYml.getBool("reforge.display-in-name")) {
-            var displayName = meta.displayName
-            displayName = displayName.replace(
-                reforge.name + " ",
-                ""
+        if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
+            val displayName = meta.displayName() ?: return
+            meta.displayName(
+                displayName.replaceText(
+                    TextReplacementConfig.builder()
+                        .match("§w(.)§w")
+                        .replacement("")
+                        .build()
+                )
             )
-            meta.setDisplayName(displayName)
         }
 
         itemStack.itemMeta = meta
