@@ -13,6 +13,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -192,6 +193,17 @@ public interface Watcher {
                                  @NotNull final Trident trident,
                                  @NotNull final ProjectileLaunchEvent event,
                                  @NotNull final JSONConfig config) {
+        // Empty default as effects only override required watchers.
+    }
+
+    /**
+     * Called when an item takes durability damage.
+     *
+     * @param event  The event that called this watcher.
+     * @param config The effect config.
+     */
+    default void onDurabilityDamage(@NotNull final PlayerItemDamageEvent event,
+                                    @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 }

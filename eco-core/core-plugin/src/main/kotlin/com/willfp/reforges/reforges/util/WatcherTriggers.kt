@@ -5,8 +5,8 @@ import com.willfp.eco.core.events.EntityDeathByEntityEvent
 import com.willfp.eco.core.events.PlayerJumpEvent
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager
-import com.willfp.eco.util.ArrowUtils
 import com.willfp.eco.util.NumberUtils
+import com.willfp.reforges.reforges.ReforgeLookup
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.entity.ProjectileLaunchEvent
+import org.bukkit.event.player.PlayerItemDamageEvent
 
 class WatcherTriggers(
     private val plugin: EcoPlugin
@@ -30,13 +31,14 @@ class WatcherTriggers(
         if (!AntigriefManager.canBreakBlock(player, block)) {
             return
         }
-        val itemStack = player.inventory.itemInMainHand
-        val reforge = ReforgeUtils.getReforge(itemStack) ?: return
-        for ((key, value) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > value.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+
+        for (reforge in ReforgeLookup.provideReforges(player)) {
+            for ((key, value) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > value.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                key.onBlockBreak(player, block, event, value)
             }
-            key.onBlockBreak(player, block, event, value)
         }
     }
 
@@ -59,11 +61,11 @@ class WatcherTriggers(
 
         val shooter = arrow.shooter
 
-        if (shooter !is LivingEntity) {
+        if (shooter !is Player) {
             return
         }
 
-        if (shooter is Player && !AntigriefManager.canInjure(shooter, victim)) {
+        if (!AntigriefManager.canInjure(shooter, victim)) {
             return
         }
 
@@ -71,16 +73,14 @@ class WatcherTriggers(
             return
         }
 
-        val bow = ArrowUtils.getBow(arrow) ?: return
-
-        val reforge = ReforgeUtils.getReforge(bow) ?: return
-
-        for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+        for (reforge in ReforgeLookup.provideReforges(shooter)) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onArrowDamage(shooter, victim, arrow, event, config)
+                effect.onAnyDamage(shooter, victim, event, config)
             }
-            effect.onArrowDamage(shooter, victim, arrow, event, config)
-            effect.onAnyDamage(shooter, victim, event, config)
         }
     }
 
@@ -103,13 +103,13 @@ class WatcherTriggers(
 
         val shooter = trident.shooter
 
-        if (shooter !is LivingEntity) {
+        if (shooter !is Player) {
             return
         }
 
         val item = trident.item
 
-        if (shooter is Player && !AntigriefManager.canInjure(shooter, victim)) {
+        if (!AntigriefManager.canInjure(shooter, victim)) {
             return
         }
 
@@ -117,14 +117,17 @@ class WatcherTriggers(
             return
         }
 
-        val reforge = ReforgeUtils.getReforge(item) ?: return
+        val tridentReforge = ReforgeUtils.getReforge(item)
+        val add = if (tridentReforge == null) emptyList() else listOf(tridentReforge)
 
-        for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+        for (reforge in ReforgeLookup.provideReforges(shooter) union add) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onTridentDamage(shooter, victim, trident, event, config)
+                effect.onAnyDamage(shooter, victim, event, config)
             }
-            effect.onTridentDamage(shooter, victim, trident, event, config)
-            effect.onAnyDamage(shooter, victim, event, config)
         }
     }
 
@@ -134,8 +137,8 @@ class WatcherTriggers(
             return
         }
         val player = event.player
-        for (itemStack in player.inventory.armorContents) {
-            val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
+
+        for (reforge in ReforgeLookup.provideReforges(player)) {
             for ((effect, config) in reforge.effects) {
                 if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                     continue
@@ -153,7 +156,7 @@ class WatcherTriggers(
 
         val attacker = event.damager
 
-        if (attacker !is LivingEntity) {
+        if (attacker !is Player) {
             return
         }
 
@@ -171,20 +174,18 @@ class WatcherTriggers(
             return
         }
 
-        if (attacker is Player && !AntigriefManager.canInjure(attacker, victim)) {
+        if (!AntigriefManager.canInjure(attacker, victim)) {
             return
         }
 
-        val equipment = attacker.equipment ?: return
-
-        val reforge = ReforgeUtils.getReforge(equipment.itemInMainHand) ?: return
-
-        for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+        for (reforge in ReforgeLookup.provideReforges(attacker)) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onMeleeAttack(attacker, victim, event, config)
+                effect.onAnyDamage(attacker, victim, event, config)
             }
-            effect.onMeleeAttack(attacker, victim, event, config)
-            effect.onAnyDamage(attacker, victim, event, config)
         }
     }
 
@@ -195,33 +196,35 @@ class WatcherTriggers(
         }
 
         var killer: Any? = null
-        if (event.killer is LivingEntity) {
+        if (event.killer is Player) {
             killer = event.killer
         } else if (event.killer is Projectile) {
-            if ((event.killer as Projectile).shooter is LivingEntity) {
+            if ((event.killer as Projectile).shooter is Player) {
                 killer = (event.killer as Projectile).shooter
             }
         }
 
-        if (killer !is LivingEntity) {
+        if (killer !is Player) {
             return
         }
 
         val victim = event.victim
 
-        if (killer is Player && !AntigriefManager.canInjure(killer, victim)) {
+        if (!AntigriefManager.canInjure(killer, victim)) {
             return
         }
 
-        val equipment = killer.equipment ?: return
+        val trident = if (event.killer is Trident) (event.killer as Trident).item else null
+        val tridentReforge = if (trident == null) null else ReforgeUtils.getReforge(trident)
+        val add = if (tridentReforge == null) emptyList() else listOf(tridentReforge)
 
-        val reforge = ReforgeUtils.getReforge(equipment.itemInMainHand) ?: return
-
-        for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+        for (reforge in ReforgeLookup.provideReforges(killer) union add) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onKill(killer, victim, event, config)
             }
-            effect.onKill(killer, victim, event, config)
         }
     }
 
@@ -233,25 +236,17 @@ class WatcherTriggers(
 
         val shooter = event.entity.shooter
 
-        if (shooter !is LivingEntity) {
+        if (shooter !is Player) {
             return
         }
 
-        val equipment = shooter.equipment ?: return
-
-        var item = equipment.itemInMainHand
-
-        if (event.entity is Trident) {
-            item = (event.entity as Trident).item
-        }
-
-        val reforge = ReforgeUtils.getReforge(item) ?: return
-
-        for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
-                continue
+        for (reforge in ReforgeLookup.provideReforges(shooter)) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onProjectileLaunch(shooter, event.entity, event, config)
             }
-            effect.onProjectileLaunch(shooter, event.entity, event, config)
         }
     }
 
@@ -267,15 +262,11 @@ class WatcherTriggers(
 
         val victim = event.entity
 
-        if (victim !is LivingEntity) {
+        if (victim !is Player) {
             return
         }
 
-        val equipment = victim.equipment ?: return
-
-        for (itemStack in equipment.armorContents) {
-            val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
-
+        for (reforge in ReforgeLookup.provideReforges(victim)) {
             for ((effect, config) in reforge.effects) {
                 if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                     continue
@@ -294,23 +285,38 @@ class WatcherTriggers(
         val projectile = event.entity
         val shooter = projectile.shooter
 
-        if (shooter !is LivingEntity) {
+        if (shooter !is Player) {
             return
         }
 
-        val item = when (projectile) {
-            is Arrow -> ArrowUtils.getBow(projectile)
-            is Trident -> projectile.item
-            else -> null
-        } ?: return
+        val trident = if (projectile is Trident) projectile.item else null
+        val tridentReforge = if (trident == null) null else ReforgeUtils.getReforge(trident)
+        val add = if (tridentReforge == null) emptyList() else listOf(tridentReforge)
 
+        for (reforge in ReforgeLookup.provideReforges(shooter) union add) {
+            for ((effect, config) in reforge.effects) {
+                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                    continue
+                }
+                effect.onProjectileHit(shooter, event, config)
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onDurabilityDamage(event: PlayerItemDamageEvent) {
+        if (McmmoManager.isFake(event)) {
+            return
+        }
+
+        val item = event.item
         val reforge = ReforgeUtils.getReforge(item) ?: return
 
         for ((effect, config) in reforge.effects) {
             if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                 continue
             }
-            effect.onProjectileHit(shooter, event, config)
+            effect.onDurabilityDamage(event, config)
         }
     }
 
@@ -322,15 +328,11 @@ class WatcherTriggers(
 
         val victim = event.entity
 
-        if (victim !is LivingEntity) {
+        if (victim !is Player) {
             return
         }
 
-        val equipment = victim.equipment ?: return
-
-        for (itemStack in equipment.armorContents) {
-            val reforge = ReforgeUtils.getReforge(itemStack) ?: continue
-
+        for (reforge in ReforgeLookup.provideReforges(victim)) {
             for ((effect, config) in reforge.effects) {
                 if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                     continue

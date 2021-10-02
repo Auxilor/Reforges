@@ -1,6 +1,52 @@
 {
   "reforges": [
     {
+      "id": "acute",
+      "name": "<gradient:#4776E6>Acute</gradient:#8E54E9>",
+      "description": [
+        "&a+2% &fTriple Damage Chance"
+      ],
+      "targets": [
+        "axe"
+      ],
+      "stone": {
+        "enabled": false,
+        "texture": "",
+        "craftable": false,
+        "recipe": []
+      },
+      "effects": [
+        {
+          "id": "damage_multiplier",
+          "multiplier": 3,
+          "chance": 2
+        }
+      ]
+    },
+    {
+      "id": "acute",
+      "name": "<gradient:#4776E6>Acute</gradient:#8E54E9>",
+      "description": [
+        "&a+2% &fTriple Damage Chance"
+      ],
+      "targets": [
+        "axe"
+      ],
+      "stone": {
+        "enabled": false,
+        "texture": "",
+        "craftable": false,
+        "recipe": []
+      },
+      "effects": [
+        {
+          "id": "damage_multiplier",
+          "multiplier": 3,
+          "chance": 2
+        }
+      ]
+    },
+    {
       "id": "dynamic",
       "name": "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>",
       "description": [
