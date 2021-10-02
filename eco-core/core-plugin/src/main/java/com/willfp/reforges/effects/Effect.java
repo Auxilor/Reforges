@@ -9,8 +9,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.UUID;
 
 public abstract class Effect implements Listener, Watcher {
@@ -27,18 +27,12 @@ public abstract class Effect implements Listener, Watcher {
     private final String id;
 
     /**
-     * List of UUIDs.
-     */
-    private final Map<Integer, UUID> uuids;
-
-    /**
      * Create a new effect.
      *
      * @param id The id.
      */
     protected Effect(@NotNull final String id) {
         this.id = id;
-        this.uuids = new HashMap<>();
         Effects.addNewEffect(this);
     }
 
@@ -46,13 +40,12 @@ public abstract class Effect implements Listener, Watcher {
      * Generate a UUID with a specified index.
      *
      * @param index The index.
+     * @param extra The extra
      * @return The UUID.
      */
-    protected UUID getUUID(final int index) {
-        if (!uuids.containsKey(index)) {
-            uuids.put(index, UUID.nameUUIDFromBytes((this.id + index).getBytes()));
-        }
-        return uuids.get(index);
+    protected UUID getUUID(final int index,
+                           @NotNull final Object... extra) {
+        return UUID.nameUUIDFromBytes((this.id + index + Arrays.hashCode(extra)).getBytes());
     }
 
     /**
@@ -73,5 +66,21 @@ public abstract class Effect implements Listener, Watcher {
      */
     public void handleDisabling(@NotNull final ItemMeta meta) {
         // Override when needed
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Effect effect)) {
+            return false;
+        }
+        return this.getId().equals(effect.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId());
     }
 }

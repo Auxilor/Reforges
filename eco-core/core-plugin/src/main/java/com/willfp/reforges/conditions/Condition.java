@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 public abstract class Condition implements Listener {
     /**
      * Instance of Reforges.
@@ -41,4 +43,20 @@ public abstract class Condition implements Listener {
      */
     public abstract boolean isConditionMet(@NotNull Player player,
                                            @NotNull JSONConfig config);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Condition condition)) {
+            return false;
+        }
+        return getId().equals(condition.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.getId());
+    }
 }
