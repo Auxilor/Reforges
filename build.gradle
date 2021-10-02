@@ -84,14 +84,6 @@ jar {
     archiveFileName = findProperty("plugin-name") + " v" + findProperty("version") + ".jar"
 }
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
-
 group = 'com.willfp'
 archivesBaseName = project.name
 version = findProperty("version")
