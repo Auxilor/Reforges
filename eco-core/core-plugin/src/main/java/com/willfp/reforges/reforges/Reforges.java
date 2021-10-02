@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
 @UtilityClass
-@SuppressWarnings({"unused", "checkstyle:JavadocVariable"})
+@SuppressWarnings("unused")
 public class Reforges {
     private static final BiMap<String, Reforge> BY_KEY = HashBiMap.create();
 
