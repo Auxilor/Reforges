@@ -6,6 +6,8 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.builder.SkullBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.conditions.Conditions
+import com.willfp.reforges.conditions.ConfiguredCondition
 import com.willfp.reforges.effects.ConfiguredEffect
 import com.willfp.reforges.effects.Effects
 import com.willfp.reforges.reforges.meta.ReforgeTarget
@@ -29,6 +31,11 @@ class Reforge(
     val effects = config.getSubsections("effects").map {
         val effect = Effects.getByID(it.getString("id")) ?: return@map null
         ConfiguredEffect(effect, it)
+    }.filterNotNull().toSet()
+
+    val conditions = config.getSubsections("conditions").map {
+        val condition = Conditions.getByID(it.getString("id")) ?: return@map null
+        ConfiguredCondition(condition, it)
     }.filterNotNull().toSet()
 
     val requiresStone = config.getBool("stone.enabled")
@@ -62,24 +69,24 @@ class Reforge(
     }
 
     fun handleApplication(itemStack: ItemStack) {
-        handleRemoval(itemStack)
-        itemStack.itemMeta = this.handleApplication(itemStack.itemMeta!!)
+        itemStack.itemMeta = this.handleApplication(itemStack.itemMeta ?: return)
     }
 
     fun handleApplication(meta: ItemMeta): ItemMeta {
+        handleRemoval(meta)
         for ((effect, config) in this.effects) {
-            effect.handleApplication(meta, config)
+            effect.handleEnabling(meta, config)
         }
         return meta
     }
 
     fun handleRemoval(itemStack: ItemStack) {
-        itemStack.itemMeta = this.handleRemoval(itemStack.itemMeta!!)
+        itemStack.itemMeta = this.handleRemoval(itemStack.itemMeta ?: return)
     }
 
     fun handleRemoval(meta: ItemMeta): ItemMeta {
         for ((effect, _) in this.effects) {
-            effect.handleRemoval(meta)
+            effect.handleDisabling(meta)
         }
         return meta
     }

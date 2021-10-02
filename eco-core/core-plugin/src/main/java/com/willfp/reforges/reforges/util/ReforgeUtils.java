@@ -3,11 +3,13 @@ package com.willfp.reforges.reforges.util;
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
+import com.willfp.reforges.reforges.ReforgeLookup;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -18,7 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @UtilityClass
 public class ReforgeUtils {
@@ -95,6 +99,32 @@ public class ReforgeUtils {
         }
 
         return status;
+    }
+
+    /**
+     * Get reforges on a player.
+     *
+     * @param player The player.
+     * @return The reforges.
+     */
+    public static Set<Reforge> getReforgesOnPlayer(@NotNull final Player player) {
+        Set<Reforge> found = new HashSet<>();
+
+        for (ItemStack itemStack : ReforgeLookup.provide(player)) {
+            if (itemStack == null) {
+                continue;
+            }
+
+            Reforge reforge = getReforge(itemStack);
+
+            if (reforge == null) {
+                continue;
+            }
+
+            found.add(reforge);
+        }
+
+        return found;
     }
 
     /**

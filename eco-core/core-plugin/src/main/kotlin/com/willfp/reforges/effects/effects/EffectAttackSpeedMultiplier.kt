@@ -7,14 +7,14 @@ import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.meta.ItemMeta
 
 class EffectAttackSpeedMultiplier : Effect("attack_speed_multiplier") {
-    override fun handleApplication(
+    override fun handleEnabling(
         meta: ItemMeta,
         config: JSONConfig
     ) {
         meta.addAttributeModifier(
             Attribute.GENERIC_ATTACK_SPEED,
             AttributeModifier(
-                this.uuid,
+                this.getUUID(1),
                 this.id,
                 config.getDouble("multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
@@ -22,11 +22,11 @@ class EffectAttackSpeedMultiplier : Effect("attack_speed_multiplier") {
         )
     }
 
-    override fun handleRemoval(meta: ItemMeta) {
+    override fun handleDisabling(meta: ItemMeta) {
         meta.removeAttributeModifier(
             Attribute.GENERIC_ATTACK_SPEED,
             AttributeModifier(
-                this.uuid,
+                this.getUUID(1),
                 this.id,
                 0.0,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1

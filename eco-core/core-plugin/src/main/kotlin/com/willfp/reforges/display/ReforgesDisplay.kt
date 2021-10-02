@@ -6,8 +6,8 @@ import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.util.SkullUtils
+import com.willfp.eco.util.StringUtils
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.paper.toComponent
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import net.kyori.adventure.text.Component
@@ -81,7 +81,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                         .replacement("")
                         .build()
                 )
-                val newName = reforge.name.toComponent().decoration(TextDecoration.ITALIC, false)
+                val newName = StringUtils.toComponent(reforge.name).decoration(TextDecoration.ITALIC, false)
                     .append(Component.text(" ").append(displayName))
                 meta.displayName(newName)
             }
