@@ -62,7 +62,6 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected void handleAfterLoad() {
         EconomyHandler.setEnabled(EconomyHandler.init());
-        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
 
         if (!EconomyHandler.isEnabled()) {
             this.getLogger().severe("Vault economy support not enabled");
@@ -75,6 +74,7 @@ public class ReforgesPlugin extends EcoPlugin {
             HandlerList.unregisterAll(effect);
             this.getScheduler().run(() -> this.getEventManager().registerListener(effect));
         }
+        this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
         this.getScheduler().runTimer((Runnable) Conditions.HAS_PERMISSION, 103, 100);
     }
 
