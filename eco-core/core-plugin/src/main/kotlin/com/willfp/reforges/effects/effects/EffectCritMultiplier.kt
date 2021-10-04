@@ -13,7 +13,7 @@ class EffectCritMultiplier : Effect("crit_multiplier") {
         event: EntityDamageByEntityEvent,
         config: JSONConfig
     ) {
-        if (attacker.velocity.y > 0) {
+        if (attacker.velocity.y >= 0) {
             return
         }
         event.damage *= config.getDouble("multiplier")
