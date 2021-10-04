@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -83,6 +84,16 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
             return;
         }
 
+        refreshPlayer(event.getPlayer());
+    }
+
+    /**
+     * Called on slot change.
+     *
+     * @param event The event to listen for.
+     */
+    @EventHandler
+    public void onChangeSlot(@NotNull final PlayerItemHeldEvent event) {
         refreshPlayer(event.getPlayer());
     }
 

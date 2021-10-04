@@ -100,7 +100,7 @@ public class ReforgeUtils {
      * Get reforge on an item.
      *
      * @param item The item to query.
-     * @return The found reforge, or null if none active.
+     * @return The found reforge, or null.
      */
     public static Reforge getReforge(@Nullable final ItemStack item) {
         if (item == null) {
@@ -120,7 +120,7 @@ public class ReforgeUtils {
      * Get reforge on an item.
      *
      * @param meta The item to query.
-     * @return The found reforge, or null if none active.
+     * @return The found reforge, or null.
      */
     public static Reforge getReforge(@Nullable final ItemMeta meta) {
         if (meta == null) {
@@ -175,7 +175,7 @@ public class ReforgeUtils {
      * Get reforge stone on an item.
      *
      * @param item The item to query.
-     * @return The found reforge, or null if none active.
+     * @return The found reforge, or null.
      */
     public static Reforge getReforgeStone(@Nullable final ItemStack item) {
         if (item == null) {
@@ -195,7 +195,7 @@ public class ReforgeUtils {
      * Get reforge stone on an item.
      *
      * @param meta The item to query.
-     * @return The found reforge, or null if none active.
+     * @return The found reforge, or null.
      */
     public static Reforge getReforgeStone(@Nullable final ItemMeta meta) {
         if (meta == null) {
