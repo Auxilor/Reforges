@@ -14,6 +14,8 @@ class EffectRewardBlockBreak : Effect("reward_kill") {
         event: BlockBreakEvent,
         config: JSONConfig
     ) {
-        EconomyHandler.getInstance().depositPlayer(player, config.getDouble("amount"))
+        if (EconomyHandler.isEnabled()) {
+            EconomyHandler.getInstance().depositPlayer(player, config.getDouble("amount"))
+        }
     }
 }

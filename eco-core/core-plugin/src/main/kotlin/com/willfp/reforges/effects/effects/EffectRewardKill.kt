@@ -14,6 +14,8 @@ class EffectRewardKill : Effect("reward_kill") {
         event: EntityDeathByEntityEvent,
         config: JSONConfig
     ) {
-        EconomyHandler.getInstance().depositPlayer(killer, config.getDouble("amount"))
+        if (EconomyHandler.isEnabled()) {
+            EconomyHandler.getInstance().depositPlayer(killer, config.getDouble("amount"))
+        }
     }
 }
