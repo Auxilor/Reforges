@@ -43,7 +43,7 @@ public interface Watcher {
      * @param event    The event.
      * @param config   The effect config.
      */
-    default void onAnyDamage(@NotNull final LivingEntity attacker,
+    default void onAnyDamage(@NotNull final Player attacker,
                              @NotNull final LivingEntity victim,
                              @NotNull final EntityDamageByEntityEvent event,
                              @NotNull final JSONConfig config) {
@@ -59,7 +59,7 @@ public interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    default void onArrowDamage(@NotNull final LivingEntity attacker,
+    default void onArrowDamage(@NotNull final Player attacker,
                                @NotNull final LivingEntity victim,
                                @NotNull final Arrow arrow,
                                @NotNull final EntityDamageByEntityEvent event,
@@ -76,7 +76,7 @@ public interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    default void onTridentDamage(@NotNull final LivingEntity attacker,
+    default void onTridentDamage(@NotNull final Player attacker,
                                  @NotNull final LivingEntity victim,
                                  @NotNull final Trident trident,
                                  @NotNull final EntityDamageByEntityEvent event,
@@ -105,7 +105,7 @@ public interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    default void onMeleeAttack(@NotNull final LivingEntity attacker,
+    default void onMeleeAttack(@NotNull final Player attacker,
                                @NotNull final LivingEntity victim,
                                @NotNull final EntityDamageByEntityEvent event,
                                @NotNull final JSONConfig config) {
@@ -120,7 +120,7 @@ public interface Watcher {
      * @param event      The event that called this watcher.
      * @param config     The effect config.
      */
-    default void onProjectileLaunch(@NotNull final LivingEntity shooter,
+    default void onProjectileLaunch(@NotNull final Player shooter,
                                     @NotNull final Projectile projectile,
                                     @NotNull final ProjectileLaunchEvent event,
                                     @NotNull final JSONConfig config) {
@@ -134,7 +134,7 @@ public interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    default void onFallDamage(@NotNull final LivingEntity faller,
+    default void onFallDamage(@NotNull final Player faller,
                               @NotNull final EntityDamageEvent event,
                               @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
@@ -147,7 +147,7 @@ public interface Watcher {
      * @param event   The event that called this watcher.
      * @param config  The effect config.
      */
-    default void onProjectileHit(@NotNull final LivingEntity shooter,
+    default void onProjectileHit(@NotNull final Player shooter,
                                  @NotNull final ProjectileHitEvent event,
                                  @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
@@ -161,7 +161,7 @@ public interface Watcher {
      * @param event  The event.
      * @param config The effect config.
      */
-    default void onKill(@NotNull final LivingEntity killer,
+    default void onKill(@NotNull final Player killer,
                         @NotNull final LivingEntity victim,
                         @NotNull final EntityDeathByEntityEvent event,
                         @NotNull final JSONConfig config) {
@@ -175,7 +175,7 @@ public interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    default void onDamageWearingArmor(@NotNull final LivingEntity victim,
+    default void onDamageWearingArmor(@NotNull final Player victim,
                                       @NotNull final EntityDamageEvent event,
                                       @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
@@ -189,7 +189,7 @@ public interface Watcher {
      * @param event   The event that called this watcher.
      * @param config  The effect config.
      */
-    default void onTridentLaunch(@NotNull final LivingEntity shooter,
+    default void onTridentLaunch(@NotNull final Player shooter,
                                  @NotNull final Trident trident,
                                  @NotNull final ProjectileLaunchEvent event,
                                  @NotNull final JSONConfig config) {

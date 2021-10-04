@@ -1,9 +1,9 @@
-package com.willfp.reforges.reforges;
+package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
-import com.willfp.reforges.reforges.util.ReforgeUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -127,6 +127,31 @@ public class ReforgeLookup {
         ITEM_CACHE.remove(player.getUniqueId());
     }
 
+    /**
+     * Update reforges for a player.
+     *
+     * @param player The player.
+     */
+    public static void updateReforges(@NotNull final Player player) {
+        List<Reforge> before = ReforgeLookup.provideReforges(player);
+        ReforgeLookup.clearCaches(player);
+        PLUGIN.getScheduler().run(() -> {
+            List<Reforge> after = ReforgeLookup.provideReforges(player);
+            List<Reforge> added = new ArrayList<>(after);
+            added.removeAll(before);
+
+            for (Reforge reforge : added) {
+                reforge.handleActivation(player);
+            }
+
+            before.removeAll(after);
+
+            for (Reforge reforge : before) {
+                reforge.handleDeactivation(player);
+            }
+        });
+    }
+
     static {
         registerProvider(player -> Map.of(
                 player.getInventory().getItemInMainHand(),
@@ -136,7 +161,7 @@ public class ReforgeLookup {
                 player.getInventory().getItemInOffHand(),
                 ReforgeTarget.Slot.HANDS
         ));
-        registerProvider(player ->  {
+        registerProvider(player -> {
             Map<ItemStack, ReforgeTarget.Slot> items = new HashMap<>();
             for (ItemStack stack : player.getInventory().getArmorContents()) {
                 items.put(stack, ReforgeTarget.Slot.ARMOR);

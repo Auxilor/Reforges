@@ -9,15 +9,11 @@ import org.bukkit.entity.Player
 
 class EffectRewardKill : Effect("reward_kill") {
     override fun onKill(
-        killer: LivingEntity,
+        killer: Player,
         victim: LivingEntity,
         event: EntityDeathByEntityEvent,
         config: JSONConfig
     ) {
-        if (killer !is Player) {
-            return
-        }
-
         EconomyHandler.getInstance().depositPlayer(killer, config.getDouble("amount"))
     }
 }

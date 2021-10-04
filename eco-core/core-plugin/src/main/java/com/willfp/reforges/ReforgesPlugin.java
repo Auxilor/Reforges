@@ -6,7 +6,6 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.items.Items;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
-import com.willfp.reforges.conditions.Conditions;
 import com.willfp.reforges.config.ReforgesJson;
 import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
@@ -14,9 +13,9 @@ import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.effects.Effects;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
+import com.willfp.reforges.reforges.util.ReforgeEnableListeners;
+import com.willfp.reforges.reforges.util.ReforgeLookup;
 import com.willfp.reforges.reforges.util.WatcherTriggers;
-import com.willfp.reforges.reforges.util.equip.ReforgeEnableListeners;
-import com.willfp.reforges.reforges.util.equip.SyncReforgeEnableTask;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import com.willfp.reforges.vault.EconomyHandler;
@@ -79,10 +78,9 @@ public class ReforgesPlugin extends EcoPlugin {
             this.getScheduler().run(() -> this.getEventManager().registerListener(effect));
         }
         this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
-        this.getScheduler().runTimer((Runnable) Conditions.HAS_PERMISSION, 103, 100);
         this.getScheduler().runTimer(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                SyncReforgeEnableTask.CHECK.accept(player);
+                ReforgeLookup.updateReforges(player);
             }
         }, 81, 81);
     }

@@ -6,7 +6,6 @@ import com.willfp.eco.core.events.PlayerJumpEvent
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager
 import com.willfp.eco.util.NumberUtils
-import com.willfp.reforges.reforges.ReforgeLookup
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

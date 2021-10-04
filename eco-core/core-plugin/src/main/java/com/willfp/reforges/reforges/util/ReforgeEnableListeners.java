@@ -1,4 +1,4 @@
-package com.willfp.reforges.reforges.util.equip;
+package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
@@ -14,8 +14,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implements Listener {
@@ -85,12 +83,7 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
             return;
         }
 
-        refreshPlayer(event.getPlayer(), event.getItemDrop().getItemStack());
-    }
-
-    @EventHandler
-    public void onSwitchHands(@NotNull final PlayerSwapHandItemsEvent event) {
-        refreshPlayer(event.getPlayer(), event.getPlayer().getInventory().getItemInOffHand());
+        refreshPlayer(event.getPlayer());
     }
 
     /**
@@ -116,8 +109,7 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
         this.getPlugin().getServer().getOnlinePlayers().forEach(this::refreshPlayer);
     }
 
-    private void refreshPlayer(@NotNull final Player player,
-                               @NotNull final ItemStack... extra) {
-        SyncReforgeEnableTask.CHECK.accept(player);
+    private void refreshPlayer(@NotNull final Player player) {
+        ReforgeLookup.updateReforges(player);
     }
 }
