@@ -27,11 +27,9 @@ fun ItemStack.updateReforge(player: Player, condition: Condition) {
         }
 
         if (allow) {
-            reforge.handleApplication(meta)
+            reforge.handleActivation(player)
         } else {
-            reforge.handleRemoval(meta)
+            reforge.handleActivation(player)
         }
-
-        this.itemMeta = meta
     }
 }
