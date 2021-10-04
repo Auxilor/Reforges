@@ -137,19 +137,63 @@ public class ReforgeLookup {
         ReforgeLookup.clearCaches(player);
         PLUGIN.getScheduler().run(() -> {
             List<Reforge> after = ReforgeLookup.provideReforges(player);
-            List<Reforge> added = new ArrayList<>(after);
-            added.removeAll(before);
+            Map<Reforge, Integer> beforeFrequency = listToFrequencyMap(before);
+            Map<Reforge, Integer> afterFrequency = listToFrequencyMap(after);
+
+            List<Reforge> added = new ArrayList<>();
+            List<Reforge> removed = new ArrayList<>();
+
+            for (Map.Entry<Reforge, Integer> entry : new HashSet<>(afterFrequency.entrySet())) {
+                int amount = entry.getValue();
+                Reforge reforge = entry.getKey();
+
+                amount -= beforeFrequency.getOrDefault(reforge, 0);
+
+                if (amount < 1) {
+                    continue;
+                }
+
+                for (int i = 0; i < amount; i++) {
+                    added.add(reforge);
+                }
+            }
+
+            for (Map.Entry<Reforge, Integer> entry : new HashSet<>(beforeFrequency.entrySet())) {
+                int amount = entry.getValue();
+                Reforge reforge = entry.getKey();
+
+                amount -= afterFrequency.getOrDefault(reforge, 0);
+
+                if (amount < 1) {
+                    continue;
+                }
+
+                for (int i = 0; i < amount; i++) {
+                    removed.add(reforge);
+                }
+            }
 
             for (Reforge reforge : added) {
                 reforge.handleActivation(player);
             }
 
-            before.removeAll(after);
-
-            for (Reforge reforge : before) {
+            for (Reforge reforge : removed) {
                 reforge.handleDeactivation(player);
             }
         });
+    }
+
+    private static <T> Map<T, Integer> listToFrequencyMap(@NotNull final List<T> list) {
+        Map<T, Integer> frequencyMap = new HashMap<>();
+        for (T object : list) {
+            if (frequencyMap.containsKey(object)) {
+                frequencyMap.put(object, frequencyMap.get(object) + 1);
+            } else {
+                frequencyMap.put(object, 1);
+            }
+        }
+
+        return frequencyMap;
     }
 
     static {

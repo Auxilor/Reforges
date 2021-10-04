@@ -70,7 +70,6 @@ class Reforge(
     }
 
     fun handleActivation(player: Player) {
-        handleDeactivation(player)
         for ((effect, config) in this.effects) {
             effect.handleEnabling(player, config)
         }
