@@ -4,16 +4,13 @@ import com.willfp.eco.core.config.interfaces.JSONConfig
 import com.willfp.reforges.effects.Effect
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
-import org.bukkit.inventory.ItemFlag
-import org.bukkit.inventory.meta.ItemMeta
+import org.bukkit.entity.Player
 
 class EffectKnockbackMultiplier : Effect("knockback_multiplier") {
-    override fun handleEnabling(
-        meta: ItemMeta,
-        config: JSONConfig
-    ) {
-        meta.addAttributeModifier(
-            Attribute.GENERIC_ATTACK_KNOCKBACK,
+    override fun handleEnabling(player: Player,
+                                config: JSONConfig) {
+        val attribute = player.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK) ?: return
+        attribute.addModifier(
             AttributeModifier(
                 this.getUUID(1),
                 this.id,
@@ -21,13 +18,11 @@ class EffectKnockbackMultiplier : Effect("knockback_multiplier") {
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1
             )
         )
-
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
     }
 
-    override fun handleDisabling(meta: ItemMeta) {
-        meta.removeAttributeModifier(
-            Attribute.GENERIC_ATTACK_KNOCKBACK,
+    override fun handleDisabling(player: Player) {
+        val attribute = player.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK) ?: return
+        attribute.removeModifier(
             AttributeModifier(
                 this.getUUID(1),
                 this.id,

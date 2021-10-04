@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.config.yaml.YamlBaseConfig;
 import com.willfp.eco.core.items.Items;
 import com.willfp.eco.core.items.TestableItem;
+import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
@@ -37,7 +38,17 @@ public class TargetYml extends YamlBaseConfig {
      */
     public Set<TestableItem> getTargetItems(@NotNull final String target) {
         Set<TestableItem> items = new HashSet<>();
-        this.getStrings(target, false).forEach(s -> items.add(Items.lookup(s.toUpperCase())));
+        this.getStrings(target + ".items", false).forEach(s -> items.add(Items.lookup(s.toUpperCase())));
         return items;
+    }
+
+    /**
+     * Get all materials from a target name.
+     *
+     * @param target The name of the target.
+     * @return All materials.
+     */
+    public ReforgeTarget.Slot getSlot(@NotNull final String target) {
+        return ReforgeTarget.Slot.valueOf(this.getString(target + ".slot").toUpperCase());
     }
 }

@@ -5,8 +5,8 @@ import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.util.Watcher;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -59,21 +59,21 @@ public abstract class Effect implements Listener, Watcher {
     /**
      * Handle application of a reforge containing this effect.
      *
-     * @param meta   The ItemMeta.
+     * @param player The player.
      * @param config The config.
      */
-    public void handleEnabling(@NotNull final ItemMeta meta,
+    public void handleEnabling(@NotNull final Player player,
                                @NotNull final JSONConfig config) {
-        // Override when needed
+        // Override when needed.
     }
 
     /**
      * Handle removal of a reforge containing this effect.
      *
-     * @param meta The ItemMeta.
+     * @param player The player.
      */
-    public void handleDisabling(@NotNull final ItemMeta meta) {
-        // Override when needed
+    public void handleDisabling(@NotNull final Player player) {
+        // Override when needed.
     }
 
     @Override

@@ -15,10 +15,14 @@ import com.willfp.reforges.effects.Effects;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.WatcherTriggers;
+import com.willfp.reforges.reforges.util.equip.ReforgeEnableListeners;
+import com.willfp.reforges.reforges.util.equip.SyncReforgeEnableTask;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
@@ -76,6 +80,11 @@ public class ReforgesPlugin extends EcoPlugin {
         }
         this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
         this.getScheduler().runTimer((Runnable) Conditions.HAS_PERMISSION, 103, 100);
+        this.getScheduler().runTimer(() -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                SyncReforgeEnableTask.CHECK.accept(player);
+            }
+        }, 81, 81);
     }
 
     @Override
@@ -83,7 +92,8 @@ public class ReforgesPlugin extends EcoPlugin {
         return Arrays.asList(
                 new DiscoverRecipeListener(this),
                 new AntiPlaceListener(),
-                new WatcherTriggers(this)
+                new WatcherTriggers(this),
+                new ReforgeEnableListeners(this)
         );
     }
 
@@ -102,7 +112,7 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     public String getMinimumEcoVersion() {
-        return "6.8.0";
+        return "6.9.0";
     }
 
     /**

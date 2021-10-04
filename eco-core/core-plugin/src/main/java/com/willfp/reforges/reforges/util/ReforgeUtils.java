@@ -151,12 +151,6 @@ public class ReforgeUtils {
             return;
         }
 
-        Reforge previous = getReforge(item);
-
-        if (previous != null) {
-            previous.handleRemoval(item);
-        }
-
         ItemMeta meta = item.getItemMeta();
 
         setReforge(meta, reforge);
@@ -175,8 +169,6 @@ public class ReforgeUtils {
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
         container.set(REFORGE_KEY, PersistentDataType.STRING, reforge.getId());
-
-        reforge.handleApplication(meta);
     }
 
     /**

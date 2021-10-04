@@ -12,10 +12,11 @@ import com.willfp.reforges.effects.ConfiguredEffect
 import com.willfp.reforges.effects.Effects
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.ItemMeta
 import java.util.*
 
+@Suppress("DEPRECATION")
 class Reforge(
     internal val config: JSONConfig,
     private val plugin: ReforgesPlugin
@@ -68,27 +69,17 @@ class Reforge(
         }
     }
 
-    fun handleApplication(itemStack: ItemStack) {
-        itemStack.itemMeta = this.handleApplication(itemStack.itemMeta ?: return)
-    }
-
-    fun handleApplication(meta: ItemMeta): ItemMeta {
-        handleRemoval(meta)
+    fun handleActivation(player: Player) {
+        handleDeactivation(player)
         for ((effect, config) in this.effects) {
-            effect.handleEnabling(meta, config)
+            effect.handleEnabling(player, config)
         }
-        return meta
     }
 
-    fun handleRemoval(itemStack: ItemStack) {
-        itemStack.itemMeta = this.handleRemoval(itemStack.itemMeta ?: return)
-    }
-
-    fun handleRemoval(meta: ItemMeta): ItemMeta {
+    fun handleDeactivation(player: Player) {
         for ((effect, _) in this.effects) {
-            effect.handleDisabling(meta)
+            effect.handleDisabling(player)
         }
-        return meta
     }
 
     override fun equals(other: Any?): Boolean {

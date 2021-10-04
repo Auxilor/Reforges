@@ -21,7 +21,7 @@ public class ReforgeTarget {
     /**
      * Target containing the materials from all other targets.
      */
-    public static final ReforgeTarget ALL = new ReforgeTarget("all", new HashSet<>());
+    public static final ReforgeTarget ALL = new ReforgeTarget("all", Slot.ANY, new HashSet<>());
 
     /**
      * All registered targets.
@@ -38,11 +38,18 @@ public class ReforgeTarget {
      */
     @Getter
     private final String name;
+
     /**
      * The materials of the target.
      */
     @Getter
     private final Set<TestableItem> items;
+
+    /**
+     * The slot for the target.
+     */
+    @Getter
+    private final Slot slot;
 
     /**
      * Create new target.
@@ -51,10 +58,12 @@ public class ReforgeTarget {
      * @param items The items for the target.
      */
     public ReforgeTarget(@NotNull final String name,
+                         @NotNull final Slot slot,
                          @NotNull final Set<TestableItem> items) {
         this.name = name;
         items.removeIf(item -> item instanceof EmptyTestableItem);
         this.items = items;
+        this.slot = slot;
     }
 
     /**
@@ -115,7 +124,11 @@ public class ReforgeTarget {
         }
 
         for (String id : plugin.getTargetYml().getTargets()) {
-            ReforgeTarget target = new ReforgeTarget(id, plugin.getTargetYml().getTargetItems(id));
+            ReforgeTarget target = new ReforgeTarget(
+                    id,
+                    plugin.getTargetYml().getSlot(id),
+                    plugin.getTargetYml().getTargetItems(id)
+            );
             REGISTERED.put(id, target);
             ALL.items.addAll(target.items);
         }
@@ -128,5 +141,14 @@ public class ReforgeTarget {
      */
     public static Set<ReforgeTarget> values() {
         return ImmutableSet.copyOf(REGISTERED.values());
+    }
+
+    /**
+     * Reforge slots.
+     */
+    public enum Slot {
+        HANDS,
+        ARMOR,
+        ANY
     }
 }
