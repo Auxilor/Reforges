@@ -62,8 +62,15 @@ public abstract class Effect implements Listener, Watcher {
      * @param player The player.
      * @param config The config.
      */
-    public void handleEnabling(@NotNull final Player player,
-                               @NotNull final JSONConfig config) {
+    public final void handleEnabling(@NotNull final Player player,
+                                     @NotNull final JSONConfig config) {
+        PlayerEffectStack.pushEffect(player, this);
+
+        this.handleEnable(player, config);
+    }
+
+    protected void handleEnable(@NotNull final Player player,
+                                @NotNull final JSONConfig config) {
         // Override when needed.
     }
 
@@ -72,7 +79,13 @@ public abstract class Effect implements Listener, Watcher {
      *
      * @param player The player.
      */
-    public void handleDisabling(@NotNull final Player player) {
+    public final void handleDisabling(@NotNull final Player player) {
+        this.handleDisable(player);
+
+        PlayerEffectStack.popEffect(player, this);
+    }
+
+    protected void handleDisable(@NotNull final Player player) {
         // Override when needed.
     }
 
