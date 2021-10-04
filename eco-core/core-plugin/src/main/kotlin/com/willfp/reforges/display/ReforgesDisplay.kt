@@ -91,11 +91,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     }
 
     override fun revert(itemStack: ItemStack) {
-        val target = ReforgeTarget.getForItem(itemStack)
-
-        if (target == null && itemStack.type != Material.PLAYER_HEAD) {
-            return
-        }
+        ReforgeTarget.getForItem(itemStack) ?: return
 
         val meta = itemStack.itemMeta ?: return
 
