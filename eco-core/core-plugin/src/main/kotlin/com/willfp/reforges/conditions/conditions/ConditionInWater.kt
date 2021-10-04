@@ -16,6 +16,10 @@ class ConditionInWater: Condition("in_water") {
     fun handle(event: PlayerMoveEvent) {
         val player = event.player
 
+        if (event.from.world?.getBlockAt(event.from)?.type == event.to.world?.getBlockAt(event.to)?.type) {
+            return
+        }
+
         ReforgeLookup.updateReforges(player)
     }
 

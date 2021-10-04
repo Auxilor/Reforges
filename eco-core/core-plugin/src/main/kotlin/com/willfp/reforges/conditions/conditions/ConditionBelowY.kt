@@ -16,6 +16,10 @@ class ConditionBelowY: Condition("below_y") {
     fun handle(event: PlayerMoveEvent) {
         val player = event.player
 
+        if (event.from.y == event.to.y) {
+            return
+        }
+
         ReforgeLookup.updateReforges(player)
     }
 

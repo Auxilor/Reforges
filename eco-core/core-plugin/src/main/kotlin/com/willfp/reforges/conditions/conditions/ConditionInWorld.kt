@@ -16,6 +16,10 @@ class ConditionInWorld: Condition("in_world") {
     fun handle(event: PlayerMoveEvent) {
         val player = event.player
 
+        if (event.from.world == event.to.world) {
+            return
+        }
+
         ReforgeLookup.updateReforges(player)
     }
 

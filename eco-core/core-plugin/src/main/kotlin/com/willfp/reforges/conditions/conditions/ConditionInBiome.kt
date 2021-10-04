@@ -16,6 +16,10 @@ class ConditionInBiome: Condition("in_biome") {
     fun handle(event: PlayerMoveEvent) {
         val player = event.player
 
+        if (event.from.world?.getBiome(event.from) == event.to.world?.getBiome(event.to)) {
+            return
+        }
+
         ReforgeLookup.updateReforges(player)
     }
 
