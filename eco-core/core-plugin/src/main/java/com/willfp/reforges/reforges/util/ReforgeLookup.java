@@ -2,6 +2,7 @@ package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.conditions.ConfiguredCondition;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import org.bukkit.entity.Player;
@@ -174,11 +175,33 @@ public class ReforgeLookup {
             }
 
             for (Reforge reforge : added) {
-                reforge.handleActivation(player);
+                boolean areConditionsMet = true;
+                for (ConfiguredCondition condition : reforge.getConditions()) {
+                    if (!condition.getCondition().isConditionMet(player, condition.getConfig())) {
+                        areConditionsMet = false;
+                        break;
+                    }
+                }
+                if (areConditionsMet) {
+                    reforge.handleActivation(player);
+                }
             }
 
             for (Reforge reforge : removed) {
                 reforge.handleDeactivation(player);
+            }
+
+            for (Reforge reforge : after) {
+                boolean areConditionsMet = true;
+                for (ConfiguredCondition condition : reforge.getConditions()) {
+                    if (!condition.getCondition().isConditionMet(player, condition.getConfig())) {
+                        areConditionsMet = false;
+                        break;
+                    }
+                }
+                if (!areConditionsMet) {
+                    reforge.handleDeactivation(player);
+                }
             }
         });
     }
