@@ -10,6 +10,7 @@ depend:
   - ProtocolLib
 softdepend:
   - Vault
+  - EcoSkills
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 

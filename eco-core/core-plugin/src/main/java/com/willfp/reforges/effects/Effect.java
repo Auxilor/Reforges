@@ -5,6 +5,7 @@ import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.util.Watcher;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -54,6 +55,16 @@ public abstract class Effect implements Listener, Watcher {
     protected UUID getUUID(final int index,
                            @NotNull final Object... extra) {
         return UUID.nameUUIDFromBytes((this.id + index + Arrays.hashCode(extra)).getBytes());
+    }
+
+    /**
+     * Generate a NamespacedKey with a specified index.
+     *
+     * @param index The index.
+     * @return The NamespacedKey.
+     */
+    protected NamespacedKey getNamespacedKey(final int index) {
+        return this.getPlugin().getNamespacedKeyFactory().create(this.id + "_" + index);
     }
 
     /**

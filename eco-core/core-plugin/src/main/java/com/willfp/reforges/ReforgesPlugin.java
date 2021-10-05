@@ -3,6 +3,7 @@ package com.willfp.reforges;
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.command.impl.PluginCommand;
 import com.willfp.eco.core.display.DisplayModule;
+import com.willfp.eco.core.integrations.IntegrationLoader;
 import com.willfp.eco.core.items.Items;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
@@ -11,6 +12,7 @@ import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.effects.Effects;
+import com.willfp.reforges.integrations.ecoskills.EcoSkillsIntegration;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.ReforgeEnableListeners;
@@ -106,6 +108,13 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected @Nullable DisplayModule createDisplayModule() {
         return new ReforgesDisplay(this);
+    }
+
+    @Override
+    protected List<IntegrationLoader> loadIntegrationLoaders() {
+        return Arrays.asList(
+                new IntegrationLoader("EcoSkills", EcoSkillsIntegration.INSTANCE::load)
+        );
     }
 
     @Override
