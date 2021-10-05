@@ -13,9 +13,11 @@ class EffectKnockbackMultiplier : Effect("knockback_multiplier") {
         config: JSONConfig
     ) {
         val attribute = player.getAttribute(Attribute.GENERIC_ATTACK_KNOCKBACK) ?: return
+        val uuid = this.getUUID(player.getEffectAmount(this))
+        attribute.removeModifier(AttributeModifier(uuid, this.id, 0.0, AttributeModifier.Operation.MULTIPLY_SCALAR_1))
         attribute.addModifier(
             AttributeModifier(
-                this.getUUID(player.getEffectAmount(this)),
+                uuid,
                 this.id,
                 config.getDouble("multiplier") - 1,
                 AttributeModifier.Operation.MULTIPLY_SCALAR_1

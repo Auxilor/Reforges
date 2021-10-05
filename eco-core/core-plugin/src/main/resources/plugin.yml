@@ -11,6 +11,7 @@ depend:
 softdepend:
   - Vault
   - EcoSkills
+  - Talismans
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 
