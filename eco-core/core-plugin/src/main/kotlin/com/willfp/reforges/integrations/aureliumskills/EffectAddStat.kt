@@ -7,8 +7,7 @@ import com.willfp.reforges.effects.Effect
 import com.willfp.reforges.effects.getEffectAmount
 import org.bukkit.entity.Player
 
-class EffectAddStat : Effect("add_aureliumskills_stat") {
-
+class EffectAddStat : Effect("add_stat") {
     override fun handleEnable(
         player: Player,
         config: JSONConfig

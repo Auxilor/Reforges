@@ -12,6 +12,7 @@ softdepend:
   - Vault
   - EcoSkills
   - Talismans
+  - AureliumSkills
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 
