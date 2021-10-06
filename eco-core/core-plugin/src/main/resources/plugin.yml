@@ -13,6 +13,7 @@ softdepend:
   - EcoSkills
   - Talismans
   - AureliumSkills
+  - PlayerPoints
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
 

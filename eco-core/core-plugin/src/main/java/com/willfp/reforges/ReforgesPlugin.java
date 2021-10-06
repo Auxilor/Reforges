@@ -117,6 +117,7 @@ public class ReforgesPlugin extends EcoPlugin {
         return Arrays.asList(
                 new IntegrationLoader("EcoSkills", EcoSkillsIntegration.INSTANCE::load),
                 new IntegrationLoader("Talismans", TalismansIntegration.INSTANCE::registerProvider),
+                new IntegrationLoader("PlayerPoints", () -> EconomyHandler.setUsePlayerPoints(true)),
                 new IntegrationLoader("AureliumSkills", AureliumSkillsIntegration.INSTANCE::load)
         );
     }

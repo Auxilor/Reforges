@@ -30,6 +30,7 @@ allprojects {
         maven { url 'https://jitpack.io' }
         maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
         maven { url 'https://papermc.io/repo/repository/maven-public/' }
+        maven { url 'https://repo.rosewooddev.io/repository/public/' }
     }
 
     jar {
@@ -37,6 +38,7 @@ allprojects {
     }
 
     dependencies {
+        compileOnly 'org.black_ixx:playerpoints:3.0.0'
         compileOnly 'com.willfp:eco:6.9.0'
 
         compileOnly 'org.jetbrains:annotations:19.0.0'
