@@ -10,6 +10,7 @@ import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.items.builder.ItemStackBuilder;
 import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
+import com.willfp.reforges.reforges.util.MetadatedReforgeStatus;
 import com.willfp.reforges.reforges.util.ReforgeHandler;
 import com.willfp.reforges.reforges.util.ReforgeStatus;
 import com.willfp.reforges.reforges.util.ReforgeUtils;
@@ -49,13 +50,16 @@ public class ReforgeGUI {
                         return;
                     }
 
-                    ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
+                    MetadatedReforgeStatus metadatedReforgeStatus = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
+                    ReforgeStatus status = metadatedReforgeStatus.status();
 
                     double cost = plugin.getConfigYml().getDouble("reforge.cost");
                     if (status == ReforgeStatus.ALLOW) {
                         ItemStack item = menu.getCaptiveItems(player).get(0);
                         int reforges = ReforgeUtils.getReforges(item);
                         cost *= Math.pow(plugin.getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+                    } else if (status == ReforgeStatus.ALLOW_STONE) {
+                        cost = metadatedReforgeStatus.cost();
                     }
 
                     int xpcost = plugin.getConfigYml().getInt("reforge.xp-cost");
@@ -72,7 +76,7 @@ public class ReforgeGUI {
                             List<String> lore = new ArrayList<>();
                             for (String string : plugin.getConfigYml().getStrings("gui.invalid-item.lore")) {
                                 lore.add(string.replace("%cost%", NumberUtils.format(cost))
-                                .replace("%xpcost%", NumberUtils.format(xpcost)));
+                                        .replace("%xpcost%", NumberUtils.format(xpcost)));
                             }
                             meta.setLore(lore);
                         }
@@ -146,7 +150,7 @@ public class ReforgeGUI {
                                     .setDisplayName("&r")
                                     .build()
                     ).setModifier((player, menu, previous) -> {
-                        ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player));
+                        ReforgeStatus status = ReforgeUtils.getStatus(menu.getCaptiveItems(player)).status();
                         if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
                             previous.setType(allowMaterial);
                         } else {

@@ -50,6 +50,8 @@ class Reforge(
         }
     }.build()
 
+    val stonePrice = config.getIntOrNull("stone.price") ?: -1
+
     init {
         ReforgeUtils.setReforgeStone(stone, this)
 
