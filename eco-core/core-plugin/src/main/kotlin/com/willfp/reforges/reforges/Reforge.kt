@@ -53,7 +53,11 @@ class Reforge(
     val stonePrice = config.getIntOrNull("stone.price") ?: -1
 
     init {
+        Reforges.addNewReforge(this)
+
         ReforgeUtils.setReforgeStone(stone, this)
+
+        Display.display(stone)
 
         CustomItem(
             plugin.namespacedKeyFactory.create("stone_" + this.id),

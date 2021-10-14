@@ -60,7 +60,7 @@ public class Reforges {
         }
 
         for (JSONConfig config : plugin.getReforgesJson().getSubsections("reforges")) {
-            addNewReforge(new Reforge(config, plugin));
+            new Reforge(config, plugin);
         }
     }
 

@@ -65,10 +65,12 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         if (stone != null) {
             meta.setDisplayName(plugin.configYml.getString("reforge.stone.name").replace("%reforge%", stone.name))
-            SkullUtils.setSkullTexture(
-                meta as SkullMeta,
-                stone.config.getString("stone.texture")
-            )
+            if (stone.config.has("stone.texture") && stone.config.getString("stone.texture").isNotEmpty()) {
+                SkullUtils.setSkullTexture(
+                    meta as SkullMeta,
+                    stone.config.getString("stone.texture")
+                )
+            }
             itemStack.itemMeta = meta
             val stoneLore = plugin.configYml.getStrings("reforge.stone.lore").map {
                 "${Display.PREFIX}${it.replace("%reforge%", stone.name)}"

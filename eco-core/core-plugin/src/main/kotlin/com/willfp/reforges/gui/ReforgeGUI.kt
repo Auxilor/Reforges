@@ -27,6 +27,7 @@ object ReforgeGUI {
         update(ReforgesPlugin.getInstance())
     }
 
+    @JvmStatic
     @ConfigUpdater
     fun update(plugin: EcoPlugin) {
         val handler = ReforgeHandler(plugin)
@@ -39,13 +40,13 @@ object ReforgeGUI {
 
                 val (status, specialCost) = ReforgeUtils.getStatus(menu.getCaptiveItems(player))
 
-                val cost: Double = when (status) {
-                    ReforgeStatus.ALLOW -> {
+                val cost: Double = when {
+                    status == ReforgeStatus.ALLOW || (status == ReforgeStatus.ALLOW_STONE && specialCost < 0) -> {
                         val amountOfReforges = ReforgeUtils.getReforges(menu.getCaptiveItems(player)[0])
                         plugin.configYml.getDouble("reforge.cost") *
                                 plugin.configYml.getDouble("reforge.cost-exponent").pow(amountOfReforges)
                     }
-                    ReforgeStatus.ALLOW_STONE -> {
+                    status == ReforgeStatus.ALLOW_STONE -> {
                         specialCost
                     }
                     else -> 0.0 // Never used, but at least kotlin can shut up
@@ -101,6 +102,8 @@ object ReforgeGUI {
                         }
                     }
                 }
+
+                previous.itemMeta = meta
             }
             onLeftClick(handler::handleReforgeClick)
         }.build()
