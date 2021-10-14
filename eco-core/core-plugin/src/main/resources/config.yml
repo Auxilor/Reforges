@@ -43,6 +43,10 @@ gui:
       - "100000001"
       - "100000001"
 
+  activator-slot:
+    row: 2
+    column: 5
+
   stone-slot:
     row: 4
     column: 7
