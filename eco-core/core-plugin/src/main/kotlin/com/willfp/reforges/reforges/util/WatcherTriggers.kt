@@ -222,7 +222,7 @@ class WatcherTriggers(
                 if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
                     continue
                 }
-                effect.onKill(killer, victim, event, config)
+                (effect as Watcher).onKill(killer, victim, event, config)
             }
         }
     }
