@@ -1,49 +1,36 @@
-package com.willfp.reforges.reforges.util;
+package com.willfp.reforges.reforges.util
 
-import com.willfp.eco.core.items.args.LookupArgParser;
-import com.willfp.reforges.reforges.Reforge;
-import com.willfp.reforges.reforges.Reforges;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import com.willfp.eco.core.items.args.LookupArgParser
+import com.willfp.reforges.reforges.Reforge
+import com.willfp.reforges.reforges.Reforges
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
+import java.util.function.Predicate
 
-import java.util.function.Predicate;
+class ReforgeArgParser : LookupArgParser {
+    override fun parseArguments(
+        args: Array<String>,
+        meta: ItemMeta
+    ): Predicate<ItemStack>? {
+        var reforge: Reforge? = null
 
-public class ReforgeArgParser implements LookupArgParser {
-    @Override
-    public @Nullable Predicate<ItemStack> parseArguments(@NotNull final String[] args,
-                                                         @NotNull final ItemMeta meta) {
-        Reforge reforge = null;
-        for (String arg : args) {
-            String[] split = arg.split(":");
-            if (split.length == 1 || !split[0].equalsIgnoreCase("reforge")) {
-                continue;
+        for (arg in args) {
+            val split = arg.split(":").toTypedArray()
+            if (split.size == 1 || !split[0].equals("reforge", ignoreCase = true)) {
+                continue
             }
-
-            Reforge match = Reforges.getByKey(split[1].toLowerCase());
-            if (match == null) {
-                continue;
-            }
-
-            reforge = match;
-            break;
+            val match = Reforges.getByKey(split[1].lowercase()) ?: continue
+            reforge = match
+            break
         }
 
-        if (reforge == null) {
-            return null;
+        reforge ?: return null
+
+        ReforgeUtils.setReforge(meta, reforge)
+
+        return Predicate { test ->
+            val testMeta = test.itemMeta ?: return@Predicate false
+            reforge == ReforgeUtils.getReforge(testMeta)
         }
-
-        ReforgeUtils.setReforge(meta, reforge);
-
-        Reforge finalReforge = reforge;
-        return test -> {
-            ItemMeta testMeta = test.getItemMeta();
-            if (testMeta == null) {
-                return false;
-            }
-
-            return finalReforge.equals(ReforgeUtils.getReforge(testMeta));
-        };
     }
 }
