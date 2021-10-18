@@ -1,18 +1,25 @@
-package com.willfp.reforges.reforges.util
+package com.willfp.reforges.reforges.util;
 
-import com.willfp.eco.core.config.interfaces.JSONConfig
-import com.willfp.eco.core.events.EntityDeathByEntityEvent
-import org.bukkit.block.Block
-import org.bukkit.entity.*
-import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.ProjectileHitEvent
-import org.bukkit.event.entity.ProjectileLaunchEvent
-import org.bukkit.event.player.PlayerItemDamageEvent
-import org.bukkit.event.player.PlayerMoveEvent
+import com.willfp.eco.core.config.interfaces.JSONConfig;
+import com.willfp.eco.core.events.EntityDeathByEntityEvent;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Arrow;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
+import org.bukkit.entity.Trident;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.player.PlayerItemDamageEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.jetbrains.annotations.NotNull;
 
-interface Watcher {
+@SuppressWarnings("unused")
+public interface Watcher {
+
     /**
      * Called when a player breaks a block.
      *
@@ -21,12 +28,10 @@ interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    fun onBlockBreak(
-        player: Player,
-        block: Block,
-        event: BlockBreakEvent,
-        config: JSONConfig
-    ) {
+    default void onBlockBreak(@NotNull final Player player,
+                              @NotNull final Block block,
+                              @NotNull final BlockBreakEvent event,
+                              @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -38,12 +43,10 @@ interface Watcher {
      * @param event    The event.
      * @param config   The effect config.
      */
-    fun onAnyDamage(
-        attacker: Player,
-        victim: LivingEntity,
-        event: EntityDamageByEntityEvent,
-        config: JSONConfig
-    ) {
+    default void onAnyDamage(@NotNull final Player attacker,
+                             @NotNull final LivingEntity victim,
+                             @NotNull final EntityDamageByEntityEvent event,
+                             @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -56,13 +59,11 @@ interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    fun onArrowDamage(
-        attacker: Player,
-        victim: LivingEntity,
-        arrow: Arrow,
-        event: EntityDamageByEntityEvent,
-        config: JSONConfig
-    ) {
+    default void onArrowDamage(@NotNull final Player attacker,
+                               @NotNull final LivingEntity victim,
+                               @NotNull final Arrow arrow,
+                               @NotNull final EntityDamageByEntityEvent event,
+                               @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -75,13 +76,11 @@ interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    fun onTridentDamage(
-        attacker: Player,
-        victim: LivingEntity,
-        trident: Trident,
-        event: EntityDamageByEntityEvent,
-        config: JSONConfig
-    ) {
+    default void onTridentDamage(@NotNull final Player attacker,
+                                 @NotNull final LivingEntity victim,
+                                 @NotNull final Trident trident,
+                                 @NotNull final EntityDamageByEntityEvent event,
+                                 @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -92,11 +91,9 @@ interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    fun onJump(
-        player: Player,
-        event: PlayerMoveEvent,
-        config: JSONConfig
-    ) {
+    default void onJump(@NotNull final Player player,
+                        @NotNull final PlayerMoveEvent event,
+                        @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -108,12 +105,10 @@ interface Watcher {
      * @param event    The event that called this watcher.
      * @param config   The effect config.
      */
-    fun onMeleeAttack(
-        attacker: Player,
-        victim: LivingEntity,
-        event: EntityDamageByEntityEvent,
-        config: JSONConfig
-    ) {
+    default void onMeleeAttack(@NotNull final Player attacker,
+                               @NotNull final LivingEntity victim,
+                               @NotNull final EntityDamageByEntityEvent event,
+                               @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -125,12 +120,10 @@ interface Watcher {
      * @param event      The event that called this watcher.
      * @param config     The effect config.
      */
-    fun onProjectileLaunch(
-        shooter: Player,
-        projectile: Projectile,
-        event: ProjectileLaunchEvent,
-        config: JSONConfig
-    ) {
+    default void onProjectileLaunch(@NotNull final Player shooter,
+                                    @NotNull final Projectile projectile,
+                                    @NotNull final ProjectileLaunchEvent event,
+                                    @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -141,11 +134,9 @@ interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    fun onFallDamage(
-        faller: Player,
-        event: EntityDamageEvent,
-        config: JSONConfig
-    ) {
+    default void onFallDamage(@NotNull final Player faller,
+                              @NotNull final EntityDamageEvent event,
+                              @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -156,11 +147,9 @@ interface Watcher {
      * @param event   The event that called this watcher.
      * @param config  The effect config.
      */
-    fun onProjectileHit(
-        shooter: Player,
-        event: ProjectileHitEvent,
-        config: JSONConfig
-    ) {
+    default void onProjectileHit(@NotNull final Player shooter,
+                                 @NotNull final ProjectileHitEvent event,
+                                 @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -172,12 +161,10 @@ interface Watcher {
      * @param event  The event.
      * @param config The effect config.
      */
-    fun onKill(
-        killer: Player,
-        victim: LivingEntity,
-        event: EntityDeathByEntityEvent,
-        config: JSONConfig
-    ) {
+    default void onKill(@NotNull final Player killer,
+                        @NotNull final LivingEntity victim,
+                        @NotNull final EntityDeathByEntityEvent event,
+                        @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -188,11 +175,9 @@ interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    fun onDamageWearingArmor(
-        victim: Player,
-        event: EntityDamageEvent,
-        config: JSONConfig
-    ) {
+    default void onDamageWearingArmor(@NotNull final Player victim,
+                                      @NotNull final EntityDamageEvent event,
+                                      @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -204,12 +189,10 @@ interface Watcher {
      * @param event   The event that called this watcher.
      * @param config  The effect config.
      */
-    fun onTridentLaunch(
-        shooter: Player,
-        trident: Trident,
-        event: ProjectileLaunchEvent,
-        config: JSONConfig
-    ) {
+    default void onTridentLaunch(@NotNull final Player shooter,
+                                 @NotNull final Trident trident,
+                                 @NotNull final ProjectileLaunchEvent event,
+                                 @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 
@@ -219,10 +202,8 @@ interface Watcher {
      * @param event  The event that called this watcher.
      * @param config The effect config.
      */
-    fun onDurabilityDamage(
-        event: PlayerItemDamageEvent,
-        config: JSONConfig
-    ) {
+    default void onDurabilityDamage(@NotNull final PlayerItemDamageEvent event,
+                                    @NotNull final JSONConfig config) {
         // Empty default as effects only override required watchers.
     }
 }
