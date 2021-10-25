@@ -4,13 +4,9 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.CommandHandler
 import com.willfp.eco.core.command.TabCompleteHandler
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.config.updating.ConfigUpdater
-import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
 import org.bukkit.Bukkit
 import org.bukkit.util.StringUtil
-import java.util.*
-import java.util.stream.Collectors
 
 class CommandGive(
     plugin: EcoPlugin
@@ -65,7 +61,7 @@ class CommandGive(
             val completions = mutableListOf<String>()
             if (args.isEmpty()) {
                 // Currently, this case is not ever reached
-                return@TabCompleteHandler stoneNames
+                return@TabCompleteHandler Reforges.values().filter { it.requiresStone }.map { it.id }
             }
             if (args.size == 1) {
                 StringUtil.copyPartialMatches(
@@ -76,8 +72,12 @@ class CommandGive(
                 return@TabCompleteHandler completions
             }
             if (args.size == 2) {
-                StringUtil.copyPartialMatches(args[1], stoneNames, completions)
-                Collections.sort(completions)
+                StringUtil.copyPartialMatches(
+                    args[1],
+                    Reforges.values().filter { it.requiresStone }.map { it.id },
+                    completions
+                )
+                completions.sort()
                 return@TabCompleteHandler completions
             }
             if (args.size == 3) {
@@ -90,25 +90,6 @@ class CommandGive(
                 return@TabCompleteHandler completions
             }
             emptyList()
-        }
-    }
-
-    companion object {
-        private val stoneNames = mutableListOf<String>()
-
-        /**
-         * Called on reload.
-         */
-        @ConfigUpdater
-        @JvmStatic
-        fun reload() {
-            stoneNames.clear()
-            stoneNames.addAll(
-                Reforges.values().stream()
-                    .filter(Reforge::requiresStone)
-                    .map(Reforge::id)
-                    .collect(Collectors.toList())
-            )
         }
     }
 }
