@@ -6,6 +6,7 @@ import com.willfp.reforges.effects.Effect
 object AureliumSkillsIntegration : Integration {
     private lateinit var ADD_STAT: Effect
 
+    @JvmStatic
     fun load() {
         ADD_STAT = EffectAddStat()
     }

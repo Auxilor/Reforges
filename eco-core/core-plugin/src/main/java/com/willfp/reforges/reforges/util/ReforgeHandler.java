@@ -65,7 +65,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
                 cost = reforge.getStonePrice();
             }
 
-            if (!EconomyHandler.getInstance().has(player, cost)) {
+            if (!EconomyHandler.has(player, cost)) {
                 player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
 
                 player.playSound(

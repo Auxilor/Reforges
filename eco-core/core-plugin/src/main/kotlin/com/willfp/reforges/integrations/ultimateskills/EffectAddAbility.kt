@@ -6,12 +6,10 @@ import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.effects.Effect
 import mc.ultimatecore.skills.HyperSkills
 import mc.ultimatecore.skills.objects.abilities.Ability
-import mc.ultimatecore.skills.objects.perks.Perk
 import org.bukkit.entity.Player
 import org.bukkit.persistence.PersistentDataType
 
 class EffectAddAbility : Effect("add_ultimateskills_ability") {
-
     override fun handleEnable(
         player: Player,
         config: JSONConfig
@@ -37,5 +35,4 @@ class EffectAddAbility : Effect("add_ultimateskills_ability") {
                 )
             }
     }
-
 }

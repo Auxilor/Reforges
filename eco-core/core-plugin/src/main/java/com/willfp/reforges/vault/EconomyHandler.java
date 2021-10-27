@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 @UtilityClass
 public final class EconomyHandler {
@@ -44,7 +42,14 @@ public final class EconomyHandler {
         return EconomyHandler.instance;
     }
 
-    public static boolean has(Player player, double amount)  {
+    /**
+     * Get if a player has a specified amount.
+     *
+     * @param player The player.
+     * @param amount The amount.
+     * @return If a player has the amount.
+     */
+    public static boolean has(Player player, double amount) {
         if (usePlayerPoints && ReforgesPlugin.getInstance().getConfigYml().getBool("reforge.use-player-points")) {
             try {
                 return PlayerPoints.getInstance().getAPI().lookAsync(player.getUniqueId()).get() >= amount;
@@ -53,7 +58,6 @@ public final class EconomyHandler {
             }
         }
         return getInstance().has(player, amount);
-
     }
 
     public static boolean isEnabled() {

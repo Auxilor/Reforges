@@ -7,6 +7,7 @@ object UltimateSkillsIntegration : Integration {
     private lateinit var ADD_PERK: Effect
     private lateinit var ADD_ABILITY: Effect
 
+    @JvmStatic
     fun load() {
         ADD_PERK = EffectAddPerk()
         ADD_ABILITY = EffectAddAbility()

@@ -7,6 +7,7 @@ import com.willfp.talismans.talismans.util.TalismanChecks
 import org.bukkit.inventory.ItemStack
 
 object TalismansIntegration : Integration {
+    @JvmStatic
     fun registerProvider() {
         ReforgeLookup.registerProvider { player ->
             val provided = mutableMapOf<ItemStack, ReforgeTarget.Slot>()
