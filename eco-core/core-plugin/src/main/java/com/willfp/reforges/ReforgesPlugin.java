@@ -16,6 +16,7 @@ import com.willfp.reforges.effects.Effects;
 import com.willfp.reforges.integrations.aureliumskills.AureliumSkillsIntegration;
 import com.willfp.reforges.integrations.ecoskills.EcoSkillsIntegration;
 import com.willfp.reforges.integrations.talismans.TalismansIntegration;
+import com.willfp.reforges.integrations.ultimateskills.UltimateSkillsIntegration;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
@@ -128,6 +129,7 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected List<IntegrationLoader> loadIntegrationLoaders() {
         return Arrays.asList(
+                new IntegrationLoader("UltimateSkills", UltimateSkillsIntegration.INSTANCE::load),
                 new IntegrationLoader("EcoSkills", EcoSkillsIntegration.INSTANCE::load),
                 new IntegrationLoader("Talismans", TalismansIntegration.INSTANCE::registerProvider),
                 new IntegrationLoader("PlayerPoints", () -> EconomyHandler.setUsePlayerPoints(true)),
