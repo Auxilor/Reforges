@@ -10,11 +10,13 @@ import com.willfp.reforges.commands.CommandReforges;
 import com.willfp.reforges.config.ReforgesJson;
 import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
+import com.willfp.reforges.effects.ConfiguredEffect;
 import com.willfp.reforges.effects.Effect;
 import com.willfp.reforges.effects.Effects;
 import com.willfp.reforges.integrations.aureliumskills.AureliumSkillsIntegration;
 import com.willfp.reforges.integrations.ecoskills.EcoSkillsIntegration;
 import com.willfp.reforges.integrations.talismans.TalismansIntegration;
+import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.ReforgeEnableListeners;
@@ -64,6 +66,17 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected void handleEnable() {
         Items.registerArgParser(new ReforgeArgParser());
+    }
+
+    @Override
+    protected void handleDisable() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            for (Reforge value : Reforges.values()) {
+                for (ConfiguredEffect effect : value.getEffects()) {
+                    effect.getEffect().handleDisabling(player);
+                }
+            }
+        }
     }
 
     @Override

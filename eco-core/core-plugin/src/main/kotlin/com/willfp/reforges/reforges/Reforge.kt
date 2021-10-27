@@ -44,14 +44,20 @@ class Reforge(
     val stone: ItemStack = SkullBuilder().apply {
         if (config.getBool("stone.enabled")) {
             setSkullTexture(config.getString("stone.texture"))
-            setDisplayName(plugin.configYml.getString("stone.name").replace("%reforge%", name))
+            setDisplayName(plugin.configYml.getString("reforge.stone.name").replace("%reforge%", name))
             addLoreLines(
                 plugin.configYml.getStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
         }
     }.build()
 
+    val stonePrice = config.getIntOrNull("stone.price") ?: -1
+
     init {
+        Reforges.addNewReforge(this)
+
         ReforgeUtils.setReforgeStone(stone, this)
+
+        Display.display(stone)
 
         CustomItem(
             plugin.namespacedKeyFactory.create("stone_" + this.id),
@@ -59,12 +65,12 @@ class Reforge(
             stone
         ).register()
 
-        if (config.getBool("craftable")) {
+        if (config.getBool("stone.craftable") && config.getBool("stone.enabled")) {
             Recipes.createAndRegisterRecipe(
                 plugin,
                 "stone_" + this.id,
                 stone,
-                config.getStrings("recipe", false)
+                config.getStrings("stone.recipe", false)
             )
         }
     }

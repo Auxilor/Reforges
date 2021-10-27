@@ -7,7 +7,7 @@ import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockBreakEvent
 
-class EffectRewardBlockBreak : Effect("reward_kill") {
+class EffectRewardBlockBreak : Effect("reward_block_break") {
     override fun onBlockBreak(
         player: Player,
         block: Block,

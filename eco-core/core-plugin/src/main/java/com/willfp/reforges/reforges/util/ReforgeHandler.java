@@ -56,11 +56,15 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
-
+        double cost = 0;
         if (EconomyHandler.isEnabled()) {
-            double cost = this.getPlugin().getConfigYml().getDouble("reforge.cost");
+            cost = this.getPlugin().getConfigYml().getDouble("reforge.cost");
             int reforges = ReforgeUtils.getReforges(toReforge);
             cost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+            if (reforge.getRequiresStone() && reforge.getStonePrice() != -1) {
+                cost = reforge.getStonePrice();
+            }
+
             if (!EconomyHandler.getInstance().has(player, cost)) {
                 player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
 
@@ -73,9 +77,6 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
 
                 return;
             }
-
-
-            EconomyHandler.getInstance().withdrawPlayer(player, cost);
         }
 
         int xpCost = this.getPlugin().getConfigYml().getInt("reforge.xp-cost");
@@ -92,6 +93,10 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             );
 
             return;
+        }
+
+        if (EconomyHandler.isEnabled()) {
+            EconomyHandler.getInstance().withdrawPlayer(player, cost);
         }
 
         player.setLevel(player.getLevel() - xpCost);

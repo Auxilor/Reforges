@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  <img src="https://i.imgur.com/LoZExNf.png" alt="Reforges logo" width="256">
+  <img src="https://i.imgur.com/co0zeyJ.png" alt="Reforges logo" width="256">
   <br>
 </h1>
 

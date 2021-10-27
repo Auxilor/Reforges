@@ -13,16 +13,25 @@ import com.willfp.reforges.reforges.util.ReforgeUtils
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextDecoration
+import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGHEST) {
+    /**
+     * Deprecated
+     */
+    @Deprecated("Use PDC components!")
     private val replacement = TextReplacementConfig.builder()
         .match("§w(.+)§w")
         .replacement("")
         .build()
+
+    private val originalComponentKey = plugin.namespacedKeyFactory.create("real_name")
+    private val serializer = GsonComponentSerializer.gson()
 
     override fun display(
         itemStack: ItemStack,
@@ -56,10 +65,12 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         if (stone != null) {
             meta.setDisplayName(plugin.configYml.getString("reforge.stone.name").replace("%reforge%", stone.name))
-            SkullUtils.setSkullTexture(
-                meta as SkullMeta,
-                stone.config.getString("stone.texture")
-            )
+            if (stone.config.has("stone.texture") && stone.config.getString("stone.texture").isNotEmpty()) {
+                SkullUtils.setSkullTexture(
+                    meta as SkullMeta,
+                    stone.config.getString("stone.texture")
+                )
+            }
             itemStack.itemMeta = meta
             val stoneLore = plugin.configYml.getStrings("reforge.stone.lore").map {
                 "${Display.PREFIX}${it.replace("%reforge%", stone.name)}"
@@ -76,12 +87,13 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
-                val displayName =
-                    (if (meta.hasDisplayName()) meta.displayName()!! else Component.translatable(itemStack))
-                        .replaceText(
-                            replacement
-                        )
-                val newName = StringUtils.toComponent("§w${reforge.name} §w")
+                val displayName = (meta.displayName() ?: Component.translatable(itemStack)).replaceText(replacement)
+                meta.persistentDataContainer.set(
+                    originalComponentKey,
+                    PersistentDataType.STRING,
+                    serializer.serialize(displayName)
+                )
+                val newName = StringUtils.toComponent("${reforge.name} ")
                     .decoration(TextDecoration.ITALIC, false).append(displayName)
                 meta.displayName(newName)
             }
@@ -96,12 +108,10 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         val meta = itemStack.itemMeta ?: return
 
         if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
-            val displayName = meta.displayName() ?: return
-            meta.displayName(
-                displayName.replaceText(
-                    replacement
-                )
-            )
+            val originalName =
+                meta.persistentDataContainer.get(originalComponentKey, PersistentDataType.STRING) ?: return
+            meta.persistentDataContainer.remove(originalComponentKey)
+            meta.displayName(serializer.deserialize(originalName).replaceText(replacement))
         }
 
         itemStack.itemMeta = meta

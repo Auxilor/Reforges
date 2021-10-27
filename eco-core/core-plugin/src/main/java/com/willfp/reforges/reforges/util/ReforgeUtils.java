@@ -64,7 +64,7 @@ public class ReforgeUtils {
         return applicable.get(0);
     }
 
-    public static ReforgeStatus getStatus(@NotNull final List<ItemStack> captive) {
+    public static MetadatedReforgeStatus getStatus(@NotNull final List<ItemStack> captive) {
         ItemStack toReforge = captive.isEmpty() ? null : captive.get(0);
         ItemStack stone = captive.size() == 2 ? captive.get(1) : null;
         ReforgeStatus status = null;
@@ -84,16 +84,18 @@ public class ReforgeUtils {
             status = ReforgeStatus.ALLOW;
         }
 
+        double cost = 0;
         if (status == ReforgeStatus.ALLOW) {
             Reforge reforgeStone = getReforgeStone(stone);
             if (reforgeStone != null && reforgeStone.getTargets().stream()
                     .anyMatch(reforgeTarget -> reforgeTarget.getItems().stream()
                             .anyMatch(item -> item.matches(toReforge)))) {
+                cost = reforgeStone.getStonePrice();
                 status = ReforgeStatus.ALLOW_STONE;
             }
         }
 
-        return status;
+        return new MetadatedReforgeStatus(status, cost);
     }
 
     /**
