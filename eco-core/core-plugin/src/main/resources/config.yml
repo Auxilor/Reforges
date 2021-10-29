@@ -123,6 +123,7 @@ gui:
 reforge:
   cost: 7500
   xp-cost: 0 # In levels
+  use-player-points: false
 
   cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
 
