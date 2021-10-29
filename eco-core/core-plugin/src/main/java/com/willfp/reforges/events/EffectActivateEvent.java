@@ -22,6 +22,7 @@ public class EffectActivateEvent extends PlayerEvent implements Cancellable {
         super(who);
         this.reforge = reforge;
         this.effect = effect;
+        this.cancelled = false;
     }
 
     @Override
