@@ -50,4 +50,8 @@ public class EffectActivateEvent extends PlayerEvent implements Cancellable {
         return this.effect;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
 }
