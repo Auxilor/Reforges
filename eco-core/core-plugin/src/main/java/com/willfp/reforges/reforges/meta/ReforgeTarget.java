@@ -4,12 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.eco.core.items.TestableItem;
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem;
-import com.willfp.eco.util.NumberUtils;
 import com.willfp.reforges.ReforgesPlugin;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ReforgeTarget {
     /**
@@ -99,14 +98,11 @@ public class ReforgeTarget {
      * @param item The item.
      * @return The target.
      */
-    @Nullable
-    public static ReforgeTarget getForItem(@NotNull final ItemStack item) {
-        List<ReforgeTarget> matching = REGISTERED.values().stream()
+    public static List<ReforgeTarget> getForItem(@NotNull final ItemStack item) {
+        return REGISTERED.values().stream()
                 .filter(target -> !target.getName().equalsIgnoreCase("all"))
                 .filter(target -> target.matches(item))
-                .toList();
-
-        return matching.isEmpty() ? null : matching.get(NumberUtils.randInt(0, matching.size() - 1));
+                .collect(Collectors.toList());
     }
 
     /**

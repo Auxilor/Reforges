@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,14 +45,16 @@ public class ReforgeUtils {
     /**
      * Get a random reforge for a target.
      *
-     * @param target The target.
+     * @param targets The targets.
      */
-    public static Reforge getRandomReforge(@NotNull final ReforgeTarget target) {
+    public static Reforge getRandomReforge(@NotNull final Collection<ReforgeTarget> targets) {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
-            if (reforge.getTargets().contains(target) && !reforge.getRequiresStone()) {
-                applicable.add(reforge);
+            for (ReforgeTarget target : targets) {
+                if (reforge.getTargets().contains(target) && !reforge.getRequiresStone()) {
+                    applicable.add(reforge);
+                }
             }
         }
 
@@ -69,18 +72,18 @@ public class ReforgeUtils {
         ItemStack stone = captive.size() == 2 ? captive.get(1) : null;
         ReforgeStatus status = null;
 
-        ReforgeTarget target = null;
+        List<ReforgeTarget> target = new ArrayList<>();
 
         if (toReforge == null || toReforge.getType() == Material.AIR) {
             status = ReforgeStatus.NO_ITEM;
         } else {
-            target = ReforgeTarget.getForItem(toReforge);
-            if (target == null) {
+            target.addAll(ReforgeTarget.getForItem(toReforge));
+            if (target.isEmpty()) {
                 status = ReforgeStatus.INVALID_ITEM;
             }
         }
 
-        if (target != null) {
+        if (!target.isEmpty()) {
             status = ReforgeStatus.ALLOW;
         }
 
