@@ -6,6 +6,7 @@ import com.willfp.eco.core.events.PlayerJumpEvent
 import com.willfp.eco.core.integrations.antigrief.AntigriefManager
 import com.willfp.eco.core.integrations.mcmmo.McmmoManager
 import com.willfp.eco.util.NumberUtils
+import com.willfp.reforges.events.EffectActivateEvent
 import org.bukkit.entity.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -33,10 +34,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(player)) {
             for ((key, value) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > value.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (value.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                key.onBlockBreak(player, block, event, value)
+                val aEvent = EffectActivateEvent(player, reforge, key)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    key.onBlockBreak(player, block, event, value)
+                }
             }
         }
     }
@@ -74,11 +79,15 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(shooter)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onArrowDamage(shooter, victim, arrow, event, config)
-                effect.onAnyDamage(shooter, victim, event, config)
+                val aEvent = EffectActivateEvent(shooter, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onArrowDamage(shooter, victim, arrow, event, config)
+                    effect.onAnyDamage(shooter, victim, event, config)
+                }
             }
         }
     }
@@ -121,11 +130,15 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(shooter) union add) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onTridentDamage(shooter, victim, trident, event, config)
-                effect.onAnyDamage(shooter, victim, event, config)
+                val aEvent = EffectActivateEvent(shooter, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onTridentDamage(shooter, victim, trident, event, config)
+                    effect.onAnyDamage(shooter, victim, event, config)
+                }
             }
         }
     }
@@ -139,10 +152,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(player)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onJump(player, event, config)
+                val aEvent = EffectActivateEvent(player, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onJump(player, event, config)
+                }
             }
         }
     }
@@ -179,11 +196,15 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(attacker)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onMeleeAttack(attacker, victim, event, config)
-                effect.onAnyDamage(attacker, victim, event, config)
+                val aEvent = EffectActivateEvent(attacker, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onMeleeAttack(attacker, victim, event, config)
+                    effect.onAnyDamage(attacker, victim, event, config)
+                }
             }
         }
     }
@@ -219,10 +240,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(killer) union add) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                (effect as Watcher).onKill(killer, victim, event, config)
+                val aEvent = EffectActivateEvent(killer, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    (effect as Watcher).onKill(killer, victim, event, config)
+                }
             }
         }
     }
@@ -241,10 +266,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(shooter)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onProjectileLaunch(shooter, event.entity, event, config)
+                val aEvent = EffectActivateEvent(shooter, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onProjectileLaunch(shooter, event.entity, event, config)
+                }
             }
         }
     }
@@ -267,10 +296,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(victim)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onFallDamage(victim, event, config)
+                val aEvent = EffectActivateEvent(victim, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onFallDamage(victim, event, config)
+                }
             }
         }
     }
@@ -294,10 +327,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(shooter) union add) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onProjectileHit(shooter, event, config)
+                val aEvent = EffectActivateEvent(shooter, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onProjectileHit(shooter, event, config)
+                }
             }
         }
     }
@@ -312,10 +349,14 @@ class WatcherTriggers(
         val reforge = ReforgeUtils.getReforge(item) ?: return
 
         for ((effect, config) in reforge.effects) {
-            if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+            if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                 continue
             }
-            effect.onDurabilityDamage(event, config)
+            val aEvent = EffectActivateEvent(event.player, reforge, effect)
+            this.plugin.server.pluginManager.callEvent(aEvent)
+            if (!aEvent.isCancelled) {
+                effect.onDurabilityDamage(event, config)
+            }
         }
     }
 
@@ -333,10 +374,14 @@ class WatcherTriggers(
 
         for (reforge in ReforgeLookup.provideReforges(victim)) {
             for ((effect, config) in reforge.effects) {
-                if (NumberUtils.randFloat(0.0, 100.0) > config.getDoubleOrNull("chance") ?: 100.0) {
+                if (NumberUtils.randFloat(0.0, 100.0) > (config.getDoubleOrNull("chance") ?: 100.0)) {
                     continue
                 }
-                effect.onDamageWearingArmor(victim, event, config)
+                val aEvent = EffectActivateEvent(victim, reforge, effect)
+                this.plugin.server.pluginManager.callEvent(aEvent)
+                if (!aEvent.isCancelled) {
+                    effect.onDamageWearingArmor(victim, event, config)
+                }
             }
         }
     }
