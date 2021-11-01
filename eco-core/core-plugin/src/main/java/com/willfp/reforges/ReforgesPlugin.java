@@ -129,7 +129,7 @@ public class ReforgesPlugin extends EcoPlugin {
     @Override
     protected List<IntegrationLoader> loadIntegrationLoaders() {
         return Arrays.asList(
-                new IntegrationLoader("UltimateSkills", UltimateSkillsIntegration::load),
+                new IntegrationLoader("UltimateCore-Skills", UltimateSkillsIntegration::load),
                 new IntegrationLoader("EcoSkills", EcoSkillsIntegration::load),
                 new IntegrationLoader("Talismans", TalismansIntegration::registerProvider),
                 new IntegrationLoader("PlayerPoints", () -> EconomyHandler.setUsePlayerPoints(true)),
