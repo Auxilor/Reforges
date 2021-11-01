@@ -39,7 +39,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     ) {
         val target = ReforgeTarget.getForItem(itemStack)
 
-        if (target.isEmpty() && itemStack.type != Material.PLAYER_HEAD) {
+        if (target.isEmpty()) {
             return
         }
 
