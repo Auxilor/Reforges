@@ -4,9 +4,9 @@ import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
 import com.willfp.eco.core.gui.menu.Menu;
 import com.willfp.eco.core.gui.slot.Slot;
+import com.willfp.eco.core.integrations.economy.EconomyManager;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
-import com.willfp.reforges.vault.EconomyHandler;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -58,7 +58,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         }
 
         double cost = 0;
-        if (EconomyHandler.isEnabled()) {
+        if (EconomyManager.hasRegistrations()) {
             cost = this.getPlugin().getConfigYml().getDouble("reforge.cost");
             int reforges = ReforgeUtils.getReforges(toReforge);
             cost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
@@ -66,7 +66,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
                 cost = reforge.getStonePrice();
             }
 
-            if (!EconomyHandler.has(player, cost)) {
+            if (!EconomyManager.hasAmount(player, cost)) {
                 player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
 
                 player.playSound(
@@ -96,8 +96,8 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
-        if (EconomyHandler.isEnabled()) {
-            EconomyHandler.getInstance().withdrawPlayer(player, cost);
+        if (EconomyManager.hasRegistrations()) {
+            EconomyManager.removeMoney(player, cost);
         }
 
         player.setLevel(player.getLevel() - xpCost);

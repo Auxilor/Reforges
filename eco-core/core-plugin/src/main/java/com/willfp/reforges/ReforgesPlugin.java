@@ -25,7 +25,6 @@ import com.willfp.reforges.reforges.util.ReforgeLookup;
 import com.willfp.reforges.reforges.util.WatcherTriggers;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
-import com.willfp.reforges.vault.EconomyHandler;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -81,15 +80,6 @@ public class ReforgesPlugin extends EcoPlugin {
     }
 
     @Override
-    protected void handleAfterLoad() {
-        EconomyHandler.setEnabled(EconomyHandler.init());
-
-        if (!EconomyHandler.isEnabled()) {
-            this.getLogger().severe("Vault economy support not enabled");
-        }
-    }
-
-    @Override
     protected void handleReload() {
         for (Effect effect : Effects.values()) {
             HandlerList.unregisterAll(effect);
@@ -132,14 +122,13 @@ public class ReforgesPlugin extends EcoPlugin {
                 new IntegrationLoader("UltimateCore-Skills", UltimateSkillsIntegration::load),
                 new IntegrationLoader("EcoSkills", EcoSkillsIntegration::load),
                 new IntegrationLoader("Talismans", TalismansIntegration::registerProvider),
-                new IntegrationLoader("PlayerPoints", () -> EconomyHandler.setUsePlayerPoints(true)),
                 new IntegrationLoader("AureliumSkills", AureliumSkillsIntegration::load)
         );
     }
 
     @Override
     public String getMinimumEcoVersion() {
-        return "6.9.0";
+        return "6.12.2";
     }
 
     /**

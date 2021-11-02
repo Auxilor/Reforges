@@ -38,8 +38,7 @@ allprojects {
     }
 
     dependencies {
-        compileOnly 'org.black_ixx:playerpoints:3.0.0'
-        compileOnly 'com.willfp:eco:6.9.0'
+        compileOnly 'com.willfp:eco:6.12.2'
 
         compileOnly 'org.jetbrains:annotations:19.0.0'
 
