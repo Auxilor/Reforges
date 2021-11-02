@@ -40,6 +40,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         val target = ReforgeTarget.getForItem(itemStack)
 
         if (target.isEmpty() && itemStack.type != Material.PLAYER_HEAD) {
+            // Letting player heads through here to add the stone check
             return
         }
 
@@ -52,6 +53,10 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         val reforge = ReforgeUtils.getReforge(meta)
 
         val stone = ReforgeUtils.getReforgeStone(meta)
+
+        if (stone == null && target.isEmpty()) {
+            return
+        }
 
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
