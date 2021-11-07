@@ -3,8 +3,6 @@ package com.willfp.reforges.effects;
 import com.willfp.eco.core.config.interfaces.JSONConfig;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.util.Watcher;
-import lombok.AccessLevel;
-import lombok.Getter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -18,7 +16,6 @@ public abstract class Effect implements Listener, Watcher {
     /**
      * Instance of reforges.
      */
-    @Getter(AccessLevel.PROTECTED)
     private final ReforgesPlugin plugin = ReforgesPlugin.getInstance();
 
     /**
@@ -98,6 +95,13 @@ public abstract class Effect implements Listener, Watcher {
 
     protected void handleDisable(@NotNull final Player player) {
         // Override when needed.
+    }
+    /**
+     * Get instance of reforges.
+     * @return The instance.
+     */
+    protected ReforgesPlugin getPlugin() {
+        return this.plugin;
     }
 
     @Override
