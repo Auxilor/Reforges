@@ -27,7 +27,7 @@ class EffectAddAbility : Effect("add_ultimateskills_ability") {
     }
 
     override fun handleDisable(player: Player) {
-        player.persistentDataContainer.get(ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING)
+        player.persistentDataContainer.get(this.plugin.namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING)
             ?.let {
                 HyperSkills.getInstance().api.removeAbility(
                     player.uniqueId,
