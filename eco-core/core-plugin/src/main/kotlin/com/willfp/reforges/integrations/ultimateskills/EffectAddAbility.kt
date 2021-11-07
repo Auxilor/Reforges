@@ -20,7 +20,8 @@ class EffectAddAbility : Effect("add_ultimateskills_ability") {
             config.getDouble("amount")
         )
         player.persistentDataContainer.set(
-            ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING,
+            ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"),
+            PersistentDataType.STRING,
             NumberUtils.format(config.getDouble("amount")) + "::" + config.getString("ability", false)
         )
     }
