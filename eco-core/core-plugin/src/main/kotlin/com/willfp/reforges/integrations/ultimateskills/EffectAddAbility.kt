@@ -20,13 +20,14 @@ class EffectAddAbility : Effect("add_ultimateskills_ability") {
             config.getDouble("amount")
         )
         player.persistentDataContainer.set(
-            ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING,
+            ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"),
+            PersistentDataType.STRING,
             NumberUtils.format(config.getDouble("amount")) + "::" + config.getString("ability", false)
         )
     }
 
     override fun handleDisable(player: Player) {
-        player.persistentDataContainer.get(ReforgesPlugin.getInstance().namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING)
+        player.persistentDataContainer.get(this.plugin.namespacedKeyFactory.create("addAbility"), PersistentDataType.STRING)
             ?.let {
                 HyperSkills.getInstance().api.removeAbility(
                     player.uniqueId,

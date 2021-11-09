@@ -1,6 +1,7 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
+import com.willfp.eco.util.ListUtils;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.conditions.ConfiguredCondition;
 import com.willfp.reforges.reforges.Reforge;
@@ -138,8 +139,8 @@ public class ReforgeLookup {
         ReforgeLookup.clearCaches(player);
         PLUGIN.getScheduler().run(() -> {
             List<Reforge> after = ReforgeLookup.provideReforges(player);
-            Map<Reforge, Integer> beforeFrequency = listToFrequencyMap(before);
-            Map<Reforge, Integer> afterFrequency = listToFrequencyMap(after);
+            Map<Reforge, Integer> beforeFrequency = ListUtils.listToFrequencyMap(before);
+            Map<Reforge, Integer> afterFrequency = ListUtils.listToFrequencyMap(after);
 
             List<Reforge> added = new ArrayList<>();
             List<Reforge> removed = new ArrayList<>();
@@ -204,19 +205,6 @@ public class ReforgeLookup {
                 }
             }
         });
-    }
-
-    private static <T> Map<T, Integer> listToFrequencyMap(@NotNull final List<T> list) {
-        Map<T, Integer> frequencyMap = new HashMap<>();
-        for (T object : list) {
-            if (frequencyMap.containsKey(object)) {
-                frequencyMap.put(object, frequencyMap.get(object) + 1);
-            } else {
-                frequencyMap.put(object, 1);
-            }
-        }
-
-        return frequencyMap;
     }
 
     static {
