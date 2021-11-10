@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReforgeHandler extends PluginDependent<EcoPlugin> {
@@ -34,6 +35,8 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             return;
         }
 
+        Reforge existingReforge = ReforgeUtils.getReforge(toReforge);
+
         List<ReforgeTarget> target = ReforgeTarget.getForItem(toReforge);
 
         Reforge reforge = null;
@@ -50,7 +53,11 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         }
 
         if (reforge == null) {
-            reforge = ReforgeUtils.getRandomReforge(target);
+            List<Reforge> existing = new ArrayList<>();
+            if (existingReforge != null) {
+                existing.add(existingReforge);
+            }
+            reforge = ReforgeUtils.getRandomReforge(target, existing);
         }
 
         if (reforge == null) {

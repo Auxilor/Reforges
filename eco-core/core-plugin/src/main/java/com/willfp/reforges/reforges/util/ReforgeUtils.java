@@ -45,9 +45,22 @@ public class ReforgeUtils {
     /**
      * Get a random reforge for a target.
      *
-     * @param targets The targets.
+     * @param targets    The targets.
      */
+    @Nullable
     public static Reforge getRandomReforge(@NotNull final Collection<ReforgeTarget> targets) {
+        return getRandomReforge(targets, Collections.emptyList());
+    }
+
+    /**
+     * Get a random reforge for a target.
+     *
+     * @param targets    The targets.
+     * @param disallowed The disallowed reforges.
+     */
+    @Nullable
+    public static Reforge getRandomReforge(@NotNull final Collection<ReforgeTarget> targets,
+                                           @NotNull final Collection<Reforge> disallowed) {
         List<Reforge> applicable = new ArrayList<>();
 
         for (Reforge reforge : Reforges.values()) {
@@ -59,6 +72,8 @@ public class ReforgeUtils {
         }
 
         Collections.shuffle(applicable);
+
+        applicable.removeAll(disallowed);
 
         if (applicable.isEmpty()) {
             return null;
