@@ -103,11 +103,13 @@ public class ReforgeLookup {
                 continue;
             }
 
-            if (!reforge.getTargets().stream()
-                    .map(ReforgeTarget::getSlot)
-                    .collect(Collectors.toList())
-                    .contains(slot)) {
-                continue;
+            if (slot != ReforgeTarget.Slot.ANY) {
+                if (!reforge.getTargets().stream()
+                        .map(ReforgeTarget::getSlot)
+                        .collect(Collectors.toList())
+                        .contains(slot)) {
+                    continue;
+                }
             }
 
             found.add(reforge);
