@@ -134,10 +134,3 @@ reforge:
 
   display-in-lore: true
   display-in-name: true # Requires paper to be installed on the server
-
-  stone:
-    name: "%reforge%&f Reforge Stone"
-    lore:
-      - "&7Place on the right of the"
-      - "&7reforge menu to apply the"
-      - "%reforge%&7 reforge!"

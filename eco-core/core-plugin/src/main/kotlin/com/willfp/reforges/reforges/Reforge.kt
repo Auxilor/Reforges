@@ -23,9 +23,9 @@ class Reforge(
 ) {
     val id = config.getString("id")
 
-    val name = config.getString("name")
+    val name = config.getFormattedString("name")
 
-    val description: List<String> = config.getStrings("description")
+    val description: List<String> = config.getFormattedStrings("description")
 
     val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
 
@@ -44,9 +44,9 @@ class Reforge(
     val stone: ItemStack = SkullBuilder().apply {
         if (config.getBool("stone.enabled")) {
             setSkullTexture(config.getString("stone.texture"))
-            setDisplayName(plugin.configYml.getString("reforge.stone.name").replace("%reforge%", name))
+            setDisplayName(config.getFormattedString("stone.name").replace("%reforge%", name))
             addLoreLines(
-                plugin.configYml.getStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
+                config.getFormattedStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
         }
     }.build()
 
