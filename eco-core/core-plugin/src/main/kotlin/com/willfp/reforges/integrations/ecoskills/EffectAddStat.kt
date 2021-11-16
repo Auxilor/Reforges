@@ -6,7 +6,6 @@ import com.willfp.ecoskills.api.modifier.PlayerStatModifier
 import com.willfp.ecoskills.stats.Stats
 import com.willfp.reforges.effects.Effect
 import com.willfp.reforges.effects.getEffectAmount
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 class EffectAddStat : Effect("add_stat") {

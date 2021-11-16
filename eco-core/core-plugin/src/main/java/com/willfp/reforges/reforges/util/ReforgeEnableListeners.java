@@ -2,6 +2,7 @@ package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
+import com.willfp.eco.core.events.ArmorChangeEvent;
 import com.willfp.reforges.effects.ConfiguredEffect;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
@@ -94,6 +95,16 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
      */
     @EventHandler
     public void onChangeSlot(@NotNull final PlayerItemHeldEvent event) {
+        refreshPlayer(event.getPlayer());
+    }
+
+    /**
+     * Called on armor change.
+     *
+     * @param event The event to listen for.
+     */
+    @EventHandler
+    public void onArmorChange(@NotNull final ArmorChangeEvent event) {
         refreshPlayer(event.getPlayer());
     }
 

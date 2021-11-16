@@ -40,6 +40,11 @@ public class ReforgeLookup {
     private static final Map<UUID, Collection<Reforge>> REFORGE_CACHE = new WeakHashMap<>();
 
     /**
+     * Previous reforge states.
+     */
+    private static final Map<UUID, Collection<Reforge>> PREVIOUS_STATES = new WeakHashMap<>();
+
+    /**
      * Instance of Reforges.
      */
     private static final EcoPlugin PLUGIN = ReforgesPlugin.getInstance();
@@ -92,7 +97,6 @@ public class ReforgeLookup {
         for (Map.Entry<ItemStack, ReforgeTarget.Slot> entry : provide(player).entrySet()) {
             ItemStack itemStack = entry.getKey();
             ReforgeTarget.Slot slot = entry.getValue();
-
             if (itemStack == null) {
                 continue;
             }
@@ -137,10 +141,16 @@ public class ReforgeLookup {
      * @param player The player.
      */
     public static void updateReforges(@NotNull final Player player) {
-        List<Reforge> before = ReforgeLookup.provideReforges(player);
+        List<Reforge> before = new ArrayList<>();
+        if (PREVIOUS_STATES.containsKey(player.getUniqueId())) {
+            before.addAll(PREVIOUS_STATES.get(player.getUniqueId()));
+        }
+
+        ReforgeLookup.provideReforges(player);
         ReforgeLookup.clearCaches(player);
         PLUGIN.getScheduler().run(() -> {
             List<Reforge> after = ReforgeLookup.provideReforges(player);
+            PREVIOUS_STATES.put(player.getUniqueId(), after);
             Map<Reforge, Integer> beforeFrequency = ListUtils.listToFrequencyMap(before);
             Map<Reforge, Integer> afterFrequency = ListUtils.listToFrequencyMap(after);
 
