@@ -3,7 +3,8 @@ package com.willfp.reforges.reforges
 import com.willfp.eco.core.config.interfaces.JSONConfig
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
-import com.willfp.eco.core.items.builder.SkullBuilder
+import com.willfp.eco.core.items.Items
+import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.libreforge.api.conditions.Conditions
 import com.willfp.libreforge.api.conditions.ConfiguredCondition
@@ -41,9 +42,8 @@ class Reforge(
 
     val requiresStone = config.getBool("stone.enabled")
 
-    val stone: ItemStack = SkullBuilder().apply {
+    val stone: ItemStack = ItemStackBuilder(Items.lookup(config.getString("stone.item")).item).apply {
         if (config.getBool("stone.enabled")) {
-            setSkullTexture(config.getString("stone.texture"))
             setDisplayName(config.getFormattedString("stone.name").replace("%reforge%", name))
             addLoreLines(
                 config.getFormattedStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })

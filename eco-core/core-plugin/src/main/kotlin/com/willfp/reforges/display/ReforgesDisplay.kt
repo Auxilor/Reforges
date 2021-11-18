@@ -14,7 +14,6 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
-import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
@@ -39,24 +38,19 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     ) {
         val target = ReforgeTarget.getForItem(itemStack)
 
-        if (target.isEmpty() && itemStack.type != Material.PLAYER_HEAD) {
-            // Letting player heads through here to add the stone check
+        val meta = itemStack.itemMeta ?: return
+
+        val stone = ReforgeUtils.getReforgeStone(meta)
+
+        if (target.isEmpty() && stone == null) {
             return
         }
-
-        val meta = itemStack.itemMeta ?: return
 
         val fastItemStack = FastItemStack.wrap(itemStack)
 
         val lore = fastItemStack.lore
 
         val reforge = ReforgeUtils.getReforge(meta)
-
-        val stone = ReforgeUtils.getReforgeStone(meta)
-
-        if (stone == null && target.isEmpty()) {
-            return
-        }
 
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
@@ -70,11 +64,13 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         if (stone != null) {
             meta.setDisplayName(stone.config.getFormattedString("stone.name"))
-            if (stone.config.has("stone.texture") && stone.config.getString("stone.texture").isNotEmpty()) {
-                SkullUtils.setSkullTexture(
-                    meta as SkullMeta,
-                    stone.config.getString("stone.texture")
-                )
+            val stoneMeta = stone.stone.itemMeta
+            if (stoneMeta is SkullMeta) {
+                val stoneTexture = SkullUtils.getSkullTexture(stoneMeta)
+
+                if (stoneTexture != null) {
+                    SkullUtils.setSkullTexture(meta as SkullMeta, stoneTexture)
+                }
             }
             itemStack.itemMeta = meta
             val stoneLore = stone.config.getFormattedStrings("stone.lore").map {

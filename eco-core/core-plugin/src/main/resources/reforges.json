@@ -13,7 +13,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -39,7 +39,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -68,7 +68,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -99,7 +99,7 @@
           "&7reforge menu to apply the",
           "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>&7 reforge!"
         ],
-        "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM0YTY1YzY4OWIyZDM2NDA5MTAwYTYwYzJhYjhkM2QwYTY3Y2U5NGVlYTNjMWY3YWM5NzRmZDg5MzU2OGI1ZCJ9fX0=",
+        "item": "player_head texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM0YTY1YzY4OWIyZDM2NDA5MTAwYTYwYzJhYjhkM2QwYTY3Y2U5NGVlYTNjMWY3YWM5NzRmZDg5MzU2OGI1ZCJ9fX0=",
         "craftable": true,
         "recipe": [
           "air",
@@ -139,7 +139,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -166,7 +166,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -194,7 +194,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -230,7 +230,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -259,7 +259,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -285,7 +285,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -312,7 +312,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -343,7 +343,7 @@
           "&7reforge menu to apply the",
           "<gradient:#DBDBDB>Rich</gradient:#F2F2F2>&7 reforge!"
         ],
-        "texture": "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjNTdjNzVhZGYzOWVjNmYwZTA5MTYwNDlkZDk2NzFlOThhOGExZTYwMDEwNGU4NGU2NDVjOTg4OTUwYmQ3In19fQ==",
+        "item": "player_head texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RjNTdjNzVhZGYzOWVjNmYwZTA5MTYwNDlkZDk2NzFlOThhOGExZTYwMDEwNGU4NGU2NDVjOTg4OTUwYmQ3In19fQ==",
         "craftable": true,
         "recipe": [
           "gold_block",
@@ -379,7 +379,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -405,7 +405,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -432,7 +432,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -463,7 +463,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
@@ -494,7 +494,7 @@
         "enabled": false,
         "name": "",
         "lore": [],
-        "texture": "",
+        "item": "",
         "craftable": false,
         "recipe": []
       },
