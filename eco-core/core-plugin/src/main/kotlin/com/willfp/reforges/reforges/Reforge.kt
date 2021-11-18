@@ -5,22 +5,22 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.builder.SkullBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.libreforge.api.conditions.Conditions
+import com.willfp.libreforge.api.conditions.ConfiguredCondition
+import com.willfp.libreforge.api.effects.ConfiguredEffect
+import com.willfp.libreforge.api.effects.Effects
+import com.willfp.libreforge.api.provider.Holder
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.conditions.Conditions
-import com.willfp.reforges.conditions.ConfiguredCondition
-import com.willfp.reforges.effects.ConfiguredEffect
-import com.willfp.reforges.effects.Effects
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Objects
 
 @Suppress("DEPRECATION")
 class Reforge(
     internal val config: JSONConfig,
-    private val plugin: ReforgesPlugin
-) {
+    plugin: ReforgesPlugin
+) : Holder {
     val id = config.getString("id")
 
     val name = config.getFormattedString("name")
@@ -29,12 +29,12 @@ class Reforge(
 
     val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
 
-    val effects = config.getSubsections("effects").map {
+    override val effects = config.getSubsections("effects").map {
         val effect = Effects.getByID(it.getString("id")) ?: return@map null
         ConfiguredEffect(effect, it)
     }.filterNotNull().toSet()
 
-    val conditions = config.getSubsections("conditions").map {
+    override val conditions = config.getSubsections("conditions").map {
         val condition = Conditions.getByID(it.getString("id")) ?: return@map null
         ConfiguredCondition(condition, it)
     }.filterNotNull().toSet()
@@ -72,18 +72,6 @@ class Reforge(
                 stone,
                 config.getStrings("stone.recipe", false)
             )
-        }
-    }
-
-    fun handleActivation(player: Player) {
-        for ((effect, config) in this.effects) {
-            effect.handleEnabling(player, config)
-        }
-    }
-
-    fun handleDeactivation(player: Player) {
-        for ((effect, _) in this.effects) {
-            effect.handleDisabling(player)
         }
     }
 

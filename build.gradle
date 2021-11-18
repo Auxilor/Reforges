@@ -37,10 +37,15 @@ allprojects {
         onlyIf { !sourceSets.main.allSource.files.isEmpty() }
     }
 
+    shadowJar {
+        relocate('com.willfp.libreforge', 'com.willfp.reforges.libreforge')
+    }
+
     dependencies {
         compileOnly 'com.willfp:eco:6.13.8'
+        implementation 'com.willfp:libreforge:0.1.1'
 
-        compileOnly 'org.jetbrains:annotations:19.0.0'
+        compileOnly 'org.jetbrains:annotations:23.0.0'
 
         compileOnly 'org.projectlombok:lombok:1.18.20'
         annotationProcessor 'org.projectlombok:lombok:1.18.20'
@@ -48,7 +53,6 @@ allprojects {
         testCompileOnly 'org.projectlombok:lombok:1.18.20'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-        compileOnly 'org.jetbrains:annotations:19.0.0'
         compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
     }
 

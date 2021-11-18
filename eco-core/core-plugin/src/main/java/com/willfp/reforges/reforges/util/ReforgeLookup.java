@@ -1,9 +1,8 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
-import com.willfp.eco.util.ListUtils;
+import com.willfp.libreforge.api.LibReforge;
 import com.willfp.reforges.ReforgesPlugin;
-import com.willfp.reforges.conditions.ConfiguredCondition;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import org.bukkit.entity.Player;
@@ -38,11 +37,6 @@ public class ReforgeLookup {
      * Cached reforges.
      */
     private static final Map<UUID, Collection<Reforge>> REFORGE_CACHE = new WeakHashMap<>();
-
-    /**
-     * Previous reforge states.
-     */
-    private static final Map<UUID, Collection<Reforge>> PREVIOUS_STATES = new WeakHashMap<>();
 
     /**
      * Instance of Reforges.
@@ -125,100 +119,6 @@ public class ReforgeLookup {
         return found;
     }
 
-    /**
-     * Clear caches.
-     *
-     * @param player The player.
-     */
-    public static void clearCaches(@NotNull final Player player) {
-        REFORGE_CACHE.remove(player.getUniqueId());
-        ITEM_CACHE.remove(player.getUniqueId());
-    }
-
-    /**
-     * Update reforges for a player.
-     *
-     * @param player The player.
-     */
-    public static void updateReforges(@NotNull final Player player) {
-        List<Reforge> before = new ArrayList<>();
-        if (PREVIOUS_STATES.containsKey(player.getUniqueId())) {
-            before.addAll(PREVIOUS_STATES.get(player.getUniqueId()));
-        }
-
-        ReforgeLookup.provideReforges(player);
-        ReforgeLookup.clearCaches(player);
-        PLUGIN.getScheduler().run(() -> {
-            List<Reforge> after = ReforgeLookup.provideReforges(player);
-            PREVIOUS_STATES.put(player.getUniqueId(), after);
-            Map<Reforge, Integer> beforeFrequency = ListUtils.listToFrequencyMap(before);
-            Map<Reforge, Integer> afterFrequency = ListUtils.listToFrequencyMap(after);
-
-            List<Reforge> added = new ArrayList<>();
-            List<Reforge> removed = new ArrayList<>();
-
-            for (Map.Entry<Reforge, Integer> entry : new HashSet<>(afterFrequency.entrySet())) {
-                int amount = entry.getValue();
-                Reforge reforge = entry.getKey();
-
-                amount -= beforeFrequency.getOrDefault(reforge, 0);
-
-                if (amount < 1) {
-                    continue;
-                }
-
-                for (int i = 0; i < amount; i++) {
-                    added.add(reforge);
-                }
-            }
-
-            for (Map.Entry<Reforge, Integer> entry : new HashSet<>(beforeFrequency.entrySet())) {
-                int amount = entry.getValue();
-                Reforge reforge = entry.getKey();
-
-                amount -= afterFrequency.getOrDefault(reforge, 0);
-
-                if (amount < 1) {
-                    continue;
-                }
-
-                for (int i = 0; i < amount; i++) {
-                    removed.add(reforge);
-                }
-            }
-
-            for (Reforge reforge : added) {
-                boolean areConditionsMet = true;
-                for (ConfiguredCondition condition : reforge.getConditions()) {
-                    if (!condition.getCondition().isConditionMet(player, condition.getConfig())) {
-                        areConditionsMet = false;
-                        break;
-                    }
-                }
-                if (areConditionsMet) {
-                    reforge.handleActivation(player);
-                }
-            }
-
-            for (Reforge reforge : removed) {
-                reforge.handleDeactivation(player);
-            }
-
-            for (Reforge reforge : after) {
-                boolean areConditionsMet = true;
-                for (ConfiguredCondition condition : reforge.getConditions()) {
-                    if (!condition.getCondition().isConditionMet(player, condition.getConfig())) {
-                        areConditionsMet = false;
-                        break;
-                    }
-                }
-                if (!areConditionsMet) {
-                    reforge.handleDeactivation(player);
-                }
-            }
-        });
-    }
-
     static {
         registerProvider(player -> Map.of(
                 player.getInventory().getItemInMainHand(),
@@ -235,5 +135,7 @@ public class ReforgeLookup {
             }
             return items;
         });
+
+        LibReforge.registerHolderProvider(player -> new ArrayList<>(provideReforges(player)));
     }
 }
