@@ -3,7 +3,7 @@ package com.willfp.reforges.reforges.util;
 import com.willfp.eco.core.EcoPlugin;
 import com.willfp.eco.core.PluginDependent;
 import com.willfp.eco.core.events.ArmorChangeEvent;
-import com.willfp.libreforge.api.LibReforgeKt;
+import com.willfp.libreforge.api.LibReforgeUtils;
 import com.willfp.libreforge.api.effects.ConfiguredEffect;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
@@ -133,6 +133,6 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
     }
 
     private void refreshPlayer(@NotNull final Player player) {
-        LibReforgeKt.updateEffects(player);
+        LibReforgeUtils.updateEffects(player);
     }
 }

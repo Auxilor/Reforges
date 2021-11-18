@@ -6,7 +6,7 @@ import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.integrations.IntegrationLoader;
 import com.willfp.eco.core.items.Items;
 import com.willfp.libreforge.api.LibReforge;
-import com.willfp.libreforge.api.LibReforgeKt;
+import com.willfp.libreforge.api.LibReforgeUtils;
 import com.willfp.libreforge.api.effects.ConfiguredEffect;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
@@ -61,6 +61,7 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     protected void handleEnable() {
+        LibReforge.enable(this);
         Items.registerArgParser(new ReforgeArgParser());
     }
 
@@ -80,7 +81,7 @@ public class ReforgesPlugin extends EcoPlugin {
         this.getLogger().info(Reforges.values().size() + " Reforges Loaded");
         this.getScheduler().runTimer(() -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                LibReforgeKt.updateEffects(player);
+                LibReforgeUtils.updateEffects(player);
             }
         }, 81, 81);
     }
