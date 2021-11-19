@@ -1,7 +1,7 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
-import com.willfp.libreforge.api.LibReforge;
+import com.willfp.libreforge.LibReforge;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;

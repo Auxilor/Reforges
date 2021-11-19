@@ -6,16 +6,14 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
-import com.willfp.libreforge.api.conditions.Conditions
-import com.willfp.libreforge.api.conditions.ConfiguredCondition
-import com.willfp.libreforge.api.effects.ConfiguredEffect
-import com.willfp.libreforge.api.effects.Effects
-import com.willfp.libreforge.api.provider.Holder
+import com.willfp.libreforge.Holder
+import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import org.bukkit.inventory.ItemStack
-import java.util.Objects
+import java.util.*
 
 @Suppress("DEPRECATION")
 class Reforge(
@@ -30,15 +28,13 @@ class Reforge(
 
     val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
 
-    override val effects = config.getSubsections("effects").map {
-        val effect = Effects.getByID(it.getString("id")) ?: return@map null
-        ConfiguredEffect(effect, it)
-    }.filterNotNull().toSet()
+    override val effects = config.getSubsections("effects").mapNotNull {
+        Effects.compile(it, "Reforge ID $id")
+    }.toSet()
 
-    override val conditions = config.getSubsections("conditions").map {
-        val condition = Conditions.getByID(it.getString("id")) ?: return@map null
-        ConfiguredCondition(condition, it)
-    }.filterNotNull().toSet()
+    override val conditions = config.getSubsections("conditions").mapNotNull {
+        Conditions.compile(it, "Reforge ID $id")
+    }.toSet()
 
     val requiresStone = config.getBool("stone.enabled")
 

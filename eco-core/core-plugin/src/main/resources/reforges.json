@@ -20,8 +20,12 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 3,
-          "chance": 2
+          "args": {
+            "multiplier": 3
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         }
       ],
       "conditions": []
