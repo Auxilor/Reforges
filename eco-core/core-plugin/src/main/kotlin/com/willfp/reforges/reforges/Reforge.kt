@@ -55,19 +55,21 @@ class Reforge(
 
         Display.display(stone)
 
-        CustomItem(
-            plugin.namespacedKeyFactory.create("stone_" + this.id),
-            { test -> ReforgeUtils.getReforgeStone(test) == this },
-            stone
-        ).register()
+        if (config.getBool("stone.enabled")) {
+            CustomItem(
+                plugin.namespacedKeyFactory.create("stone_" + this.id),
+                { test -> ReforgeUtils.getReforgeStone(test) == this },
+                stone
+            ).register()
 
-        if (config.getBool("stone.craftable") && config.getBool("stone.enabled")) {
-            Recipes.createAndRegisterRecipe(
-                plugin,
-                "stone_" + this.id,
-                stone,
-                config.getStrings("stone.recipe", false)
-            )
+            if (config.getBool("stone.craftable")) {
+                Recipes.createAndRegisterRecipe(
+                    plugin,
+                    "stone_" + this.id,
+                    stone,
+                    config.getStrings("stone.recipe", false)
+                )
+            }
         }
     }
 
