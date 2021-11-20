@@ -12,6 +12,7 @@ messages:
   needs-stone: "&cYou must specify a reforge stone"
   invalid-stone: "&cInvalid reforge!"
   give-success: "Gave &a%reforge%&r reforge stone to &a%recipient%"
+  on-cooldown: "&cThis reforge is on cooldown! &fTime left: &a%seconds% seconds"
 
 menu:
   title: "Reforge Item"

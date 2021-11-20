@@ -134,3 +134,10 @@ reforge:
 
   display-in-lore: true
   display-in-name: true # Requires paper to be installed on the server
+
+cooldown:
+  in-actionbar: true
+  sound:
+    enabled: true
+    sound: "note_block_pling"
+    pitch: 0.5
