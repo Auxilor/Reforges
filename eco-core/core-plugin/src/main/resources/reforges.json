@@ -21,7 +21,8 @@
         {
           "id": "damage_multiplier",
           "args": {
-            "multiplier": 3
+            "multiplier": 3,
+            "chance": 2
           },
           "triggers": [
             "melee_attack"
@@ -50,39 +51,18 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.09
+          "args": {
+            "multiplier": 1.09
+          },
+          "triggers": [
+            "bow_attack"
+          ]
         }
       ],
       "conditions": [
         {
           "id": "in_air"
         }
-      ]
-    },
-    {
-      "id": "durable",
-      "name": "<gradient:#0EA3C3>Durable</gradient:#0BCBC8>",
-      "description": [
-        "&a+15% &fMore durability"
-      ],
-      "targets": [
-        "all"
-      ],
-      "stone": {
-        "enabled": false,
-        "name": "",
-        "lore": [],
-        "item": "",
-        "craftable": false,
-        "recipe": []
-      },
-      "effects": [
-        {
-          "id": "durability_multiplier",
-          "multiplier": 1.15
-        }
-      ],
-      "conditions": [
       ]
     },
     {
@@ -120,11 +100,21 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.05
+          "args": {
+            "multiplier": 1.05
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         },
         {
           "id": "crit_multiplier",
-          "multiplier": 1.10
+          "args": {
+            "multiplier": 1.1
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         }
       ],
       "conditions": [
@@ -149,9 +139,14 @@
       },
       "effects": [
         {
-          "id": "incoming_damage_multiplier",
-          "multiplier": 0,
-          "chance": 2
+          "id": "damage_multiplier",
+          "args": {
+            "multiplier": 0,
+            "chance": 2
+          },
+          "triggers": [
+            "take_damage"
+          ]
         }
       ],
       "conditions": [
@@ -177,7 +172,12 @@
       "effects": [
         {
           "id": "crit_multiplier",
-          "multiplier": 1.08
+          "args": {
+            "multiplier": 1.08
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         }
       ],
       "conditions": [
@@ -205,15 +205,24 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 0.95
+          "args": {
+            "multiplier": 0.95
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         },
         {
           "id": "knockback_multiplier",
-          "multiplier": 0.95
+          "args": {
+            "multiplier": 0.95
+          }
         },
         {
           "id": "attack_speed_multiplier",
-          "multiplier": 1.1
+          "args": {
+            "multiplier": 1.1
+          }
         }
       ],
       "conditions": [
@@ -241,7 +250,14 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.2
+          "args": {
+            "multiplier": 1.2
+          },
+          "triggers": [
+            "melee_attack",
+            "bow_attack",
+            "trident_attack"
+          ]
         }
       ],
       "conditions": [
@@ -270,7 +286,12 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.1
+          "args": {
+            "multiplier": 1.1
+          },
+          "triggers": [
+            "trident_attack"
+          ]
         }
       ],
       "conditions": [
@@ -295,9 +316,14 @@
       },
       "effects": [
         {
-          "id": "reward_block_break",
-          "amount": 2,
-          "chance": 5
+          "id": "reward",
+          "args": {
+            "amount": 2,
+            "chance": 5
+          },
+          "triggers": [
+            "mine_block"
+          ]
         }
       ],
       "conditions": [
@@ -322,8 +348,13 @@
       },
       "effects": [
         {
-          "id": "incoming_damage_multiplier",
-          "multiplier": 0.96
+          "id": "damage_multiplier",
+          "args": {
+            "multiplier": 0.96
+          },
+          "triggers": [
+            "take_damage"
+          ]
         }
       ],
       "conditions": [
@@ -363,8 +394,13 @@
       },
       "effects": [
         {
-          "id": "reward_kill",
-          "amount": 50
+          "id": "reward",
+          "args": {
+            "amount": 50
+          },
+          "triggers": [
+            "kill"
+          ]
         }
       ],
       "conditions": [
@@ -390,7 +426,12 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.03
+          "args": {
+            "multiplier": 1.03
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         }
       ],
       "conditions": [
@@ -416,7 +457,12 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.04
+          "args": {
+            "multiplier": 1.04
+          },
+          "triggers": [
+            "bow_attack"
+          ]
         }
       ],
       "conditions": [
@@ -443,11 +489,18 @@
       "effects": [
         {
           "id": "damage_multiplier",
-          "multiplier": 1.02
+          "args": {
+            "multiplier": 1.02
+          },
+          "triggers": [
+            "melee_attack"
+          ]
         },
         {
           "id": "knockback_multiplier",
-          "multiplier": 1.1
+          "args": {
+            "multiplier": 1.1
+          }
         }
       ],
       "conditions": [
@@ -473,12 +526,19 @@
       },
       "effects": [
         {
-          "id": "incoming_damage_multiplier",
-          "multiplier": 1.05
+          "id": "damage_multiplier",
+          "args": {
+            "multiplier": 1.05
+          },
+          "triggers": [
+            "take_damage"
+          ]
         },
         {
           "id": "movement_speed_multiplier",
-          "multiplier": 1.025
+          "args": {
+            "multiplier": 1.025
+          }
         }
       ],
       "conditions": [
@@ -504,12 +564,19 @@
       },
       "effects": [
         {
-          "id": "incoming_damage_multiplier",
-          "multiplier": 0.92
+          "id": "damage_multiplier",
+          "args": {
+            "multiplier": 0.92
+          },
+          "triggers": [
+            "take_damage"
+          ]
         },
         {
           "id": "movement_speed_multiplier",
-          "multiplier": 0.95
+          "args": {
+            "multiplier": 0.95
+          }
         }
       ],
       "conditions": [
