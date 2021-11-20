@@ -316,7 +316,7 @@
       },
       "effects": [
         {
-          "id": "reward",
+          "id": "give_money",
           "args": {
             "amount": 2,
             "chance": 5
@@ -394,7 +394,7 @@
       },
       "effects": [
         {
-          "id": "reward",
+          "id": "give_money",
           "args": {
             "amount": 50
           },
