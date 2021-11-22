@@ -8,7 +8,6 @@ dependencies {
     compileOnly 'com.willfp:EcoSkills:1.4.0'
     compileOnly 'com.willfp:Talismans:4.6.0'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.2.4'
-    compileOnly fileTree(dir: '../../lib', include: ['*.jar'])
 }
 
 build.dependsOn publishToMavenLocal
