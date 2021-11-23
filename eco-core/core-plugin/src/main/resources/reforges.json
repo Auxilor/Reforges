@@ -61,7 +61,10 @@
       ],
       "conditions": [
         {
-          "id": "in_air"
+          "id": "in_air",
+          "args": {
+            "in_air": true
+          }
         }
       ]
     },
@@ -262,7 +265,10 @@
       ],
       "conditions": [
         {
-          "id": "in_water"
+          "id": "in_water",
+          "args": {
+            "in_water": true
+          }
         }
       ]
     },
