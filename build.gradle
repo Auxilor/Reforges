@@ -68,6 +68,15 @@ allprojects {
         }
     }
 
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile) {
+        kotlinOptions {
+            jvmTarget = "16"
+        }
+    }
+
+    java.sourceCompatibility = JavaVersion.VERSION_16
+    java.targetCompatibility = JavaVersion.VERSION_16
+
     compileJava.options.encoding = 'UTF-8'
     compileJava.dependsOn clean
 
@@ -93,8 +102,5 @@ jar {
 group = 'com.willfp'
 archivesBaseName = project.name
 version = findProperty("version")
-java.sourceCompatibility = JavaVersion.VERSION_16
-
-compileJava.options.encoding = 'UTF-8'
 
 build.dependsOn shadowJar
