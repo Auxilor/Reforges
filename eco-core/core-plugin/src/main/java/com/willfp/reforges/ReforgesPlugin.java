@@ -58,7 +58,7 @@ public class ReforgesPlugin extends EcoPlugin {
         this.reforgesJson = new ReforgesJson(this);
         instance = this;
 
-        LibReforge.registerHolderProvider(player -> new ArrayList<>(ReforgeLookup.provideReforges(player)));
+        LibReforge.registerHolderProvider(ReforgeLookup::provideReforges);
     }
 
     @Override
