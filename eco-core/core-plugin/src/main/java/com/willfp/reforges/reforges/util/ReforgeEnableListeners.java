@@ -97,6 +97,8 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
     @EventHandler
     public void onChangeSlot(@NotNull final PlayerItemHeldEvent event) {
         refreshPlayer(event.getPlayer());
+
+        this.getPlugin().getScheduler().run(() -> refreshPlayer(event.getPlayer()));
     }
 
     /**
@@ -133,6 +135,7 @@ public class ReforgeEnableListeners extends PluginDependent<EcoPlugin> implement
     }
 
     private void refreshPlayer(@NotNull final Player player) {
+        ReforgeLookup.clearCache(player);
         LibReforgeUtils.updateEffects(player);
     }
 }

@@ -17,6 +17,7 @@ import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
 import com.willfp.reforges.reforges.util.ReforgeArgParser;
 import com.willfp.reforges.reforges.util.ReforgeEnableListeners;
+import com.willfp.reforges.reforges.util.ReforgeLookup;
 import com.willfp.reforges.util.AntiPlaceListener;
 import com.willfp.reforges.util.DiscoverRecipeListener;
 import lombok.Getter;
@@ -56,6 +57,8 @@ public class ReforgesPlugin extends EcoPlugin {
         this.targetYml = new TargetYml(this);
         this.reforgesJson = new ReforgesJson(this);
         instance = this;
+
+        LibReforge.registerHolderProvider(player -> new ArrayList<>(ReforgeLookup.provideReforges(player)));
     }
 
     @Override

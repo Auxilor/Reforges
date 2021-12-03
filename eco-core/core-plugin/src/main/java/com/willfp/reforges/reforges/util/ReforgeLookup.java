@@ -1,7 +1,6 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
-import com.willfp.libreforge.LibReforge;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
@@ -119,6 +118,16 @@ public class ReforgeLookup {
         return found;
     }
 
+    /**
+     * Clear cache.
+     *
+     * @param player The player.
+     */
+    public static void clearCache(@NotNull final Player player) {
+        ITEM_CACHE.remove(player.getUniqueId());
+        REFORGE_CACHE.remove(player.getUniqueId());
+    }
+
     static {
         registerProvider(player -> Map.of(
                 player.getInventory().getItemInMainHand(),
@@ -135,7 +144,5 @@ public class ReforgeLookup {
             }
             return items;
         });
-
-        LibReforge.registerHolderProvider(player -> new ArrayList<>(provideReforges(player)));
     }
 }
