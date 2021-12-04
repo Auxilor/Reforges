@@ -1,16 +1,16 @@
 package com.willfp.reforges.config;
 
 import com.willfp.eco.core.EcoPlugin;
-import com.willfp.eco.core.config.json.JSONBaseConfig;
+import com.willfp.eco.core.config.yaml.YamlBaseConfig;
 import org.jetbrains.annotations.NotNull;
 
-public class ReforgesJson extends JSONBaseConfig {
+public class ReforgesYml extends YamlBaseConfig {
     /**
-     * Instantiate reforges.json.
+     * Instantiate reforges.yml.
      *
      * @param plugin Instance of reforges.
      */
-    public ReforgesJson(@NotNull final EcoPlugin plugin) {
+    public ReforgesYml(@NotNull final EcoPlugin plugin) {
         super("reforges", true, plugin);
     }
 }

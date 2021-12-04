@@ -1,6 +1,6 @@
 package com.willfp.reforges.reforges
 
-import com.willfp.eco.core.config.interfaces.JSONConfig
+import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
@@ -17,7 +17,7 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class Reforge(
-    internal val config: JSONConfig,
+    internal val config: Config,
     plugin: ReforgesPlugin
 ) : Holder {
     val id = config.getString("id")

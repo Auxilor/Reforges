@@ -3,7 +3,7 @@ package com.willfp.reforges.reforges;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
-import com.willfp.eco.core.config.interfaces.JSONConfig;
+import com.willfp.eco.core.config.interfaces.Config;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
 import com.willfp.reforges.ReforgesPlugin;
 import lombok.experimental.UtilityClass;
@@ -59,7 +59,7 @@ public class Reforges {
             removeReforge(reforge);
         }
 
-        for (JSONConfig config : plugin.getReforgesJson().getSubsections("reforges")) {
+        for (Config config : plugin.getReforgesYml().getSubsections("reforges")) {
             new Reforge(config, plugin);
         }
     }

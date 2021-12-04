@@ -9,7 +9,7 @@ import com.willfp.libreforge.LibReforge;
 import com.willfp.libreforge.effects.ConfiguredEffect;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
-import com.willfp.reforges.config.ReforgesJson;
+import com.willfp.reforges.config.ReforgesYml;
 import com.willfp.reforges.config.TargetYml;
 import com.willfp.reforges.display.ReforgesDisplay;
 import com.willfp.reforges.integrations.talismans.TalismansIntegration;
@@ -43,10 +43,10 @@ public class ReforgesPlugin extends EcoPlugin {
     private final TargetYml targetYml;
 
     /**
-     * reforges.json.
+     * reforges.yml.
      */
     @Getter
-    private final ReforgesJson reforgesJson;
+    private final ReforgesYml reforgesYml;
 
     /**
      * Internal constructor called by bukkit on plugin load.
@@ -55,7 +55,7 @@ public class ReforgesPlugin extends EcoPlugin {
         super(1330, 12412, "&3", true);
         LibReforge.init(this);
         this.targetYml = new TargetYml(this);
-        this.reforgesJson = new ReforgesJson(this);
+        this.reforgesYml = new ReforgesYml(this);
         instance = this;
 
         LibReforge.registerHolderProvider(ReforgeLookup::provideReforges);
