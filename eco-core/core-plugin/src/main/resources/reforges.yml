@@ -241,7 +241,7 @@ reforges:
   - id: rich
     name: "<gradient:#DBDBDB>Rich</gradient:#F2F2F2>"
     description:
-      - "&a+$50 &fFor each mob kill"
+      - "&a+$$50 &fFor each mob kill"
     targets:
       - trident
       - bow
