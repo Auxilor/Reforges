@@ -123,7 +123,7 @@ public class ReforgesPlugin extends EcoPlugin {
 
     @Override
     public String getMinimumEcoVersion() {
-        return "6.12.2";
+        return "6.15.0";
     }
 
     /**
