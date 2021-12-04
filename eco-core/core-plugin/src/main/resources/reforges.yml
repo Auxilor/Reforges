@@ -200,7 +200,7 @@ reforges:
   - id: prospecting
     name: "<gradient:#00B4DB>Prospecting</gradient:#0083B0>"
     description:
-      - "&a+5% &fChance to get &e$2&f for mining a block"
+      - "&a+5% &fChance to get &e$$2&f for mining a block"
     targets:
       - pickaxe
     stone:
