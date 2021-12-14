@@ -1,16 +1,14 @@
 package com.willfp.reforges.commands
 
 import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.command.CommandHandler
 import com.willfp.eco.core.command.impl.PluginCommand
+import org.bukkit.command.CommandSender
 
 class CommandReforges(plugin: EcoPlugin) : PluginCommand(plugin, "reforges", "reforges.command.reforges", false) {
-    override fun getHandler(): CommandHandler {
-        return CommandHandler { sender, _ ->
-            sender.sendMessage(
-                plugin.langYml.getMessage("invalid-command")
-            )
-        }
+    override fun onExecute(sender: CommandSender, args: List<String>) {
+        sender.sendMessage(
+            plugin.langYml.getMessage("invalid-command")
+        )
     }
 
     init {
