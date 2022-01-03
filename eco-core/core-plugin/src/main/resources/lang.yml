@@ -13,7 +13,7 @@ messages:
   invalid-stone: "&cInvalid reforge!"
   give-success: "Gave &a%reforge%&r reforge stone to &a%recipient%"
   on-cooldown: "&cThis reforge is on cooldown! &fTime left: &a%seconds% seconds"
-  cannot-afford: "&cYou can't afford to do this! &fCost: &a$%cost%"
+  cannot-afford: "&cYou can't afford to do this! &fCost: &a$$%cost%"
 
 menu:
   title: "Reforge Item"
