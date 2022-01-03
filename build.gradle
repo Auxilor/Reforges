@@ -63,7 +63,7 @@ allprojects {
     }
 
     processResources {
-        filesNotMatching(["**/*.png", "**/models/**", "**/textures/**", "**reforges.yml"]) {
+        filesNotMatching(["**/*.png", "**/models/**", "**/textures/**", "**reforges.yml", "**lang.yml"]) {
             expand projectVersion: project.version
         }
     }
