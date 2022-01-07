@@ -39,7 +39,7 @@ public class TargetYml extends BaseConfig {
      */
     public Set<TestableItem> getTargetItems(@NotNull final String target) {
         Set<TestableItem> items = new HashSet<>();
-        this.getStrings(target + ".items", false).forEach(s -> items.add(Items.lookup(s.toUpperCase())));
+        this.getStrings(target + ".items").forEach(s -> items.add(Items.lookup(s.toUpperCase())));
         return items;
     }
 

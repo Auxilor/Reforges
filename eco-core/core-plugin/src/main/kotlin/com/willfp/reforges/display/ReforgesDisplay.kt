@@ -55,7 +55,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
                 val addLore: MutableList<String> = ArrayList()
-                for (string in plugin.configYml.getStrings("reforge.reforgable-suffix")) {
+                for (string in plugin.configYml.getFormattedStrings("reforge.reforgable-suffix")) {
                     addLore.add(Display.PREFIX + string)
                 }
                 lore.addAll(addLore)

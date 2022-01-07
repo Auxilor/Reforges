@@ -64,8 +64,8 @@ object ReforgeGUI {
                         previous.type = Material.getMaterial(
                             plugin.configYml.getString("gui.invalid-item.material").uppercase()
                         )!!
-                        meta.setDisplayName(plugin.configYml.getString("gui.invalid-item.name"))
-                        meta.lore = plugin.configYml.getStrings("gui.invalid-item.lore").map {
+                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.invalid-item.name"))
+                        meta.lore = plugin.configYml.getFormattedStrings("gui.invalid-item.lore").map {
                             it.replace("%cost%", NumberUtils.format(cost))
                                 .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                         }
@@ -74,8 +74,8 @@ object ReforgeGUI {
                         previous.type = Material.getMaterial(
                             plugin.configYml.getString("gui.allow.material").uppercase()
                         )!!
-                        meta.setDisplayName(plugin.configYml.getString("gui.allow.name"))
-                        meta.lore = plugin.configYml.getStrings("gui.allow.lore").map {
+                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.allow.name"))
+                        meta.lore = plugin.configYml.getFormattedStrings("gui.allow.lore").map {
                             it.replace("%cost%", NumberUtils.format(cost))
                                 .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                         }
@@ -84,8 +84,8 @@ object ReforgeGUI {
                         previous.type = Material.getMaterial(
                             plugin.configYml.getString("gui.allow-stone.material").uppercase()
                         )!!
-                        meta.setDisplayName(plugin.configYml.getString("gui.allow-stone.name"))
-                        meta.lore = plugin.configYml.getStrings("gui.allow-stone.lore").map {
+                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.allow-stone.name"))
+                        meta.lore = plugin.configYml.getFormattedStrings("gui.allow-stone.lore").map {
                             it.replace("%cost%", NumberUtils.format(cost))
                                 .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                                 .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1]).name)
@@ -95,8 +95,8 @@ object ReforgeGUI {
                         previous.type = Material.getMaterial(
                             plugin.configYml.getString("gui.no-item.material").uppercase()
                         )!!
-                        meta.setDisplayName(plugin.configYml.getString("gui.no-item.name"))
-                        meta.lore = plugin.configYml.getStrings("gui.no-item.lore").map {
+                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.no-item.name"))
+                        meta.lore = plugin.configYml.getFormattedStrings("gui.no-item.lore").map {
                             it.replace("%cost%", NumberUtils.format(cost))
                                 .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                         }
@@ -122,7 +122,7 @@ object ReforgeGUI {
             Material.getMaterial(plugin.configYml.getString("gui.close.material", false).toUpperCase())!!
 
         menu = Menu.builder(plugin.configYml.getInt("gui.rows")).apply {
-            setTitle(plugin.langYml.getString("menu.title"))
+            setTitle(plugin.langYml.getFormattedString("menu.title"))
             setMask(FillerMask(MaskMaterials(*maskMaterials), *maskPattern))
             modfiy { builder ->
                 val slot = Slot.builder(
@@ -173,7 +173,7 @@ object ReforgeGUI {
                 plugin.configYml.getInt("gui.close.location.column"),
                 Slot.builder(
                     ItemStackBuilder(closeMaterial)
-                        .setDisplayName(plugin.langYml.getString("menu.close"))
+                        .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
                         .build()
                 ).onLeftClick { event, _, _ ->
                     event.whoClicked.closeInventory()
