@@ -1,8 +1,8 @@
 package com.willfp.reforges.config;
 
 import com.willfp.eco.core.EcoPlugin;
-import com.willfp.eco.core.config.BaseConfig;
 import com.willfp.eco.core.config.ConfigType;
+import com.willfp.eco.core.config.StaticBaseConfig;
 import com.willfp.eco.core.items.Items;
 import com.willfp.eco.core.items.TestableItem;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
@@ -12,14 +12,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TargetYml extends BaseConfig {
+public class TargetYml extends StaticBaseConfig {
     /**
      * Instantiate target.yml.
      *
      * @param plugin Instance of EcoEnchants.
      */
     public TargetYml(@NotNull final EcoPlugin plugin) {
-        super("target", plugin, false, ConfigType.YAML);
+        super("target", plugin, ConfigType.YAML);
     }
 
     /**
