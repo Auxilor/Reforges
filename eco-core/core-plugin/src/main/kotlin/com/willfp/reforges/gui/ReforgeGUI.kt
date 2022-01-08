@@ -122,7 +122,7 @@ object ReforgeGUI {
             Material.getMaterial(plugin.configYml.getString("gui.close.material", false).toUpperCase())!!
 
         menu = Menu.builder(plugin.configYml.getInt("gui.rows")).apply {
-            setTitle(plugin.langYml.getString("menu.title"))
+            setTitle(plugin.langYml.getFormattedString("menu.title"))
             setMask(FillerMask(MaskMaterials(*maskMaterials), *maskPattern))
             modfiy { builder ->
                 val slot = Slot.builder(
