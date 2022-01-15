@@ -135,6 +135,10 @@ reforge:
   display-in-lore: true
   display-in-name: true # Requires paper to be installed on the server
 
+  reforged-prefix:
+    - ""
+    - "%reforge%"
+
 cooldown:
   in-actionbar: true
   sound:

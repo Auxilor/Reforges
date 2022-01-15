@@ -85,8 +85,9 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         if (reforge != null) {
             if (plugin.configYml.getBool("reforge.display-in-lore")) {
                 val addLore: MutableList<String> = ArrayList()
-                addLore.add(" ")
-                addLore.add(reforge.name)
+                for (string in plugin.configYml.getFormattedStrings("reforge.reforged-prefix")) {
+                    addLore.add(Display.PREFIX + string.replace("%reforge%", reforge.name))
+                }
                 addLore.addAll(reforge.description)
                 addLore.replaceAll { "${Display.PREFIX}$it" }
                 lore.addAll(addLore)
