@@ -7,6 +7,7 @@ import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskMaterials
 import com.willfp.eco.core.gui.slot.Slot
+import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.ReforgesPlugin
@@ -114,12 +115,9 @@ object ReforgeGUI {
             .mapNotNull { Material.getMaterial(it.uppercase()) }
             .toTypedArray()
 
-        val allowMaterial =
-            Material.getMaterial(plugin.configYml.getString("gui.show-allowed.allow-material", false).uppercase())!!
-        val denyMaterial =
-            Material.getMaterial(plugin.configYml.getString("gui.show-allowed.deny-material", false).uppercase())!!
-        val closeMaterial =
-            Material.getMaterial(plugin.configYml.getString("gui.close.material", false).toUpperCase())!!
+        val allowItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
+        val denyItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
+        val closeItem = Items.lookup(plugin.configYml.getString("gui.close.material")).item
 
         menu = Menu.builder(plugin.configYml.getInt("gui.rows")).apply {
             setTitle(plugin.langYml.getFormattedString("menu.title"))
@@ -136,9 +134,11 @@ object ReforgeGUI {
                         ).status
 
                         if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-                            previous.type = allowMaterial
+                            previous.type = allowItem.type
+                            previous.itemMeta = allowItem.itemMeta
                         } else {
-                            previous.type = denyMaterial
+                            previous.type = denyItem.type
+                            previous.itemMeta = denyItem.itemMeta
                         }
                     }
                 }.build()
@@ -172,7 +172,7 @@ object ReforgeGUI {
                 plugin.configYml.getInt("gui.close.location.row"),
                 plugin.configYml.getInt("gui.close.location.column"),
                 Slot.builder(
-                    ItemStackBuilder(closeMaterial)
+                    ItemStackBuilder(closeItem)
                         .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
                         .build()
                 ).onLeftClick { event, _, _ ->
