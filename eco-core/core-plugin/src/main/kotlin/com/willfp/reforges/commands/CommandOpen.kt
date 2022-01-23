@@ -21,13 +21,14 @@ class CommandOpen(
             sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
             return
         }
-        player.playSound(
-            player.location,
-            Sound.valueOf(plugin.configYml.getString("gui.open-sound.id").uppercase()),
-            1f,
-            plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
-        )
-        menu.open(player)
+        if (plugin.configYml.getBool("gui.open-sound.enabled")) {
+            player.playSound(
+                player.location,
+                Sound.valueOf(plugin.configYml.getString("gui.open-sound.id").uppercase()),
+                1f,
+                plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
+            )
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

@@ -105,18 +105,22 @@ gui:
       - '&7You cannot reforge this item!'
 
   sound:
+    enabled: true
     id: BLOCK_ANVIL_USE
     pitch: 1
 
   open-sound:
+    enabled: true
     id: BLOCK_ANVIL_PLACE
     pitch: 0.8
 
   stone-sound:
+    enabled: true
     id: ENTITY_ENDER_DRAGON_HURT
     pitch: 0.5
 
   insufficient-money-sound:
+    enabled: true
     id: ENTITY_VILLAGER_NO
     pitch: 0.8
 
