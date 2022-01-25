@@ -29,6 +29,7 @@ class CommandOpen(
                 plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
             )
         }
+        menu.open(player)
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
