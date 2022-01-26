@@ -12,12 +12,14 @@ class CommandReforge(
 ) : PluginCommand(plugin, "reforge", "reforges.command.reforge", true) {
     override fun onExecute(player: CommandSender, args: List<String>) {
         player as Player
-        player.playSound(
-            player.location,
-            Sound.valueOf(plugin.configYml.getString("gui.open-sound.id").uppercase()),
-            1f,
-            plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
-        )
+        if (plugin.configYml.getBool("gui.open-sound.enabled")) {
+            player.playSound(
+                player.location,
+                Sound.valueOf(plugin.configYml.getString("gui.open-sound.id").uppercase()),
+                1f,
+                plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
+            )
+        }
         menu.open(player)
     }
 }

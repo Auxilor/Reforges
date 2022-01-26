@@ -76,12 +76,14 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             if (!EconomyManager.hasAmount(player, cost)) {
                 player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
 
-                player.playSound(
-                        player.getLocation(),
-                        Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
-                        1f,
-                        (float) this.getPlugin().getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
-                );
+                if (this.getPlugin().getConfigYml().getBool("gui.insufficient-money-sound.enabled")) {
+                    player.playSound(
+                            player.getLocation(),
+                            Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
+                            1f,
+                            (float) this.getPlugin().getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
+                    );
+                }
 
                 return;
             }
@@ -92,13 +94,14 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         xpCost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
         if (player.getLevel() < xpCost) {
             player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-xp"));
-
-            player.playSound(
-                    player.getLocation(),
-                    Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
-                    1f,
-                    (float) this.getPlugin().getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
-            );
+            if (this.getPlugin().getConfigYml().getBool("gui.insufficient-money-sound.enabled")) {
+                player.playSound(
+                        player.getLocation(),
+                        Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.insufficient-money-sound.id").toUpperCase()),
+                        1f,
+                        (float) this.getPlugin().getConfigYml().getDouble("gui.insufficient-money-sound.pitch")
+                );
+            }
 
             return;
         }
@@ -120,19 +123,25 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             stone.setItemMeta(null);
             stone.setAmount(0);
 
+            if (this.getPlugin().getConfigYml().getBool("gui.stone-sound.enabled")) {
+                player.playSound(
+                        player.getLocation(),
+                        Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.stone-sound.id").toUpperCase()),
+                        1f,
+                        (float) this.getPlugin().getConfigYml().getDouble("gui.stone-sound.pitch")
+                );
+            }
+
+        }
+
+        if (this.getPlugin().getConfigYml().getBool("gui.sound.enabled")) {
             player.playSound(
                     player.getLocation(),
-                    Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.stone-sound.id").toUpperCase()),
+                    Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.sound.id").toUpperCase()),
                     1f,
-                    (float) this.getPlugin().getConfigYml().getDouble("gui.stone-sound.pitch")
+                    (float) this.getPlugin().getConfigYml().getDouble("gui.sound.pitch")
             );
         }
 
-        player.playSound(
-                player.getLocation(),
-                Sound.valueOf(this.getPlugin().getConfigYml().getString("gui.sound.id").toUpperCase()),
-                1f,
-                (float) this.getPlugin().getConfigYml().getDouble("gui.sound.pitch")
-        );
     }
 }
