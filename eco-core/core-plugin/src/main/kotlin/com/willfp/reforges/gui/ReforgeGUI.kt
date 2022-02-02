@@ -3,7 +3,9 @@ package com.willfp.reforges.gui
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
+import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskMaterials
 import com.willfp.eco.core.gui.slot.Slot
@@ -33,9 +35,7 @@ object ReforgeGUI {
     fun update(plugin: EcoPlugin) {
         val handler = ReforgeHandler(plugin)
 
-        val activatorSlot = Slot.builder(
-            ItemStack(Material.ANVIL)
-        ).apply {
+        val activatorSlot = slot(ItemStack(Material.ANVIL)) {
             setModifier { player, menu, previous ->
                 val meta = previous.itemMeta ?: return@setModifier
 
@@ -107,7 +107,7 @@ object ReforgeGUI {
                 previous.itemMeta = meta
             }
             onLeftClick(handler::handleReforgeClick)
-        }.build()
+        }
 
         val maskPattern = plugin.configYml.getStrings("gui.mask.pattern", false).toTypedArray()
 
@@ -119,7 +119,7 @@ object ReforgeGUI {
         val denyItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
         val closeItem = Items.lookup(plugin.configYml.getString("gui.close.material")).item
 
-        menu = Menu.builder(plugin.configYml.getInt("gui.rows")).apply {
+        menu = menu(plugin.configYml.getInt("gui.rows")) {
             setTitle(plugin.langYml.getFormattedString("menu.title"))
             setMask(FillerMask(MaskMaterials(*maskMaterials), *maskPattern))
             modfiy { builder ->
@@ -185,6 +185,6 @@ object ReforgeGUI {
                     .setLocation(event.player.eyeLocation)
                     .push()
             }
-        }.build()
+        }
     }
 }
