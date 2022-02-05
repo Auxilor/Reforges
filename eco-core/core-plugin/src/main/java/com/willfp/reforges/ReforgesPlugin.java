@@ -1,10 +1,12 @@
 package com.willfp.reforges;
 
 import com.willfp.eco.core.command.impl.PluginCommand;
+import com.willfp.eco.core.config.interfaces.Config;
 import com.willfp.eco.core.display.DisplayModule;
 import com.willfp.eco.core.integrations.IntegrationLoader;
 import com.willfp.eco.core.items.Items;
 import com.willfp.libreforge.LibReforgePlugin;
+import com.willfp.libreforge.chains.EffectChains;
 import com.willfp.reforges.commands.CommandReforge;
 import com.willfp.reforges.commands.CommandReforges;
 import com.willfp.reforges.config.ReforgesYml;
@@ -58,6 +60,10 @@ public class ReforgesPlugin extends LibReforgePlugin {
     @Override
     public void handleEnableAdditional() {
         Items.registerArgParser(new ReforgeArgParser());
+
+        for (Config config : reforgesYml.getSubsections("chains")) {
+            EffectChains.compile(config, "Chains");
+        }
     }
 
     @Override
