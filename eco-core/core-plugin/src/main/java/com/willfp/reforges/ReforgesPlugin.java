@@ -60,10 +60,6 @@ public class ReforgesPlugin extends LibReforgePlugin {
     @Override
     public void handleEnableAdditional() {
         Items.registerArgParser(new ReforgeArgParser());
-
-        for (Config config : reforgesYml.getSubsections("chains")) {
-            EffectChains.compile(config, "Chains");
-        }
     }
 
     @Override

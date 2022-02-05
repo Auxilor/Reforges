@@ -5,6 +5,7 @@ import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableSet;
 import com.willfp.eco.core.config.interfaces.Config;
 import com.willfp.eco.core.config.updating.ConfigUpdater;
+import com.willfp.libreforge.chains.EffectChains;
 import com.willfp.reforges.ReforgesPlugin;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +56,10 @@ public class Reforges {
      */
     @ConfigUpdater
     public static void update(@NotNull final ReforgesPlugin plugin) {
+        for (Config config : plugin.getReforgesYml().getSubsections("chains")) {
+            EffectChains.compile(config, "Chains");
+        }
+
         for (Reforge reforge : values()) {
             removeReforge(reforge);
         }
