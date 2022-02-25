@@ -133,10 +133,12 @@ public class ReforgeLookup {
                 player.getInventory().getItemInMainHand(),
                 ReforgeTarget.Slot.HANDS
         ));
-        registerProvider(player -> Map.of(
-                player.getInventory().getItemInOffHand(),
-                ReforgeTarget.Slot.HANDS
-        ));
+        if (!PLUGIN.getConfigYml().getBool("no-offhand")) {
+            registerProvider(player -> Map.of(
+                    player.getInventory().getItemInOffHand(),
+                    ReforgeTarget.Slot.HANDS
+            ));
+        }
         registerProvider(player -> {
             Map<ItemStack, ReforgeTarget.Slot> items = new HashMap<>();
             for (ItemStack stack : player.getInventory().getArmorContents()) {

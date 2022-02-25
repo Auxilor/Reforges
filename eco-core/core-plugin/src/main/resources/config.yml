@@ -4,6 +4,7 @@
 #
 
 discover-recipes: true
+no-offhand: false # Restart your server after this option, doesn't work with /reforges reload
 
 gui:
   rows: 6
