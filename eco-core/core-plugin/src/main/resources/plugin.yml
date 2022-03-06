@@ -38,6 +38,7 @@ permissions:
       reforges.command.reforges: true
       reforges.command.reforge: true
       reforges.command.give: true
+      reforges.command.apply: true
       reforges.command.open: true
 
   reforges.command.reload:
@@ -54,4 +55,7 @@ permissions:
     default: op
   reforges.command.open:
     description: Allows the user of /reforges open.
+    default: op
+  reforges.command.apply:
+    description: Allows the user of /reforges apply.
     default: op

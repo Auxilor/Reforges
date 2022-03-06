@@ -15,5 +15,6 @@ class CommandReforges(plugin: EcoPlugin) : PluginCommand(plugin, "reforges", "re
         addSubcommand(CommandReload(plugin))
             .addSubcommand(CommandGive(plugin))
             .addSubcommand(CommandOpen(plugin))
+            .addSubcommand(CommandApply(plugin))
     }
 }
