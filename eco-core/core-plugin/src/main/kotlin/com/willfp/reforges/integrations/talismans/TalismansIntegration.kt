@@ -11,7 +11,7 @@ object TalismansIntegration : Integration {
     fun registerProvider() {
         ReforgeLookup.registerProvider { player ->
             val provided = mutableMapOf<ItemStack, ReforgeTarget.Slot>()
-            for (itemStack in TalismanChecks.getTalismanItemsOnPlayer(player, true)) {
+            for (itemStack in TalismanChecks.getTalismanItemsOnPlayer(player)) {
                 provided[itemStack] = ReforgeTarget.Slot.ANY
             }
 
