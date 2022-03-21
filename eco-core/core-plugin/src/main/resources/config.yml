@@ -6,6 +6,18 @@
 discover-recipes: true
 no-offhand: false # Restart your server after this option, doesn't work with /reforges reload
 
+# If a reward allows permission multipliers, the weights
+# will be multiplied by highest-priority multiplier that a player
+# has permission for - i.e. if a player has both vip and mvp permissions,
+# than they'll have the mvp one applied as it has a higher priority.
+price-multipliers:
+  - permission: reforges.mutliplier.vip
+    multiplier: 0.8
+    priority: 1
+  - permission: reforges.mutliplier.mvp
+    multiplier: 0.7
+    priority: 2
+
 gui:
   rows: 6
 

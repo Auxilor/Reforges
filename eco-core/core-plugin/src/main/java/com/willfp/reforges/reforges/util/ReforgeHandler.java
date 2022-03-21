@@ -5,6 +5,7 @@ import com.willfp.eco.core.PluginDependent;
 import com.willfp.eco.core.gui.menu.Menu;
 import com.willfp.eco.core.gui.slot.Slot;
 import com.willfp.eco.core.integrations.economy.EconomyManager;
+import com.willfp.reforges.reforges.PriceMultipliers;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.meta.ReforgeTarget;
 import org.bukkit.Sound;
@@ -72,6 +73,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
             if (reforge.getRequiresStone() && reforge.getStonePrice() != -1) {
                 cost = reforge.getStonePrice();
             }
+            cost *= PriceMultipliers.getForPlayer(player).getMultiplier();
 
             if (!EconomyManager.hasAmount(player, cost)) {
                 player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-money"));
@@ -92,6 +94,7 @@ public class ReforgeHandler extends PluginDependent<EcoPlugin> {
         int xpCost = this.getPlugin().getConfigYml().getInt("reforge.xp-cost");
         int reforges = ReforgeUtils.getReforges(toReforge);
         xpCost *= Math.pow(this.getPlugin().getConfigYml().getDouble("reforge.cost-exponent"), reforges);
+        xpCost *= PriceMultipliers.getForPlayer(player).getMultiplier();
         if (player.getLevel() < xpCost) {
             player.sendMessage(this.getPlugin().getLangYml().getMessage("insufficient-xp"));
             if (this.getPlugin().getConfigYml().getBool("gui.insufficient-money-sound.enabled")) {

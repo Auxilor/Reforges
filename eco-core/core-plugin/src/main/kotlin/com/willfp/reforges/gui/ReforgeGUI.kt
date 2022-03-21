@@ -13,6 +13,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.util.ReforgeHandler
 import com.willfp.reforges.reforges.util.ReforgeStatus
 import com.willfp.reforges.reforges.util.ReforgeUtils
@@ -45,7 +46,8 @@ object ReforgeGUI {
                     status == ReforgeStatus.ALLOW || (status == ReforgeStatus.ALLOW_STONE && specialCost < 0) -> {
                         val amountOfReforges = ReforgeUtils.getReforges(menu.getCaptiveItems(player)[0])
                         plugin.configYml.getDouble("reforge.cost") *
-                                plugin.configYml.getDouble("reforge.cost-exponent").pow(amountOfReforges)
+                                plugin.configYml.getDouble("reforge.cost-exponent").pow(amountOfReforges) *
+                                PriceMultipliers.getForPlayer(player).multiplier
                     }
                     status == ReforgeStatus.ALLOW_STONE -> {
                         specialCost
@@ -57,6 +59,7 @@ object ReforgeGUI {
                 if (status == ReforgeStatus.ALLOW) {
                     val item = menu.getCaptiveItems(player)[0]
                     val reforges = ReforgeUtils.getReforges(item)
+                    xpCost *= PriceMultipliers.getForPlayer(player).multiplier.toInt()
                     xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
                 }
 
