@@ -13,7 +13,7 @@ import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Objects
 
 @Suppress("DEPRECATION")
 class Reforge(
@@ -67,7 +67,7 @@ class Reforge(
                     plugin,
                     "stone_" + this.id,
                     stone,
-                    config.getStrings("stone.recipe", false)
+                    config.getStrings("stone.recipe")
                 )
             }
         }
