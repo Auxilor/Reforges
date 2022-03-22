@@ -112,9 +112,9 @@ object ReforgeGUI {
             onLeftClick(handler::handleReforgeClick)
         }
 
-        val maskPattern = plugin.configYml.getStrings("gui.mask.pattern", false).toTypedArray()
+        val maskPattern = plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
 
-        val maskMaterials = plugin.configYml.getStrings("gui.mask.materials", false)
+        val maskMaterials = plugin.configYml.getStrings("gui.mask.materials")
             .mapNotNull { Material.getMaterial(it.uppercase()) }
             .toTypedArray()
 
