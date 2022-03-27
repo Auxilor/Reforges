@@ -33,4 +33,10 @@ class ReforgeArgParser : LookupArgParser {
             reforge == ReforgeUtils.getReforge(testMeta)
         }
     }
+
+    override fun serializeBack(meta: ItemMeta): String? {
+        val reforge = ReforgeUtils.getReforge(meta) ?: return null
+
+        return "reforge:${reforge.id}"
+    }
 }
