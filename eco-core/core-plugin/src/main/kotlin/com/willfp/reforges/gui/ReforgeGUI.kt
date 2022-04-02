@@ -7,7 +7,7 @@ import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskMaterials
+import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
@@ -114,8 +114,8 @@ object ReforgeGUI {
 
         val maskPattern = plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
 
-        val maskMaterials = plugin.configYml.getStrings("gui.mask.materials")
-            .mapNotNull { Material.getMaterial(it.uppercase()) }
+        val maskItems = plugin.configYml.getStrings("gui.mask.materials")
+            .mapNotNull { Items.lookup(it) }
             .toTypedArray()
 
         val allowItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
@@ -124,7 +124,7 @@ object ReforgeGUI {
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {
             setTitle(plugin.langYml.getFormattedString("menu.title"))
-            setMask(FillerMask(MaskMaterials(*maskMaterials), *maskPattern))
+            setMask(FillerMask(MaskItems(*maskItems), *maskPattern))
             modfiy { builder ->
                 val slot = Slot.builder(
                     ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
