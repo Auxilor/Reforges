@@ -186,6 +186,7 @@ object ReforgeGUI {
                 DropQueue(event.player as Player)
                     .addItems(menu.getCaptiveItems(event.player as Player))
                     .setLocation(event.player.eyeLocation)
+                    .forceTelekinesis()
                     .push()
             }
         }
