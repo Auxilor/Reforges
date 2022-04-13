@@ -1,6 +1,5 @@
 package com.willfp.reforges.display
 
-import com.willfp.eco.core.Prerequisite
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
@@ -10,7 +9,6 @@ import com.willfp.eco.util.StringUtils
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
-import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
@@ -82,6 +80,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             }.toList()
             lore.addAll(0, stoneLore)
         }
+
         if (reforge != null) {
             if (plugin.configYml.getBool("reforge.display-in-lore")) {
                 val addLore: MutableList<String> = ArrayList()
@@ -92,34 +91,35 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 addLore.replaceAll { "${Display.PREFIX}$it" }
                 lore.addAll(addLore)
             }
-            if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
-                val displayName = (meta.displayName() ?: Component.translatable(itemStack)).replaceText(replacement)
-                meta.persistentDataContainer.set(
+            if (plugin.configYml.getBool("reforge.display-in-name")) {
+                val displayName = fastItemStack.displayNameComponent.replaceText(replacement)
+
+                val newName = StringUtils.toComponent("${reforge.name} ")
+                    .decoration(TextDecoration.ITALIC, false).append(displayName)
+
+                fastItemStack.setDisplayName(newName)
+
+                fastItemStack.persistentDataContainer.set(
                     originalComponentKey,
                     PersistentDataType.STRING,
                     serializer.serialize(displayName)
                 )
-                val newName = StringUtils.toComponent("${reforge.name} ")
-                    .decoration(TextDecoration.ITALIC, false).append(displayName)
-                meta.displayName(newName)
             }
         }
-        itemStack.itemMeta = meta
+
         fastItemStack.lore = lore
     }
 
     override fun revert(itemStack: ItemStack) {
         ReforgeTarget.getForItem(itemStack) ?: return
 
-        val meta = itemStack.itemMeta ?: return
+        val fis = FastItemStack.wrap(itemStack)
 
-        if (plugin.configYml.getBool("reforge.display-in-name") && Prerequisite.HAS_PAPER.isMet) {
+        if (plugin.configYml.getBool("reforge.display-in-name")) {
             val originalName =
-                meta.persistentDataContainer.get(originalComponentKey, PersistentDataType.STRING) ?: return
-            meta.persistentDataContainer.remove(originalComponentKey)
-            meta.displayName(serializer.deserialize(originalName).replaceText(replacement))
+                fis.persistentDataContainer.get(originalComponentKey, PersistentDataType.STRING) ?: return
+            fis.persistentDataContainer.remove(originalComponentKey)
+            fis.setDisplayName(serializer.deserialize(originalName).replaceText(replacement))
         }
-
-        itemStack.itemMeta = meta
     }
 }

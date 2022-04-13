@@ -99,7 +99,7 @@ public class ReforgesPlugin extends LibReforgePlugin {
     @Override
     @NotNull
     public String getMinimumEcoVersion() {
-        return "6.31.0";
+        return "6.33.0";
     }
 
     /**

@@ -150,7 +150,7 @@ reforge:
     - "&8This item can be reforged!"
 
   display-in-lore: true
-  display-in-name: true # Requires paper to be installed on the server
+  display-in-name: true
 
   reforged-prefix:
     - ""
