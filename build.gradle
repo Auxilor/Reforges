@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.0"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10"
     }
 }
 
@@ -44,7 +44,7 @@ allprojects {
 
     dependencies {
         compileOnly 'com.willfp:eco:6.33.0'
-        implementation 'com.willfp:libreforge:3.33.3'
+        implementation 'com.willfp:libreforge:3.34.0'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
 
@@ -54,7 +54,7 @@ allprojects {
         testCompileOnly 'org.projectlombok:lombok:1.18.20'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
-        compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+        compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     }
 
     tasks.withType(JavaCompile) {
