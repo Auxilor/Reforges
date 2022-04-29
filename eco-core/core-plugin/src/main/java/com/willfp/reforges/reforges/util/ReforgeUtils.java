@@ -1,6 +1,7 @@
 package com.willfp.reforges.reforges.util;
 
 import com.willfp.eco.core.EcoPlugin;
+import com.willfp.eco.core.fast.FastItemStack;
 import com.willfp.reforges.ReforgesPlugin;
 import com.willfp.reforges.reforges.Reforge;
 import com.willfp.reforges.reforges.Reforges;
@@ -127,13 +128,9 @@ public class ReforgeUtils {
             return null;
         }
 
-        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer container = FastItemStack.wrap(item).getPersistentDataContainer();
 
-        if (meta == null) {
-            return null;
-        }
-
-        return getReforge(meta);
+        return getReforge(container);
     }
 
     /**
@@ -148,6 +145,26 @@ public class ReforgeUtils {
         }
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        if (!container.has(REFORGE_KEY, PersistentDataType.STRING)) {
+            return null;
+        }
+
+        String active = container.get(REFORGE_KEY, PersistentDataType.STRING);
+
+        return Reforges.getByKey(active);
+    }
+
+    /**
+     * Get reforge on an item.
+     *
+     * @param container The item to query.
+     * @return The found reforge, or null.
+     */
+    public static Reforge getReforge(@Nullable final PersistentDataContainer container) {
+        if (container == null) {
+            return null;
+        }
 
         if (!container.has(REFORGE_KEY, PersistentDataType.STRING)) {
             return null;
@@ -202,13 +219,9 @@ public class ReforgeUtils {
             return null;
         }
 
-        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer container = FastItemStack.wrap(item).getPersistentDataContainer();
 
-        if (meta == null) {
-            return null;
-        }
-
-        return getReforgeStone(meta);
+        return getReforgeStone(container);
     }
 
     /**
@@ -223,6 +236,26 @@ public class ReforgeUtils {
         }
 
         PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        if (!container.has(REFORGE_STONE_KEY, PersistentDataType.STRING)) {
+            return null;
+        }
+
+        String active = container.get(REFORGE_STONE_KEY, PersistentDataType.STRING);
+
+        return Reforges.getByKey(active);
+    }
+
+    /**
+     * Get reforge stone on an item.
+     *
+     * @param container The item to query.
+     * @return The found reforge, or null.
+     */
+    public static Reforge getReforgeStone(@Nullable final PersistentDataContainer container) {
+        if (container == null) {
+            return null;
+        }
 
         if (!container.has(REFORGE_STONE_KEY, PersistentDataType.STRING)) {
             return null;

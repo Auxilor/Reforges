@@ -4,6 +4,7 @@ import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
+import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
 import com.willfp.reforges.ReforgesPlugin
@@ -36,9 +37,9 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     ) {
         val target = ReforgeTarget.getForItem(itemStack)
 
-        val meta = itemStack.itemMeta ?: return
+        val fast = itemStack.fast()
 
-        val stone = ReforgeUtils.getReforgeStone(meta)
+        val stone = ReforgeUtils.getReforgeStone(fast.persistentDataContainer)
 
         if (target.isEmpty() && stone == null) {
             return
@@ -48,7 +49,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val lore = fastItemStack.lore
 
-        val reforge = ReforgeUtils.getReforge(meta)
+        val reforge = ReforgeUtils.getReforge(fast.persistentDataContainer)
 
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
@@ -61,6 +62,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
         }
 
         if (stone != null) {
+            val meta = itemStack.itemMeta
             meta.setDisplayName(stone.config.getFormattedString("stone.name"))
             val stoneMeta = stone.stone.itemMeta
             if (stoneMeta is SkullMeta) {
