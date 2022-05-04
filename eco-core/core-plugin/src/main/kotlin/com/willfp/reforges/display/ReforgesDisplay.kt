@@ -13,6 +13,7 @@ import com.willfp.reforges.reforges.util.ReforgeUtils
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
@@ -33,6 +34,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
     override fun display(
         itemStack: ItemStack,
+        player: Player?,
         vararg args: Any
     ) {
         val target = ReforgeTarget.getForItem(itemStack)
@@ -53,6 +55,13 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
+                if (player != null && plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
+                    val inventory = player.openInventory.topInventory
+                    if (inventory.contents.contains(itemStack) && inventory.holder == null) {
+                        return
+                    }
+                }
+
                 val addLore: MutableList<String> = ArrayList()
                 for (string in plugin.configYml.getFormattedStrings("reforge.reforgable-suffix")) {
                     addLore.add(Display.PREFIX + string)
