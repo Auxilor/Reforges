@@ -13,14 +13,14 @@ import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.meta.ReforgeTarget
 import com.willfp.reforges.reforges.util.ReforgeUtils
 import org.bukkit.inventory.ItemStack
-import java.util.Objects
+import java.util.*
 
 @Suppress("DEPRECATION")
 class Reforge(
     internal val config: Config,
     plugin: ReforgesPlugin
 ) : Holder {
-    val id = config.getString("id")
+    override val id = config.getString("id")
 
     val name = config.getFormattedString("name")
 
