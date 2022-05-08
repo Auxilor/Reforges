@@ -116,6 +116,16 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                     serializer.serialize(displayName)
                 )
             }
+
+
+            if (player != null) {
+                val lines = reforge.getNotMetLines(player)
+
+                if (lines.isNotEmpty()) {
+                    lore.add("")
+                    lore.addAll(lines)
+                }
+            }
         }
 
         fastItemStack.lore = lore
