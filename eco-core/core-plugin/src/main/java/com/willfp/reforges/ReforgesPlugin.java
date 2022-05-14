@@ -47,7 +47,6 @@ public class ReforgesPlugin extends LibReforgePlugin {
      * Internal constructor called by bukkit on plugin load.
      */
     public ReforgesPlugin() {
-        super(1330, 12412, "&3", "");
         this.targetYml = new TargetYml(this);
         this.reforgesYml = new ReforgesYml(this);
         instance = this;
