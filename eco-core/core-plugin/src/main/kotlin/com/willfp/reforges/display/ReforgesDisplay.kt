@@ -123,7 +123,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
                 if (lines.isNotEmpty()) {
                     lore.add("")
-                    lore.addAll(lines)
+                    lore.addAll(lines.map { Display.PREFIX + it })
                 }
             }
         }
