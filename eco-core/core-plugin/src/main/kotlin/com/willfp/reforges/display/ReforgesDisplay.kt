@@ -119,11 +119,11 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
 
             if (player != null) {
-                val lines = reforge.getNotMetLines(player)
+                val lines = reforge.getNotMetLines(player).map { Display.PREFIX + it }
 
                 if (lines.isNotEmpty()) {
-                    lore.add("")
-                    lore.addAll(lines.map { Display.PREFIX + it })
+                    lore.add(Display.PREFIX)
+                    lore.addAll(lines)
                 }
             }
         }
