@@ -3,7 +3,7 @@ package com.willfp.reforges.commands
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.reforges.reforges.Reforges
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.ReforgeUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

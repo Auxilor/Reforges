@@ -14,9 +14,9 @@ import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.PriceMultipliers
-import com.willfp.reforges.reforges.util.ReforgeHandler
-import com.willfp.reforges.reforges.util.ReforgeStatus
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.ReforgeHandler
+import com.willfp.reforges.util.ReforgeStatus
+import com.willfp.reforges.util.ReforgeUtils
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -28,7 +28,7 @@ object ReforgeGUI {
     lateinit var menu: Menu
 
     init {
-        update(ReforgesPlugin.getInstance())
+        update(ReforgesPlugin.instance)
     }
 
     @JvmStatic
@@ -92,7 +92,7 @@ object ReforgeGUI {
                         meta.lore = plugin.configYml.getFormattedStrings("gui.allow-stone.lore").map {
                             it.replace("%cost%", NumberUtils.format(cost))
                                 .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
-                                .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1]).name)
+                                .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])!!.name)
                         }
                     }
                     ReforgeStatus.NO_ITEM -> {
@@ -109,7 +109,7 @@ object ReforgeGUI {
 
                 previous.itemMeta = meta
             }
-            onLeftClick(handler::handleReforgeClick)
+            onLeftClick { event, _, menu -> handler.handleReforgeClick(event, menu) }
         }
 
         val maskPattern = plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()

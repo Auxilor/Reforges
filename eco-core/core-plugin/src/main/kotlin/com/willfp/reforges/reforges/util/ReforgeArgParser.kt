@@ -3,6 +3,7 @@ package com.willfp.reforges.reforges.util
 import com.willfp.eco.core.items.args.LookupArgParser
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
+import com.willfp.reforges.util.ReforgeUtils
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.function.Predicate

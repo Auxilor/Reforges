@@ -10,8 +10,7 @@ import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.meta.ReforgeTarget
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.ReforgeUtils
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
@@ -26,7 +25,7 @@ class Reforge(
 
     val description: List<String> = config.getFormattedStrings("description")
 
-    val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
+    val targets = config.getStrings("targets").mapNotNull { ReforgeTarget.getByName(it) }.toSet()
 
     override val effects = config.getSubsections("effects").mapNotNull {
         Effects.compile(it, "Reforge ID $id")

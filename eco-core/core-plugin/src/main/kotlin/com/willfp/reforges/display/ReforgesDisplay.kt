@@ -8,8 +8,8 @@ import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.meta.ReforgeTarget
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.reforges.ReforgeTarget
+import com.willfp.reforges.util.ReforgeUtils
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer

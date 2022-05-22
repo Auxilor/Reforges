@@ -49,12 +49,7 @@ allprojects {
         implementation 'org.joml:joml:1.10.4'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
-
-        compileOnly 'org.projectlombok:lombok:1.18.20'
-        annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-        testCompileOnly 'org.projectlombok:lombok:1.18.20'
-        testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
+        compileOnly 'com.github.ben-manes.caffeine:caffeine:3.0.6'
 
         compileOnly 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
     }
