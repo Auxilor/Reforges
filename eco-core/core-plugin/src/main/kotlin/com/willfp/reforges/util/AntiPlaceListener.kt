@@ -7,7 +7,7 @@ import org.bukkit.event.block.BlockPlaceEvent
 class AntiPlaceListener : Listener {
     @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent) {
-        if (ReforgeUtils.getReforgeStone(event.itemInHand) != null) {
+        if (event.itemInHand.reforgeStone != null) {
             event.isCancelled = true
             event.setBuild(false)
         }

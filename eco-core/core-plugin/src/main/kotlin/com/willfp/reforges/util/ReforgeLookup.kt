@@ -4,7 +4,6 @@ import com.github.benmanes.caffeine.cache.Caffeine
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
-import com.willfp.reforges.util.ReforgeUtils.getReforge
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
@@ -50,7 +49,7 @@ object ReforgeLookup {
             val found = mutableListOf<Reforge>()
 
             for ((itemStack, slot) in provide(player)) {
-                val reforge = getReforge(itemStack) ?: continue
+                val reforge = itemStack.reforge ?: continue
                 if (slot != ReforgeTarget.Slot.ANY) {
                     if (!reforge.targets.map { it.slot }.contains(slot)) {
                         continue

@@ -17,8 +17,12 @@ import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
+import com.willfp.reforges.reforges.util.MetadatedReforgeStatus
 import com.willfp.reforges.util.ReforgeStatus
-import com.willfp.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.getRandomReforge
+import com.willfp.reforges.util.reforge
+import com.willfp.reforges.util.reforgeStone
+import com.willfp.reforges.util.timesReforged
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -30,6 +34,34 @@ import kotlin.math.pow
 object ReforgeGUI {
     private lateinit var menu: Menu
 
+    private fun Menu.getReforgeStatus(player: Player): MetadatedReforgeStatus {
+        val captive = this.getCaptiveItems(player)
+        val item = captive.getOrNull(0)
+        val stone = captive.getOrNull(1)
+
+        val targets = mutableListOf<ReforgeTarget>()
+
+        var cost = 0.0
+        val status = if (item == null || item.type == Material.AIR) {
+            ReforgeStatus.NO_ITEM
+        } else {
+            targets.addAll(ReforgeTarget.getForItem(item))
+            if (targets.isEmpty()) {
+                ReforgeStatus.INVALID_ITEM
+            } else {
+                val reforgeStone = stone.reforgeStone
+                if (reforgeStone != null && reforgeStone.canBeAppliedTo(item)) {
+                    cost = reforgeStone.stonePrice.toDouble()
+                    ReforgeStatus.ALLOW_STONE
+                } else {
+                    ReforgeStatus.ALLOW
+                }
+            }
+        }
+
+        return MetadatedReforgeStatus(status, cost)
+    }
+
     @JvmStatic
     fun open(player: Player) {
         menu.open(player)
@@ -40,11 +72,12 @@ object ReforgeGUI {
     fun update(plugin: EcoPlugin) {
         val activatorSlot = slot(ItemStack(Material.ANVIL)) {
             setModifier { player, menu, _ ->
-                val (status, specialCost) = ReforgeUtils.getStatus(menu.getCaptiveItems(player))
+                val (status, specialCost) = menu.getReforgeStatus(player)
 
                 val cost = when {
                     status == ReforgeStatus.ALLOW || (status == ReforgeStatus.ALLOW_STONE && specialCost < 0) -> {
-                        val amountOfReforges = ReforgeUtils.getReforges(menu.getCaptiveItems(player)[0])
+                        val amountOfReforges = menu.getCaptiveItems(player)[0].timesReforged
+
                         plugin.configYml.getDouble("reforge.cost") *
                                 plugin.configYml.getDouble("reforge.cost-exponent").pow(amountOfReforges) *
                                 PriceMultipliers.getForPlayer(player).multiplier
@@ -58,7 +91,7 @@ object ReforgeGUI {
                 var xpCost = plugin.configYml.getInt("reforge.xp-cost")
                 if (status == ReforgeStatus.ALLOW) {
                     val item = menu.getCaptiveItems(player)[0]
-                    val reforges = ReforgeUtils.getReforges(item)
+                    val reforges = item.timesReforged
                     xpCost *= PriceMultipliers.getForPlayer(player).multiplier.toInt()
                     xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
                 }
@@ -72,7 +105,7 @@ object ReforgeGUI {
                             .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                             .replace(
                                 "%stone%",
-                                ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])?.name ?: ""
+                                menu.getCaptiveItems(player)[1].reforgeStone?.name ?: ""
                             )
                     }
                 }
@@ -82,17 +115,18 @@ object ReforgeGUI {
                 val player = event.whoClicked as Player
                 val captive = menu.getCaptiveItems(player)
 
-                val toReforge = captive.getOrNull(0) ?: return@onLeftClick
-                val existingReforge = ReforgeUtils.getReforge(toReforge)
-                val target = ReforgeTarget.getForItem(toReforge)
+                val item = captive.getOrNull(0) ?: return@onLeftClick
+                val currentReforge = item.reforge
+                val targets = ReforgeTarget.getForItem(item)
 
                 var reforge: Reforge? = null
                 var usedStone = false
 
+                // Scan for reforge stone
                 if (menu.getCaptiveItems(player).size == 2) {
-                    val stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])
+                    val stone = menu.getCaptiveItems(player)[1].reforgeStone
                     if (stone != null) {
-                        if (stone.targets.any { it.matches(toReforge) }) {
+                        if (stone.canBeAppliedTo(item)) {
                             reforge = stone
                             usedStone = true
                         }
@@ -100,11 +134,11 @@ object ReforgeGUI {
                 }
 
                 if (reforge == null) {
-                    val existing: MutableList<Reforge> = ArrayList()
-                    if (existingReforge != null) {
-                        existing.add(existingReforge)
+                    val disallowed = mutableListOf<Reforge>()
+                    if (currentReforge != null) {
+                        disallowed.add(currentReforge)
                     }
-                    reforge = ReforgeUtils.getRandomReforge(target, existing)
+                    reforge = targets.getRandomReforge(disallowed = disallowed)
                 }
 
                 if (reforge == null) {
@@ -113,9 +147,10 @@ object ReforgeGUI {
 
                 var cost = 0.0
 
+                val reforges = item.timesReforged
+
                 if (EconomyManager.hasRegistrations()) {
                     cost = plugin.configYml.getDouble("reforge.cost")
-                    val reforges = ReforgeUtils.getReforges(toReforge)
                     cost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble())
                     if (reforge.requiresStone && reforge.stonePrice != -1) {
                         cost = reforge.stonePrice.toDouble()
@@ -136,8 +171,9 @@ object ReforgeGUI {
                         return@onLeftClick
                     }
                 }
+
                 var xpCost = plugin.configYml.getInt("reforge.xp-cost")
-                val reforges = ReforgeUtils.getReforges(toReforge)
+
                 xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
                 xpCost *= PriceMultipliers.getForPlayer(player).multiplier.toInt()
                 if (player.level < xpCost) {
@@ -158,9 +194,12 @@ object ReforgeGUI {
                     EconomyManager.removeMoney(player, cost)
                 }
                 player.level = player.level - xpCost
+
                 player.sendMessage(plugin.langYml.getMessage("applied-reforge").replace("%reforge%", reforge.name))
-                ReforgeUtils.incrementReforges(toReforge)
-                ReforgeUtils.setReforge(toReforge, reforge)
+
+                item.timesReforged++
+                item.reforge = reforge
+
                 if (usedStone) {
                     val stone = menu.getCaptiveItems(player)[1]
                     stone.itemMeta = null
@@ -175,6 +214,7 @@ object ReforgeGUI {
                         )
                     }
                 }
+
                 if (plugin.configYml.getBool("gui.sound.enabled")) {
                     player.playSound(
                         player.location,
@@ -194,35 +234,33 @@ object ReforgeGUI {
         menu = menu(plugin.configYml.getInt("gui.rows")) {
             setTitle(plugin.langYml.getFormattedString("menu.title"))
             setMask(FillerMask(MaskItems(*maskItems), *maskPattern))
-            modfiy { builder ->
-                val slot = Slot.builder(
-                    ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-                        .setDisplayName("&r")
-                        .build()
-                ).apply {
-                    setModifier { player, menu, _ ->
-                        val status = ReforgeUtils.getStatus(
-                            menu.getCaptiveItems(player)
-                        ).status
 
-                        if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-                            Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
-                        } else {
-                            Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
-                        }
-                    }
-                }.build()
+            val slot = slot(
+                ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
+                    .setDisplayName("&r")
+                    .build()
+            ) {
+                setModifier { player, menu, _ ->
+                    val status = menu.getReforgeStatus(player).status
 
-                val allowedPattern = plugin.configYml.getStrings("gui.show-allowed.pattern")
-                for (i in 1..allowedPattern.size) {
-                    val row = allowedPattern[i - 1]
-                    for (j in 1..9) {
-                        if (row[j - 1] != '0') {
-                            builder.setSlot(i, j, slot)
-                        }
+                    if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
+                        Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
+                    } else {
+                        Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
                     }
                 }
             }
+
+            val allowedPattern = plugin.configYml.getStrings("gui.show-allowed.pattern")
+            for (i in 1..allowedPattern.size) {
+                val row = allowedPattern[i - 1]
+                for (j in 1..9) {
+                    if (row[j - 1] != '0') {
+                        setSlot(i, j, slot)
+                    }
+                }
+            }
+
             setSlot(
                 plugin.configYml.getInt("gui.item-slot.row"),
                 plugin.configYml.getInt("gui.item-slot.column"),

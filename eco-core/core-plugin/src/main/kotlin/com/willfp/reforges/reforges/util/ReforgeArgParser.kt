@@ -3,7 +3,7 @@ package com.willfp.reforges.reforges.util
 import com.willfp.eco.core.items.args.LookupArgParser
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
-import com.willfp.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.function.Predicate
@@ -27,16 +27,16 @@ class ReforgeArgParser : LookupArgParser {
 
         reforge ?: return null
 
-        ReforgeUtils.setReforge(meta, reforge)
+        meta.reforge = reforge
 
         return Predicate { test ->
             val testMeta = test.itemMeta ?: return@Predicate false
-            reforge == ReforgeUtils.getReforge(testMeta)
+            reforge == testMeta.reforge
         }
     }
 
     override fun serializeBack(meta: ItemMeta): String? {
-        val reforge = ReforgeUtils.getReforge(meta) ?: return null
+        val reforge = meta.reforge ?: return null
 
         return "reforge:${reforge.id}"
     }

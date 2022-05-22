@@ -6,32 +6,18 @@ import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
-import com.willfp.eco.util.StringUtils
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.ReforgeTarget
-import com.willfp.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.reforge
+import com.willfp.reforges.util.reforgeStone
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
-import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGH) {
-    /**
-     * Deprecated
-     */
-    @Deprecated("Use PDC components!")
-    private val replacement = TextReplacementConfig.builder()
-        .match("§w(.+)§w")
-        .replacement("")
-        .build()
-
-    private val originalComponentKey = plugin.namespacedKeyFactory.create("real_name")
-    private val serializer = GsonComponentSerializer.gson()
-
     override fun display(
         itemStack: ItemStack,
         player: Player?,
@@ -41,7 +27,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val fast = itemStack.fast()
 
-        val stone = ReforgeUtils.getReforgeStone(fast.persistentDataContainer)
+        val stone = fast.persistentDataContainer.reforgeStone
 
         if (target.isEmpty() && stone == null) {
             return
@@ -51,7 +37,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val lore = fastItemStack.lore
 
-        val reforge = ReforgeUtils.getReforge(fast.persistentDataContainer)
+        val reforge = fast.persistentDataContainer.reforge
 
         if (reforge == null && stone == null && target != null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
@@ -103,18 +89,11 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name")) {
-                val displayName = fastItemStack.displayNameComponent.replaceText(replacement)
+                val displayName = fastItemStack.displayNameComponent
 
-                val newName = StringUtils.toComponent("${reforge.name} ")
-                    .decoration(TextDecoration.ITALIC, false).append(displayName)
+                val newName = reforge.namePrefixComponent.append(displayName)
 
                 fastItemStack.setDisplayName(newName)
-
-                fastItemStack.persistentDataContainer.set(
-                    originalComponentKey,
-                    PersistentDataType.STRING,
-                    serializer.serialize(displayName)
-                )
             }
 
 
@@ -132,15 +111,24 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     }
 
     override fun revert(itemStack: ItemStack) {
-        ReforgeTarget.getForItem(itemStack) ?: return
+        val reforge = itemStack.reforge ?: return
+        ReforgeTarget.getForItem(itemStack).ifEmpty { return }
 
         val fis = FastItemStack.wrap(itemStack)
 
-        if (plugin.configYml.getBool("reforge.display-in-name")) {
-            val originalName =
-                fis.persistentDataContainer.get(originalComponentKey, PersistentDataType.STRING) ?: return
-            fis.persistentDataContainer.remove(originalComponentKey)
-            fis.setDisplayName(serializer.deserialize(originalName).replaceText(replacement))
+        if (!plugin.configYml.getBool("reforge.display-in-name")) {
+            return
         }
+
+        val name = fis.displayNameComponent
+
+        name.replaceText(
+            TextReplacementConfig.builder()
+                .matchLiteral("${reforge.name} ")
+                .replacement(Component.empty())
+                .build()
+        )
+
+        fis.setDisplayName(name)
     }
 }
