@@ -3,46 +3,46 @@ package com.willfp.reforges.gui
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.core.fast.fast
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.gui.slot.Slot
+import com.willfp.eco.core.integrations.economy.EconomyManager
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.util.NumberUtils
-import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.PriceMultipliers
-import com.willfp.reforges.util.ReforgeHandler
+import com.willfp.reforges.reforges.Reforge
+import com.willfp.reforges.reforges.ReforgeTarget
 import com.willfp.reforges.util.ReforgeStatus
 import com.willfp.reforges.util.ReforgeUtils
 import org.bukkit.Material
+import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.util.*
 import kotlin.math.pow
 
 @Suppress("DEPRECATION")
 object ReforgeGUI {
-    @JvmStatic
-    lateinit var menu: Menu
+    private lateinit var menu: Menu
 
-    init {
-        update(ReforgesPlugin.instance)
+    @JvmStatic
+    fun open(player: Player) {
+        menu.open(player)
     }
 
     @JvmStatic
     @ConfigUpdater
     fun update(plugin: EcoPlugin) {
-        val handler = ReforgeHandler(plugin)
-
         val activatorSlot = slot(ItemStack(Material.ANVIL)) {
-            setModifier { player, menu, previous ->
-                val meta = previous.itemMeta ?: return@setModifier
-
+            setModifier { player, menu, _ ->
                 val (status, specialCost) = ReforgeUtils.getStatus(menu.getCaptiveItems(player))
 
-                val cost: Double = when {
+                val cost = when {
                     status == ReforgeStatus.ALLOW || (status == ReforgeStatus.ALLOW_STONE && specialCost < 0) -> {
                         val amountOfReforges = ReforgeUtils.getReforges(menu.getCaptiveItems(player)[0])
                         plugin.configYml.getDouble("reforge.cost") *
@@ -63,53 +63,126 @@ object ReforgeGUI {
                     xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
                 }
 
-                when (status) {
-                    ReforgeStatus.INVALID_ITEM -> {
-                        previous.type = Material.getMaterial(
-                            plugin.configYml.getString("gui.invalid-item.material").uppercase()
-                        )!!
-                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.invalid-item.name"))
-                        meta.lore = plugin.configYml.getFormattedStrings("gui.invalid-item.lore").map {
-                            it.replace("%cost%", NumberUtils.format(cost))
-                                .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
-                        }
+                val configKey = status.configKey
+
+                Items.lookup(plugin.configYml.getString("gui.$configKey.material")).item.apply {
+                    this.fast().displayName = plugin.configYml.getFormattedString("gui.$configKey.name")
+                    this.fast().lore = plugin.configYml.getFormattedStrings("gui.$configKey.lore").map {
+                        it.replace("%cost%", NumberUtils.format(cost))
+                            .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
+                            .replace(
+                                "%stone%",
+                                ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])?.name ?: ""
+                            )
                     }
-                    ReforgeStatus.ALLOW -> {
-                        previous.type = Material.getMaterial(
-                            plugin.configYml.getString("gui.allow.material").uppercase()
-                        )!!
-                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.allow.name"))
-                        meta.lore = plugin.configYml.getFormattedStrings("gui.allow.lore").map {
-                            it.replace("%cost%", NumberUtils.format(cost))
-                                .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
-                        }
-                    }
-                    ReforgeStatus.ALLOW_STONE -> {
-                        previous.type = Material.getMaterial(
-                            plugin.configYml.getString("gui.allow-stone.material").uppercase()
-                        )!!
-                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.allow-stone.name"))
-                        meta.lore = plugin.configYml.getFormattedStrings("gui.allow-stone.lore").map {
-                            it.replace("%cost%", NumberUtils.format(cost))
-                                .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
-                                .replace("%stone%", ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])!!.name)
-                        }
-                    }
-                    ReforgeStatus.NO_ITEM -> {
-                        previous.type = Material.getMaterial(
-                            plugin.configYml.getString("gui.no-item.material").uppercase()
-                        )!!
-                        meta.setDisplayName(plugin.configYml.getFormattedString("gui.no-item.name"))
-                        meta.lore = plugin.configYml.getFormattedStrings("gui.no-item.lore").map {
-                            it.replace("%cost%", NumberUtils.format(cost))
-                                .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
+                }
+            }
+
+            onLeftClick { event, _, menu ->
+                val player = event.whoClicked as Player
+                val captive = menu.getCaptiveItems(player)
+
+                val toReforge = captive.getOrNull(0) ?: return@onLeftClick
+                val existingReforge = ReforgeUtils.getReforge(toReforge)
+                val target = ReforgeTarget.getForItem(toReforge)
+
+                var reforge: Reforge? = null
+                var usedStone = false
+
+                if (menu.getCaptiveItems(player).size == 2) {
+                    val stone = ReforgeUtils.getReforgeStone(menu.getCaptiveItems(player)[1])
+                    if (stone != null) {
+                        if (stone.targets.any { it.matches(toReforge) }) {
+                            reforge = stone
+                            usedStone = true
                         }
                     }
                 }
 
-                previous.itemMeta = meta
+                if (reforge == null) {
+                    val existing: MutableList<Reforge> = ArrayList()
+                    if (existingReforge != null) {
+                        existing.add(existingReforge)
+                    }
+                    reforge = ReforgeUtils.getRandomReforge(target, existing)
+                }
+
+                if (reforge == null) {
+                    return@onLeftClick
+                }
+
+                var cost = 0.0
+
+                if (EconomyManager.hasRegistrations()) {
+                    cost = plugin.configYml.getDouble("reforge.cost")
+                    val reforges = ReforgeUtils.getReforges(toReforge)
+                    cost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble())
+                    if (reforge.requiresStone && reforge.stonePrice != -1) {
+                        cost = reforge.stonePrice.toDouble()
+                    }
+                    cost *= PriceMultipliers.getForPlayer(player).multiplier
+                    if (!EconomyManager.hasAmount(player, cost)) {
+                        player.sendMessage(plugin.langYml.getMessage("insufficient-money"))
+                        if (plugin.configYml.getBool("gui.insufficient-money-sound.enabled")) {
+                            player.playSound(
+                                player.location,
+                                Sound.valueOf(
+                                    plugin.configYml.getString("gui.insufficient-money-sound.id")
+                                        .uppercase(Locale.getDefault())
+                                ),
+                                1f, plugin.configYml.getDouble("gui.insufficient-money-sound.pitch").toFloat()
+                            )
+                        }
+                        return@onLeftClick
+                    }
+                }
+                var xpCost = plugin.configYml.getInt("reforge.xp-cost")
+                val reforges = ReforgeUtils.getReforges(toReforge)
+                xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
+                xpCost *= PriceMultipliers.getForPlayer(player).multiplier.toInt()
+                if (player.level < xpCost) {
+                    player.sendMessage(plugin.langYml.getMessage("insufficient-xp"))
+                    if (plugin.configYml.getBool("gui.insufficient-money-sound.enabled")) {
+                        player.playSound(
+                            player.location,
+                            Sound.valueOf(
+                                plugin.configYml.getString("gui.insufficient-money-sound.id")
+                                    .uppercase(Locale.getDefault())
+                            ),
+                            1f, plugin.configYml.getDouble("gui.insufficient-money-sound.pitch").toFloat()
+                        )
+                    }
+                    return@onLeftClick
+                }
+                if (EconomyManager.hasRegistrations()) {
+                    EconomyManager.removeMoney(player, cost)
+                }
+                player.level = player.level - xpCost
+                player.sendMessage(plugin.langYml.getMessage("applied-reforge").replace("%reforge%", reforge.name))
+                ReforgeUtils.incrementReforges(toReforge)
+                ReforgeUtils.setReforge(toReforge, reforge)
+                if (usedStone) {
+                    val stone = menu.getCaptiveItems(player)[1]
+                    stone.itemMeta = null
+                    stone.amount = 0
+                    if (plugin.configYml.getBool("gui.stone-sound.enabled")) {
+                        player.playSound(
+                            player.location,
+                            Sound.valueOf(
+                                plugin.configYml.getString("gui.stone-sound.id").uppercase(Locale.getDefault())
+                            ),
+                            1f, plugin.configYml.getDouble("gui.stone-sound.pitch").toFloat()
+                        )
+                    }
+                }
+                if (plugin.configYml.getBool("gui.sound.enabled")) {
+                    player.playSound(
+                        player.location,
+                        Sound.valueOf(plugin.configYml.getString("gui.sound.id").uppercase(Locale.getDefault())),
+                        1f, plugin.configYml.getDouble("gui.sound.pitch").toFloat()
+                    )
+                }
             }
-            onLeftClick { event, _, menu -> handler.handleReforgeClick(event, menu) }
         }
 
         val maskPattern = plugin.configYml.getStrings("gui.mask.pattern").toTypedArray()
@@ -117,10 +190,6 @@ object ReforgeGUI {
         val maskItems = plugin.configYml.getStrings("gui.mask.materials")
             .mapNotNull { Items.lookup(it) }
             .toTypedArray()
-
-        val allowItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
-        val denyItem = Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
-        val closeItem = Items.lookup(plugin.configYml.getString("gui.close.material")).item
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {
             setTitle(plugin.langYml.getFormattedString("menu.title"))
@@ -131,17 +200,15 @@ object ReforgeGUI {
                         .setDisplayName("&r")
                         .build()
                 ).apply {
-                    setModifier { player, menu, previous ->
+                    setModifier { player, menu, _ ->
                         val status = ReforgeUtils.getStatus(
                             menu.getCaptiveItems(player)
                         ).status
 
                         if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-                            previous.type = allowItem.type
-                            previous.itemMeta = allowItem.itemMeta
+                            Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
                         } else {
-                            previous.type = denyItem.type
-                            previous.itemMeta = denyItem.itemMeta
+                            Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
                         }
                     }
                 }.build()
@@ -161,27 +228,31 @@ object ReforgeGUI {
                 plugin.configYml.getInt("gui.item-slot.column"),
                 Slot.builder().setCaptive().build()
             )
+
             setSlot(
                 plugin.configYml.getInt("gui.stone-slot.row"),
                 plugin.configYml.getInt("gui.stone-slot.column"),
                 Slot.builder().setCaptive().build()
             )
+
             setSlot(
                 plugin.configYml.getInt("gui.activator-slot.row"),
                 plugin.configYml.getInt("gui.activator-slot.column"),
                 activatorSlot
             )
+
             setSlot(
                 plugin.configYml.getInt("gui.close.location.row"),
                 plugin.configYml.getInt("gui.close.location.column"),
-                Slot.builder(
-                    ItemStackBuilder(closeItem)
+                slot(
+                    ItemStackBuilder(Items.lookup(plugin.configYml.getString("gui.close.material")))
                         .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
                         .build()
-                ).onLeftClick { event, _, _ ->
-                    event.whoClicked.closeInventory()
-                }.build()
+                ) {
+                    onLeftClick { event, _, _ -> event.whoClicked.closeInventory() }
+                }
             )
+
             onClose { event, menu ->
                 DropQueue(event.player as Player)
                     .addItems(menu.getCaptiveItems(event.player as Player))
