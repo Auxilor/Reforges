@@ -29,7 +29,7 @@ class Reforge(
 
     val description: List<String> = config.getFormattedStrings("description")
 
-    val targets = config.getStrings("targets").mapNotNull { ReforgeTarget.getByName(it) }.toSet()
+    val targets = config.getStrings("targets").mapNotNull { ReforgeTargets.getByName(it) }.toSet()
 
     override val effects = config.getSubsections("effects").mapNotNull {
         Effects.compile(it, "Reforge ID $id")

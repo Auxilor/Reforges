@@ -17,6 +17,7 @@ import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
+import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.reforges.util.MetadatedReforgeStatus
 import com.willfp.reforges.util.ReforgeStatus
 import com.willfp.reforges.util.getRandomReforge
@@ -45,7 +46,7 @@ object ReforgeGUI {
         val status = if (item == null || item.type == Material.AIR) {
             ReforgeStatus.NO_ITEM
         } else {
-            targets.addAll(ReforgeTarget.getForItem(item))
+            targets.addAll(ReforgeTargets.getForItem(item))
             if (targets.isEmpty()) {
                 ReforgeStatus.INVALID_ITEM
             } else {
@@ -71,7 +72,7 @@ object ReforgeGUI {
     @ConfigUpdater
     fun update(plugin: EcoPlugin) {
         val activatorSlot = slot(ItemStack(Material.ANVIL)) {
-            setModifier { player, menu, _ ->
+            setUpdater { player, menu, _ ->
                 val (status, specialCost) = menu.getReforgeStatus(player)
 
                 val cost = when {
@@ -105,7 +106,7 @@ object ReforgeGUI {
                             .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                             .replace(
                                 "%stone%",
-                                menu.getCaptiveItems(player)[1].reforgeStone?.name ?: ""
+                                menu.getCaptiveItems(player).getOrNull(1).reforgeStone?.name ?: ""
                             )
                     }
                 }
@@ -117,28 +118,24 @@ object ReforgeGUI {
 
                 val item = captive.getOrNull(0) ?: return@onLeftClick
                 val currentReforge = item.reforge
-                val targets = ReforgeTarget.getForItem(item)
 
-                var reforge: Reforge? = null
+                val targets = ReforgeTargets.getForItem(item)
+
+
                 var usedStone = false
 
-                // Scan for reforge stone
-                if (menu.getCaptiveItems(player).size == 2) {
-                    val stone = menu.getCaptiveItems(player)[1].reforgeStone
-                    if (stone != null) {
-                        if (stone.canBeAppliedTo(item)) {
-                            reforge = stone
-                            usedStone = true
-                        }
-                    }
-                }
+                val stoneInMenu = menu.getCaptiveItems(player).getOrNull(1).reforgeStone
 
-                if (reforge == null) {
+                val reforge = if (stoneInMenu != null && stoneInMenu.canBeAppliedTo(item)) {
+                    usedStone = true
+                    stoneInMenu
+                } else {
                     val disallowed = mutableListOf<Reforge>()
                     if (currentReforge != null) {
                         disallowed.add(currentReforge)
                     }
-                    reforge = targets.getRandomReforge(disallowed = disallowed)
+
+                    targets.getRandomReforge(disallowed = disallowed)
                 }
 
                 if (reforge == null) {
@@ -240,7 +237,7 @@ object ReforgeGUI {
                     .setDisplayName("&r")
                     .build()
             ) {
-                setModifier { player, menu, _ ->
+                setUpdater { player, menu, _ ->
                     val status = menu.getReforgeStatus(player).status
 
                     if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {

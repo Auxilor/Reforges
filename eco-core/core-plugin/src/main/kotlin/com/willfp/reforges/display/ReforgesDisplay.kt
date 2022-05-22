@@ -6,30 +6,33 @@ import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
+import com.willfp.eco.util.StringUtils
+import com.willfp.eco.util.toJSON
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.ReforgeTarget
+import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextReplacementConfig
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGH) {
+    private val tempKey = plugin.namespacedKeyFactory.create("temp")
+
     override fun display(
         itemStack: ItemStack,
         player: Player?,
         vararg args: Any
     ) {
-        val target = ReforgeTarget.getForItem(itemStack)
+        val targets = ReforgeTargets.getForItem(itemStack)
 
         val fast = itemStack.fast()
 
         val stone = fast.persistentDataContainer.reforgeStone
 
-        if (target.isEmpty() && stone == null) {
+        if (targets.isEmpty() && stone == null) {
             return
         }
 
@@ -39,7 +42,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val reforge = fast.persistentDataContainer.reforge
 
-        if (reforge == null && stone == null && target != null) {
+        if (reforge == null && stone == null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
                 if (player != null && plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
                     val inventory = player.openInventory.topInventory
@@ -91,9 +94,17 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             if (plugin.configYml.getBool("reforge.display-in-name")) {
                 val displayName = fastItemStack.displayNameComponent
 
-                val newName = reforge.namePrefixComponent.append(displayName)
+                if (!fastItemStack.displayName.contains(reforge.name)) {
+                    fastItemStack.persistentDataContainer.set(
+                        tempKey,
+                        PersistentDataType.STRING,
+                        displayName.toJSON()
+                    )
 
-                fastItemStack.setDisplayName(newName)
+                    val newName = reforge.namePrefixComponent.append(displayName)
+
+                    fastItemStack.setDisplayName(newName)
+                }
             }
 
 
@@ -111,8 +122,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     }
 
     override fun revert(itemStack: ItemStack) {
-        val reforge = itemStack.reforge ?: return
-        ReforgeTarget.getForItem(itemStack).ifEmpty { return }
+        itemStack.reforge ?: return
 
         val fis = FastItemStack.wrap(itemStack)
 
@@ -120,15 +130,17 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             return
         }
 
-        val name = fis.displayNameComponent
+        if (fis.persistentDataContainer.has(tempKey, PersistentDataType.STRING)) {
+            fis.setDisplayName(
+                StringUtils.jsonToComponent(
+                    fis.persistentDataContainer.get(
+                        tempKey,
+                        PersistentDataType.STRING
+                    )
+                )
+            )
 
-        name.replaceText(
-            TextReplacementConfig.builder()
-                .matchLiteral("${reforge.name} ")
-                .replacement(Component.empty())
-                .build()
-        )
-
-        fis.setDisplayName(name)
+            fis.persistentDataContainer.remove(tempKey)
+        }
     }
 }

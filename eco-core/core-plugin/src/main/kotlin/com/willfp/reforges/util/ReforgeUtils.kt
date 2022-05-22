@@ -103,17 +103,13 @@ fun Collection<ReforgeTarget>.getRandomReforge(
     disallowed: Collection<Reforge> = emptyList()
 ): Reforge? {
     val applicable = mutableListOf<Reforge>()
+
     for (reforge in Reforges.values()) {
-        for (target in this) {
-            if (reforge.targets.contains(target) && !reforge.requiresStone) {
-                applicable.add(reforge)
-            }
+        if (reforge.targets.intersect(this.toSet()).isNotEmpty() && !reforge.requiresStone) {
+            applicable.add(reforge)
         }
     }
-    applicable.shuffle()
 
     applicable.removeAll(disallowed)
-    return if (applicable.isEmpty()) {
-        null
-    } else applicable[0]
+    return applicable.randomOrNull()
 }

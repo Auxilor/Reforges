@@ -3,8 +3,8 @@ package com.willfp.reforges.util
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.events.ArmorChangeEvent
 import com.willfp.libreforge.updateEffects
+import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.reforges.Reforges.values
-import com.willfp.reforges.reforges.ReforgeTarget
 import com.willfp.reforges.util.ReforgeLookup.clearCache
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerItemHeldEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 
+@Suppress("UNUSED", "UNUSED_PARAMETER")
 class ReforgeEnableListeners(private val plugin: EcoPlugin) : Listener {
     @EventHandler
     fun onItemPickup(event: EntityPickupItemEvent) {
@@ -23,7 +24,7 @@ class ReforgeEnableListeners(private val plugin: EcoPlugin) : Listener {
             return
         }
         val player = event.entity as Player
-        if (!ReforgeTarget.ALL.matches(event.item.itemStack)) {
+        if (!ReforgeTargets.ALL.matches(event.item.itemStack)) {
             return
         }
         refreshPlayer(player)
@@ -39,15 +40,15 @@ class ReforgeEnableListeners(private val plugin: EcoPlugin) : Listener {
         refresh()
         val player = event.player
         for (value in values()) {
-            for ((effect1) in value.effects) {
-                effect1.disableForPlayer(player)
+            for ((effect) in value.effects) {
+                effect.disableForPlayer(player)
             }
         }
     }
 
     @EventHandler
     fun onInventoryDrop(event: PlayerDropItemEvent) {
-        if (!ReforgeTarget.ALL.matches(event.itemDrop.itemStack)) {
+        if (!ReforgeTargets.ALL.matches(event.itemDrop.itemStack)) {
             return
         }
         refreshPlayer(event.player)
