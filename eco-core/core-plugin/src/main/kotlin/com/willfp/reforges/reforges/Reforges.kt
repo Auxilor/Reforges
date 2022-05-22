@@ -3,7 +3,7 @@ package com.willfp.reforges.reforges
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableSet
 import com.willfp.eco.core.config.updating.ConfigUpdater
-import com.willfp.libreforge.chains.EffectChains.compile
+import com.willfp.libreforge.chains.EffectChains
 import com.willfp.reforges.ReforgesPlugin
 
 @Suppress("UNUSED")
@@ -52,13 +52,13 @@ object Reforges {
     @JvmStatic
     fun update(plugin: ReforgesPlugin) {
         for (config in plugin.reforgesYml.getSubsections("chains")) {
-            compile(config!!, "Chains")
+            EffectChains.compile(config, "Chains")
         }
         for (reforge in values()) {
             removeReforge(reforge)
         }
         for (config in plugin.reforgesYml.getSubsections("reforges")) {
-            Reforge(config!!, plugin)
+            Reforge(config, plugin)
         }
     }
 
