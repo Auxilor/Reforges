@@ -6,12 +6,13 @@ import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.meta.ReforgeTarget
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.reforgeStone
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
@@ -24,9 +25,11 @@ class Reforge(
 
     val name = config.getFormattedString("name")
 
+    val namePrefixComponent = StringUtils.toComponent("$name ").decoration(TextDecoration.ITALIC, false)
+
     val description: List<String> = config.getFormattedStrings("description")
 
-    val targets = config.getStrings("targets").map { ReforgeTarget.getByName(it) }.toSet()
+    val targets = config.getStrings("targets").mapNotNull { ReforgeTargets.getByName(it) }.toSet()
 
     override val effects = config.getSubsections("effects").mapNotNull {
         Effects.compile(it, "Reforge ID $id")
@@ -51,14 +54,13 @@ class Reforge(
     init {
         Reforges.addNewReforge(this)
 
-        ReforgeUtils.setReforgeStone(stone, this)
-
+        stone.reforgeStone = this
         Display.display(stone)
 
         if (config.getBool("stone.enabled")) {
             CustomItem(
                 plugin.namespacedKeyFactory.create("stone_" + this.id),
-                { test -> ReforgeUtils.getReforgeStone(test) == this },
+                { test -> test.reforgeStone == this },
                 stone
             ).register()
 
@@ -71,6 +73,10 @@ class Reforge(
                 )
             }
         }
+    }
+
+    fun canBeAppliedTo(item: ItemStack?): Boolean {
+        return targets.any { target -> target.items.any { it.matches(item) } }
     }
 
     override fun equals(other: Any?): Boolean {

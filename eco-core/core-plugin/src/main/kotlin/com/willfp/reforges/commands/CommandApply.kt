@@ -3,7 +3,7 @@ package com.willfp.reforges.commands
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.reforges.reforges.Reforges
-import com.willfp.reforges.reforges.util.ReforgeUtils
+import com.willfp.reforges.util.reforge
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,7 +27,7 @@ class CommandApply(
 
         if (sender is Player) {
             val item = sender.inventory.itemInMainHand
-            ReforgeUtils.setReforge(item, reforge)
+            item.reforge = reforge
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)
@@ -45,7 +45,7 @@ class CommandApply(
                 return
             }
 
-            ReforgeUtils.setReforge(player.inventory.itemInMainHand, reforge)
+            player.inventory.itemInMainHand.reforge = reforge
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)

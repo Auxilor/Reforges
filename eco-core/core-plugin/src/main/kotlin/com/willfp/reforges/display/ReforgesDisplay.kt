@@ -7,12 +7,11 @@ import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
+import com.willfp.eco.util.toJSON
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.meta.ReforgeTarget
-import com.willfp.reforges.reforges.util.ReforgeUtils
-import net.kyori.adventure.text.TextReplacementConfig
-import net.kyori.adventure.text.format.TextDecoration
-import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer
+import com.willfp.reforges.reforges.ReforgeTargets
+import com.willfp.reforges.util.reforge
+import com.willfp.reforges.util.reforgeStone
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -20,30 +19,20 @@ import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
 class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGH) {
-    /**
-     * Deprecated
-     */
-    @Deprecated("Use PDC components!")
-    private val replacement = TextReplacementConfig.builder()
-        .match("§w(.+)§w")
-        .replacement("")
-        .build()
-
-    private val originalComponentKey = plugin.namespacedKeyFactory.create("real_name")
-    private val serializer = GsonComponentSerializer.gson()
+    private val tempKey = plugin.namespacedKeyFactory.create("temp")
 
     override fun display(
         itemStack: ItemStack,
         player: Player?,
         vararg args: Any
     ) {
-        val target = ReforgeTarget.getForItem(itemStack)
+        val targets = ReforgeTargets.getForItem(itemStack)
 
         val fast = itemStack.fast()
 
-        val stone = ReforgeUtils.getReforgeStone(fast.persistentDataContainer)
+        val stone = fast.persistentDataContainer.reforgeStone
 
-        if (target.isEmpty() && stone == null) {
+        if (targets.isEmpty() && stone == null) {
             return
         }
 
@@ -51,9 +40,9 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val lore = fastItemStack.lore
 
-        val reforge = ReforgeUtils.getReforge(fast.persistentDataContainer)
+        val reforge = fast.persistentDataContainer.reforge
 
-        if (reforge == null && stone == null && target != null) {
+        if (reforge == null && stone == null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
                 if (player != null && plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
                     val inventory = player.openInventory.topInventory
@@ -103,26 +92,27 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 lore.addAll(addLore)
             }
             if (plugin.configYml.getBool("reforge.display-in-name")) {
-                val displayName = fastItemStack.displayNameComponent.replaceText(replacement)
+                val displayName = fastItemStack.displayNameComponent
 
-                val newName = StringUtils.toComponent("${reforge.name} ")
-                    .decoration(TextDecoration.ITALIC, false).append(displayName)
+                if (!fastItemStack.displayName.contains(reforge.name)) {
+                    fastItemStack.persistentDataContainer.set(
+                        tempKey,
+                        PersistentDataType.STRING,
+                        displayName.toJSON()
+                    )
 
-                fastItemStack.setDisplayName(newName)
+                    val newName = reforge.namePrefixComponent.append(displayName)
 
-                fastItemStack.persistentDataContainer.set(
-                    originalComponentKey,
-                    PersistentDataType.STRING,
-                    serializer.serialize(displayName)
-                )
+                    fastItemStack.setDisplayName(newName)
+                }
             }
 
 
             if (player != null) {
-                val lines = reforge.getNotMetLines(player)
+                val lines = reforge.getNotMetLines(player).map { Display.PREFIX + it }
 
                 if (lines.isNotEmpty()) {
-                    lore.add("")
+                    lore.add(Display.PREFIX)
                     lore.addAll(lines)
                 }
             }
@@ -132,15 +122,25 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     }
 
     override fun revert(itemStack: ItemStack) {
-        ReforgeTarget.getForItem(itemStack) ?: return
+        itemStack.reforge ?: return
 
         val fis = FastItemStack.wrap(itemStack)
 
-        if (plugin.configYml.getBool("reforge.display-in-name")) {
-            val originalName =
-                fis.persistentDataContainer.get(originalComponentKey, PersistentDataType.STRING) ?: return
-            fis.persistentDataContainer.remove(originalComponentKey)
-            fis.setDisplayName(serializer.deserialize(originalName).replaceText(replacement))
+        if (!plugin.configYml.getBool("reforge.display-in-name")) {
+            return
+        }
+
+        if (fis.persistentDataContainer.has(tempKey, PersistentDataType.STRING)) {
+            fis.setDisplayName(
+                StringUtils.jsonToComponent(
+                    fis.persistentDataContainer.get(
+                        tempKey,
+                        PersistentDataType.STRING
+                    )
+                )
+            )
+
+            fis.persistentDataContainer.remove(tempKey)
         }
     }
 }

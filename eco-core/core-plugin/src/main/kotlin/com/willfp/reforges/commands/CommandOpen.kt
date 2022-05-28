@@ -2,7 +2,7 @@ package com.willfp.reforges.commands
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.reforges.gui.ReforgeGUI.menu
+import com.willfp.reforges.gui.ReforgeGUI
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
@@ -29,7 +29,8 @@ class CommandOpen(
                 plugin.configYml.getDouble("gui.open-sound.pitch").toFloat()
             )
         }
-        menu.open(player)
+
+        ReforgeGUI.open(player)
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
