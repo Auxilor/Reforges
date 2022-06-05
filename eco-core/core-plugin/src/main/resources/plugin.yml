@@ -17,6 +17,7 @@ softdepend:
   - Jobs
   - EcoArmor
   - TMMobcoins
+  - EcoBosses
 
 commands:
   reforges:
