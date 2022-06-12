@@ -10,14 +10,17 @@ depend:
   - ProtocolLib
 softdepend:
   - Vault
-  - EcoSkills
-  - Talismans
   - AureliumSkills
   - PlayerPoints
   - Jobs
-  - EcoArmor
   - TMMobcoins
+  - EcoEnchants
   - EcoBosses
+  - Talismans
+  - EcoArmor
+  - EcoItems
+  - EcoSkills
+  - Boosters
 
 commands:
   reforges:
