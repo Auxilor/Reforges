@@ -40,8 +40,8 @@ class ReforgeEnableListeners(private val plugin: EcoPlugin) : Listener {
         refresh()
         val player = event.player
         for (value in values()) {
-            for ((effect) in value.effects) {
-                effect.disableForPlayer(player)
+            for (effect in value.effects) {
+                effect.disableFor(player)
             }
         }
     }
