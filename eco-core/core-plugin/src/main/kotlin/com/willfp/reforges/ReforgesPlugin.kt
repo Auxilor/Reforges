@@ -13,10 +13,10 @@ import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.integrations.talismans.TalismansIntegration
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
-import com.willfp.reforges.util.ReforgeEnableListeners
-import com.willfp.reforges.util.ReforgeLookup
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
+import com.willfp.reforges.util.ReforgeEnableListeners
+import com.willfp.reforges.util.ReforgeLookup
 import org.bukkit.event.Listener
 
 class ReforgesPlugin : LibReforgePlugin() {
@@ -64,7 +64,7 @@ class ReforgesPlugin : LibReforgePlugin() {
     }
 
     override fun getMinimumEcoVersion(): String {
-        return "6.35.1"
+        return "6.38.0"
     }
 
     companion object {

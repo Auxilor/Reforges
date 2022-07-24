@@ -3,6 +3,7 @@ package com.willfp.reforges.display
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.display.DisplayPriority
+import com.willfp.eco.core.display.DisplayProperties
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
@@ -24,6 +25,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
     override fun display(
         itemStack: ItemStack,
         player: Player?,
+        props: DisplayProperties,
         vararg args: Any
     ) {
         val targets = ReforgeTargets.getForItem(itemStack)
@@ -44,9 +46,8 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         if (reforge == null && stone == null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
-                if (player != null && plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
-                    val inventory = player.openInventory.topInventory
-                    if (inventory.contents.contains(itemStack) && inventory.holder == null) {
+                if (plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
+                    if (props.inGui) {
                         return
                     }
                 }
