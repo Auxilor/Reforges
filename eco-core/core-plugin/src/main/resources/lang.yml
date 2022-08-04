@@ -8,7 +8,6 @@ messages:
   insufficient-xp: "&cYou don't have enough xp levels for this!"
   applied-reforge: "Applied %reforge%&r reforge!"
   needs-player: "&cYou must specify a player"
-  requires-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"
   needs-stone: "&cYou must specify a reforge stone"
   invalid-stone: "&cInvalid reforge!"
