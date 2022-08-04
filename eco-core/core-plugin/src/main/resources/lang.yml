@@ -8,6 +8,7 @@ messages:
   insufficient-xp: "&cYou don't have enough xp levels for this!"
   applied-reforge: "Applied %reforge%&r reforge!"
   needs-player: "&cYou must specify a player"
+  requires-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"
   needs-stone: "&cYou must specify a reforge stone"
   invalid-stone: "&cInvalid reforge!"
@@ -18,6 +19,7 @@ messages:
   invalid-reforge: "&cInvalid reforge!"
   needs-reforge: "&cYou must specify a reforge"
   cannot-transmit: "&cYou can't transmit here!"
+  repaired-effects: "Fixed lingering effects for %player%!&f They have been kicked to prevent effect mismatch."
 
 menu:
   title: "Reforge Item"
