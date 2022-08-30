@@ -18,11 +18,10 @@ import java.util.*
 
 @Suppress("DEPRECATION")
 class Reforge(
+    override val id: String,
     internal val config: Config,
     plugin: ReforgesPlugin
 ) : Holder {
-    override val id = config.getString("id")
-
     val name = config.getFormattedString("name")
 
     val namePrefixComponent = StringUtils.toComponent("$name ").decoration(TextDecoration.ITALIC, false)

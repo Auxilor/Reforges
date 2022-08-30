@@ -7,7 +7,6 @@ import com.willfp.eco.core.items.Items
 import com.willfp.libreforge.LibReforgePlugin
 import com.willfp.reforges.commands.CommandReforge
 import com.willfp.reforges.commands.CommandReforges
-import com.willfp.reforges.config.ReforgesYml
 import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.integrations.talismans.TalismansIntegration
@@ -22,14 +21,14 @@ import org.bukkit.event.Listener
 class ReforgesPlugin : LibReforgePlugin() {
     val targetYml: TargetYml =
         TargetYml(this)
-    val reforgesYml: ReforgesYml =
-        ReforgesYml(this)
 
     init {
         instance = this
     }
 
     override fun handleEnableAdditional() {
+        this.copyConfigs("reforges")
+
         Items.registerArgParser(ReforgeArgParser())
         registerHolderProvider { ReforgeLookup.provideReforges(it) }
     }

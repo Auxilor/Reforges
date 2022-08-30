@@ -1,0 +1,20 @@
+name: "<gradient:#00B4DB>Prospecting</gradient:#0083B0>"
+description:
+  - "&a+5% &fChance to get &e$$2&f for mining a block"
+targets:
+  - pickaxe
+stone:
+  enabled: false
+  name: ''
+  lore: []
+  item: ''
+  craftable: false
+  recipe: []
+effects:
+  - id: give_money
+    args:
+      amount: 2
+      chance: 5
+    triggers:
+      - mine_block
+conditions: []

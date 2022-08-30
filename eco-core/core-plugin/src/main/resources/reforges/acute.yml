@@ -1,0 +1,20 @@
+name: "<gradient:#4776E6>Acute</gradient:#8E54E9>"
+description:
+  - "&a+2% &fTriple Damage Chance"
+targets:
+  - axe
+stone:
+  enabled: false
+  name: ''
+  lore: []
+  item: ''
+  craftable: false
+  recipe: []
+effects:
+  - id: damage_multiplier
+    args:
+      multiplier: 3
+      chance: 2
+    triggers:
+      - melee_attack
+conditions: []
