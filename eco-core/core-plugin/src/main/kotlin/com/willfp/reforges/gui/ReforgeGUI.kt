@@ -229,8 +229,9 @@ object ReforgeGUI {
             .toTypedArray()
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {
-            setTitle(plugin.langYml.getFormattedString("menu.title"))
+            title = plugin.langYml.getFormattedString("menu.title")
             setMask(FillerMask(MaskItems(*maskItems), *maskPattern))
+            allowChangingHeldItem()
 
             val slot = slot(
                 ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
