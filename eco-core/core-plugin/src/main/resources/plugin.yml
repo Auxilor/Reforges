@@ -46,6 +46,8 @@ permissions:
       reforges.command.give: true
       reforges.command.apply: true
       reforges.command.open: true
+      reforges.command.import: true
+      reforges.command.export: true
 
   reforges.command.reload:
     description: Allows reloading the config
@@ -64,4 +66,10 @@ permissions:
     default: op
   reforges.command.apply:
     description: Allows the user of /reforges apply.
+    default: op
+  reforges.command.import:
+    description: Allows the user of /reforges import.
+    default: op
+  reforges.command.export:
+    description: Allows the user of /reforges export.
     default: op
