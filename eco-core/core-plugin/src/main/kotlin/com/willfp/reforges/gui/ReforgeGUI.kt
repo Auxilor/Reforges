@@ -4,21 +4,21 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.fast.fast
+import com.willfp.eco.core.gui.captiveSlot
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
-import com.willfp.eco.core.gui.slot.Slot
 import com.willfp.eco.core.integrations.economy.EconomyManager
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
+import com.willfp.eco.core.items.isEmpty
 import com.willfp.eco.util.NumberUtils
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
 import com.willfp.reforges.reforges.ReforgeTargets
-import com.willfp.reforges.reforges.util.MetadatedReforgeStatus
 import com.willfp.reforges.util.ReforgeStatus
 import com.willfp.reforges.util.getRandomReforge
 import com.willfp.reforges.util.reforge
@@ -28,40 +28,28 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Locale
 import kotlin.math.pow
 
 @Suppress("DEPRECATION")
 object ReforgeGUI {
     private lateinit var menu: Menu
 
-    private fun Menu.getReforgeStatus(player: Player): MetadatedReforgeStatus {
-        val captive = this.getCaptiveItems(player)
-        val item = captive.getOrNull(0)
-        val stone = captive.getOrNull(1)
+    private fun Menu.getItemToReforge(player: Player) = this.getState<ItemStack>(
+        player,
+        "item_to_reforge"
+    )
 
-        val targets = mutableListOf<ReforgeTarget>()
+    private fun Menu.getReforgeStone(player: Player) = this.getState<ItemStack>(
+        player,
+        "reforge_stone"
+    )
 
-        var cost = 0.0
-        val status = if (item == null || item.type == Material.AIR) {
-            ReforgeStatus.NO_ITEM
-        } else {
-            targets.addAll(ReforgeTargets.getForItem(item))
-            if (targets.isEmpty()) {
-                ReforgeStatus.INVALID_ITEM
-            } else {
-                val reforgeStone = stone.reforgeStone
-                if (reforgeStone != null && reforgeStone.canBeAppliedTo(item)) {
-                    cost = reforgeStone.stonePrice.toDouble()
-                    ReforgeStatus.ALLOW_STONE
-                } else {
-                    ReforgeStatus.ALLOW
-                }
-            }
-        }
-
-        return MetadatedReforgeStatus(status, cost)
-    }
+    private fun Menu.getReforgeStatus(player: Player): PricedReforgeStatus =
+        this.getState<PricedReforgeStatus>(player, "reforge_status") ?: PricedReforgeStatus(
+            ReforgeStatus.NO_ITEM,
+            0.0
+        )
 
     @JvmStatic
     fun open(player: Player) {
@@ -77,7 +65,7 @@ object ReforgeGUI {
 
                 val cost = when {
                     status == ReforgeStatus.ALLOW || (status == ReforgeStatus.ALLOW_STONE && specialCost < 0) -> {
-                        val amountOfReforges = menu.getCaptiveItems(player)[0].timesReforged
+                        val amountOfReforges = menu.getItemToReforge(player)?.timesReforged ?: 0
 
                         plugin.configYml.getDouble("reforge.cost") *
                                 plugin.configYml.getDouble("reforge.cost-exponent").pow(amountOfReforges) *
@@ -91,8 +79,8 @@ object ReforgeGUI {
 
                 var xpCost = plugin.configYml.getInt("reforge.xp-cost")
                 if (status == ReforgeStatus.ALLOW) {
-                    val item = menu.getCaptiveItems(player)[0]
-                    val reforges = item.timesReforged
+                    val item = menu.getItemToReforge(player)
+                    val reforges = item?.timesReforged ?: 0
                     xpCost *= PriceMultipliers.getForPlayer(player).multiplier.toInt()
                     xpCost *= plugin.configYml.getDouble("reforge.cost-exponent").pow(reforges.toDouble()).toInt()
                 }
@@ -106,7 +94,7 @@ object ReforgeGUI {
                             .replace("%xpcost%", NumberUtils.format(xpCost.toDouble()))
                             .replace(
                                 "%stone%",
-                                menu.getCaptiveItems(player).getOrNull(1).reforgeStone?.name ?: ""
+                                menu.getReforgeStone(player)?.reforgeStone?.name ?: ""
                             )
                     }
                 }
@@ -114,9 +102,8 @@ object ReforgeGUI {
 
             onLeftClick { event, _, menu ->
                 val player = event.whoClicked as Player
-                val captive = menu.getCaptiveItems(player)
 
-                val item = captive.getOrNull(0) ?: return@onLeftClick
+                val item = menu.getItemToReforge(player) ?: return@onLeftClick
                 val currentReforge = item.reforge
 
                 val targets = ReforgeTargets.getForItem(item)
@@ -124,7 +111,7 @@ object ReforgeGUI {
 
                 var usedStone = false
 
-                val stoneInMenu = menu.getCaptiveItems(player).getOrNull(1).reforgeStone
+                val stoneInMenu = menu.getReforgeStone(player)?.reforgeStone
 
                 val reforge = if (stoneInMenu != null && stoneInMenu.canBeAppliedTo(item)) {
                     usedStone = true
@@ -198,9 +185,9 @@ object ReforgeGUI {
                 item.reforge = reforge
 
                 if (usedStone) {
-                    val stone = menu.getCaptiveItems(player)[1]
-                    stone.itemMeta = null
-                    stone.amount = 0
+                    val stone = menu.getReforgeStone(player)
+                    stone?.itemMeta = null
+                    stone?.amount = 0
                     if (plugin.configYml.getBool("gui.stone-sound.enabled")) {
                         player.playSound(
                             player.location,
@@ -262,13 +249,13 @@ object ReforgeGUI {
             setSlot(
                 plugin.configYml.getInt("gui.item-slot.row"),
                 plugin.configYml.getInt("gui.item-slot.column"),
-                Slot.builder().setCaptive().build()
+                captiveSlot()
             )
 
             setSlot(
                 plugin.configYml.getInt("gui.stone-slot.row"),
                 plugin.configYml.getInt("gui.stone-slot.column"),
-                Slot.builder().setCaptive().build()
+                captiveSlot()
             )
 
             setSlot(
@@ -288,6 +275,50 @@ object ReforgeGUI {
                     onLeftClick { event, _, _ -> event.whoClicked.closeInventory() }
                 }
             )
+
+            onRender { player, menu ->
+                menu.addState(
+                    player, "item_to_reforge", menu.getCaptiveItem(
+                        player,
+                        plugin.configYml.getInt("gui.item-slot.row"),
+                        plugin.configYml.getInt("gui.item-slot.column")
+                    )
+                )
+
+                menu.addState(
+                    player, "reforge_stone", menu.getCaptiveItem(
+                        player,
+                        plugin.configYml.getInt("gui.stone-slot.row"),
+                        plugin.configYml.getInt("gui.stone-slot.column")
+                    )
+                )
+
+                val item = menu.getItemToReforge(player)
+
+                val stone = menu.getReforgeStone(player)
+
+                val targets = mutableListOf<ReforgeTarget>()
+
+                var cost = 0.0
+                val status = if (item.isEmpty) {
+                    ReforgeStatus.NO_ITEM
+                } else {
+                    targets.addAll(ReforgeTargets.getForItem(item!!))
+                    if (targets.isEmpty()) {
+                        ReforgeStatus.INVALID_ITEM
+                    } else {
+                        val reforgeStone = stone.reforgeStone
+                        if (reforgeStone != null && reforgeStone.canBeAppliedTo(item)) {
+                            cost = reforgeStone.stonePrice.toDouble()
+                            ReforgeStatus.ALLOW_STONE
+                        } else {
+                            ReforgeStatus.ALLOW
+                        }
+                    }
+                }
+
+                menu.addState(player, "reforge_status", PricedReforgeStatus(status, cost))
+            }
 
             onClose { event, menu ->
                 DropQueue(event.player as Player)
