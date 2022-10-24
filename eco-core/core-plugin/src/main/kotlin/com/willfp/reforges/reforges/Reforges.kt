@@ -3,7 +3,6 @@ package com.willfp.reforges.reforges
 import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableSet
 import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.TransientConfig
 import com.willfp.eco.core.config.readConfig
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.libreforge.chains.EffectChains
