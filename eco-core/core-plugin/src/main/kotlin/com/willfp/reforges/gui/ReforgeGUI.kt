@@ -308,11 +308,15 @@ object ReforgeGUI {
                         ReforgeStatus.INVALID_ITEM
                     } else {
                         val reforgeStone = stone.reforgeStone
-                        if (reforgeStone != null && reforgeStone.canBeAppliedTo(item)) {
-                            cost = reforgeStone.stonePrice.toDouble()
-                            ReforgeStatus.ALLOW_STONE
-                        } else {
+                        if (reforgeStone == null) {
                             ReforgeStatus.ALLOW
+                        } else {
+                            if (reforgeStone.canBeAppliedTo(item)) {
+                                cost = reforgeStone.stonePrice.toDouble()
+                                ReforgeStatus.ALLOW_STONE
+                            } else {
+                                ReforgeStatus.INVALID_ITEM
+                            }
                         }
                     }
                 }
