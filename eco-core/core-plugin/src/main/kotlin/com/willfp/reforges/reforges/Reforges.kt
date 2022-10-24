@@ -4,6 +4,7 @@ import com.google.common.collect.HashBiMap
 import com.google.common.collect.ImmutableSet
 import com.willfp.eco.core.config.ConfigType
 import com.willfp.eco.core.config.TransientConfig
+import com.willfp.eco.core.config.readConfig
 import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.libreforge.chains.EffectChains
 import com.willfp.reforges.ReforgesPlugin
@@ -54,7 +55,7 @@ object Reforges {
     @ConfigUpdater
     @JvmStatic
     fun update(plugin: ReforgesPlugin) {
-        val reforgesYml = TransientConfig(File(plugin.dataFolder, "reforges.yml"), ConfigType.YAML)
+        val reforgesYml = File(plugin.dataFolder, "reforges.yml").readConfig(ConfigType.YAML)
 
         for (config in reforgesYml.getSubsections("chains")) {
             EffectChains.compile(config, "Chains")
