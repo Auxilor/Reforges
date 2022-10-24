@@ -30,13 +30,15 @@ class Reforge(
 
     val targets = config.getStrings("targets").mapNotNull { ReforgeTargets.getByName(it) }.toSet()
 
-    override val effects = config.getSubsections("effects").mapNotNull {
-        Effects.compile(it, "Reforge ID $id")
-    }.toSet()
+    override val effects = Effects.compile(
+        config.getSubsections("effects"),
+        "Reforge $id"
+    )
 
-    override val conditions = config.getSubsections("conditions").mapNotNull {
-        Conditions.compile(it, "Reforge ID $id")
-    }.toSet()
+    override val conditions = Conditions.compile(
+        config.getSubsections("conditions"),
+        "Reforge $id"
+    )
 
     val requiresStone = config.getBool("stone.enabled")
 
