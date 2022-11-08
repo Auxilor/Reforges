@@ -8,6 +8,7 @@ import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
 import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
+import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toJSON
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.ReforgeTargets
@@ -75,10 +76,14 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                     }
                 }
             }
+
             itemStack.itemMeta = meta
-            val stoneLore = stone.config.getFormattedStrings("stone.lore").map {
-                "${Display.PREFIX}$it"
-            }.toList()
+
+            val stoneLore = stone.config.getStrings("stone.lore")
+                .map { it.replace("%price%", if (player == null) "" else stone.stonePrice?.getDisplay(player) ?: "") }
+                .formatEco(player)
+                .map { "${Display.PREFIX}$it" }
+
             lore.addAll(0, stoneLore)
         }
 
