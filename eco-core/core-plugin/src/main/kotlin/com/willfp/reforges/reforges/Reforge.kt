@@ -1,10 +1,12 @@
 package com.willfp.reforges.reforges
 
+import com.willfp.eco.core.config.config
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.display.Display
 import com.willfp.eco.core.items.CustomItem
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
+import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
@@ -14,7 +16,7 @@ import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.util.reforgeStone
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Objects
 
 @Suppress("DEPRECATION")
 class Reforge(
@@ -50,7 +52,21 @@ class Reforge(
         }
     }.build()
 
-    val stonePrice = config.getIntOrNull("stone.price") ?: -1
+    val stonePrice = if (config.has("stone.price")) {
+        when {
+            // Legacy support
+            config.getDouble("stone.price") > 0 -> {
+                ConfiguredPrice.createOrFree(
+                    config {
+                        "value" to config.getDouble("stone.price")
+                        "type" to "coins"
+                        "display" to "%value%"
+                    }
+                )
+            }
+            else -> ConfiguredPrice.createOrFree(config.getSubsection("stone.price"))
+        }
+    } else null
 
     init {
         Reforges.addNewReforge(this)

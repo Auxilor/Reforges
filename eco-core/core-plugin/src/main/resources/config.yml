@@ -86,8 +86,8 @@ gui:
       - '&7it a random item modifier that'
       - '&7boosts its stats.'
       - ''
-      - '&7Cost'
-      - '&6\$%cost%'
+      - '&7Price:'
+      - '%price%'
       - ''
       - '&eClick to reforge!'
   allow-stone:
@@ -99,8 +99,8 @@ gui:
       - '&7the %stone%&7 reforge to'
       - '&7boost its stats.'
       - ''
-      - '&7Cost'
-      - '&6\$%cost%'
+      - '&7Price:'
+      - '%price%'
       - ''
       - '&eClick to reforge!'
   no-item:
@@ -138,9 +138,11 @@ gui:
     pitch: 0.8
 
 reforge:
-  cost: 7500
-  xp-cost: 0 # In levels
-  use-player-points: false
+  # See here: https://plugins.auxilor.io/all-plugins/prices
+  price:
+    value: 7500
+    type: coins
+    display: "&6$%value%"
 
   cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
 

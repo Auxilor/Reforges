@@ -17,8 +17,6 @@ messages:
   lrcdb-export-error: "&cError exporting config: &f%message%"
   lrcdb-export-success: "&fExported &a%name%&f! View it on &alrcdb.auxilor.io&f, or share your config ID: &f%id%"
 
-  insufficient-money: "&cYou don't have enough money for this!"
-  insufficient-xp: "&cYou don't have enough xp levels for this!"
   applied-reforge: "Applied %reforge%&r reforge!"
   needs-player: "&cYou must specify a player"
   invalid-player: "&cInvalid player!"

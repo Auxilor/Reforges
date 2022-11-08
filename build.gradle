@@ -40,12 +40,14 @@ allprojects {
 
     shadowJar {
         relocate('com.willfp.libreforge', 'com.willfp.reforges.libreforge')
+        relocate('com.willfp.ecomponent', 'com.willfp.reforges.ecomponent')
         relocate('org.joml', 'com.willfp.reforges.libreforge.joml')
     }
 
     dependencies {
-        compileOnly 'com.willfp:eco:6.44.0'
+        compileOnly 'com.willfp:eco:6.46.0'
         implementation 'com.willfp:libreforge:3.118.0'
+        implementation 'com.willfp:ecomponent:1.1.0'
         implementation 'org.joml:joml:1.10.4'
 
         compileOnly 'org.jetbrains:annotations:23.0.0'
@@ -60,7 +62,7 @@ allprojects {
     }
 
     processResources {
-        filesNotMatching(["**/*.png", "**/models/**", "**/textures/**", "**/reforges/**", "**lang.yml"]) {
+        filesMatching(["**plugin.yml"]) {
             expand projectVersion: project.version
         }
     }
