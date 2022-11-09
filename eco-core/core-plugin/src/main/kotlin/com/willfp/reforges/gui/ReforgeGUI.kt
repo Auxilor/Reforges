@@ -21,9 +21,7 @@ import com.willfp.eco.core.items.isEmpty
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecomponent.CaptiveItem
-import com.willfp.ecomponent.MenuStateVar
-import com.willfp.ecomponent.NotNullMenuStateVar
-import com.willfp.ecomponent.lazyWithReceiver
+import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecomponent.setSlot
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.Reforge
@@ -48,15 +46,13 @@ private data class ReforgeGUIStatus(
 
 private class ReforgePriceChangeEvent : MenuEvent
 
-private val Menu.reforgeStatus by lazyWithReceiver<Menu, MenuStateVar<ReforgeGUIStatus>> {
-    NotNullMenuStateVar(
-        this, "reforge_status", ReforgeGUIStatus(
-            ReforgeStatus.NO_ITEM,
-            ConfiguredPrice.createOrFree(emptyConfig()),
-            false
-        )
+private val Menu.reforgeStatus by menuStateVar(
+    ReforgeGUIStatus(
+        ReforgeStatus.NO_ITEM,
+        ConfiguredPrice.createOrFree(emptyConfig()),
+        false
     )
-}
+)
 
 private class IndicatorSlot(
     plugin: EcoPlugin
