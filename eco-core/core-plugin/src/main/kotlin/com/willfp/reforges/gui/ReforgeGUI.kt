@@ -21,6 +21,9 @@ import com.willfp.eco.core.items.isEmpty
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.ecomponent.CaptiveItem
+import com.willfp.ecomponent.MenuStateVar
+import com.willfp.ecomponent.NotNullMenuStateVar
+import com.willfp.ecomponent.lazyWithReceiver
 import com.willfp.ecomponent.setSlot
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.Reforge
@@ -31,7 +34,6 @@ import com.willfp.reforges.util.getRandomReforge
 import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
 import com.willfp.reforges.util.timesReforged
-import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import java.util.Locale
@@ -44,34 +46,28 @@ private data class ReforgeGUIStatus(
     val isStonePrice: Boolean
 )
 
-private class ReforgePriceChangeEvent: MenuEvent
+private class ReforgePriceChangeEvent : MenuEvent
 
-private fun Menu.getReforgeStatus(player: Player): ReforgeGUIStatus =
-    this.getState<ReforgeGUIStatus>(player, "reforge_status") ?: ReforgeGUIStatus(
-        ReforgeStatus.NO_ITEM,
-        ConfiguredPrice.createOrFree(emptyConfig()),
-        false
+private val Menu.reforgeStatus by lazyWithReceiver<Menu, MenuStateVar<ReforgeGUIStatus>> {
+    NotNullMenuStateVar(
+        this, "reforge_status", ReforgeGUIStatus(
+            ReforgeStatus.NO_ITEM,
+            ConfiguredPrice.createOrFree(emptyConfig()),
+            false
+        )
     )
+}
 
-private fun Menu.setReforgeStatus(player: Player, status: ReforgeGUIStatus) =
-    this.setState(player, "reforge_status", status)
-
-class IndicatorSlot(
+private class IndicatorSlot(
     plugin: EcoPlugin
 ) : CustomSlot() {
-    private val slot = slot(
-        ItemStackBuilder(Material.BLACK_STAINED_GLASS_PANE)
-            .setDisplayName("&r")
-            .build()
-    ) {
-        setUpdater { player, menu, _ ->
-            val status = menu.getReforgeStatus(player).status
+    private val slot = slot { player, menu ->
+        val status = menu.reforgeStatus[player].status
 
-            if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-                Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
-            } else {
-                Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
-            }
+        if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
+            Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
+        } else {
+            Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
         }
     }
 
@@ -80,13 +76,13 @@ class IndicatorSlot(
     }
 }
 
-class ActivatorSlot(
+private class ActivatorSlot(
     plugin: EcoPlugin,
     itemToReforge: CaptiveItem,
     reforgeStone: CaptiveItem
 ) : CustomSlot() {
     private val slot = slot({ player, menu ->
-        val (status, price) = menu.getReforgeStatus(player)
+        val (status, price) = menu.reforgeStatus[player]
 
         val configKey = status.configKey
 
@@ -132,10 +128,12 @@ class ActivatorSlot(
                 return@onLeftClick
             }
 
-            val price = menu.getReforgeStatus(player).price
+            val price = menu.reforgeStatus[player].price
 
             if (!price.canAfford(player)) {
-                player.sendMessage(plugin.langYml.getMessage("cannot-afford-price").replace("%price%", price.getDisplay(player)))
+                player.sendMessage(
+                    plugin.langYml.getMessage("cannot-afford-price").replace("%price%", price.getDisplay(player))
+                )
 
                 if (plugin.configYml.getBool("gui.cannot-afford-sound.enabled")) {
                     PlayableSound.create(
@@ -261,7 +259,7 @@ object ReforgeGUI {
             )
 
             onEvent<ReforgePriceChangeEvent> { player, menu, _ ->
-                val status = menu.getReforgeStatus(player)
+                val status = menu.reforgeStatus[player]
 
                 val item = itemToReforge[player]
 
@@ -310,7 +308,7 @@ object ReforgeGUI {
                     }
                 }
 
-                menu.setReforgeStatus(player, ReforgeGUIStatus(status, price, isStonePrice))
+                menu.reforgeStatus[player] = ReforgeGUIStatus(status, price, isStonePrice)
                 menu.callEvent(player, ReforgePriceChangeEvent())
             }
 
