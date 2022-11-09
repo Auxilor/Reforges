@@ -1,19 +1,16 @@
 name: "<gradient:#74ebd5>Streamlined</gradient:#ACB6E5>"
+
 description:
   - "&a+4% &fDamage"
+
 targets:
   - bow
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
       multiplier: 1.04
     triggers:
       - bow_attack
+
 conditions: []

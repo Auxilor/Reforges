@@ -1,19 +1,16 @@
 name: "<gradient:#FBD786>Reinforced</gradient:#f7797d>"
+
 description:
   - "&a+4% &fDamage Resistance"
+
 targets:
   - armor
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
       multiplier: 0.96
     triggers:
       - take_damage
+
 conditions: []

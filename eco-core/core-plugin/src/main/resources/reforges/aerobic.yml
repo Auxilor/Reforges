@@ -1,21 +1,18 @@
 name: "<gradient:#B993D6>Aerobic</gradient:#8CA6DB>"
+
 description:
   - "&a+9% &fDamage when shot in air"
+
 targets:
   - bow
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
       multiplier: 1.09
     triggers:
       - bow_attack
+
 conditions:
   - id: in_air
     args:

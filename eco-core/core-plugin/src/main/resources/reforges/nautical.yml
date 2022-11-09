@@ -1,17 +1,13 @@
 name: "<gradient:#373B44>Nautical</gradient:#4286f4>"
+
 description:
   - "&a+20% &fDamage in water"
+
 targets:
   - melee
   - bow
   - trident
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
@@ -20,6 +16,7 @@ effects:
       - melee_attack
       - bow_attack
       - trident_attack
+
 conditions:
   - id: in_water
     args:

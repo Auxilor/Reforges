@@ -3,6 +3,7 @@ description:
   - "&a+3% &fDamage"
 targets:
   - melee
+
 stone:
   enabled: false
   name: ''
@@ -10,6 +11,7 @@ stone:
   item: ''
   craftable: false
   recipe: []
+
 effects:
   - id: damage_multiplier
     args:

@@ -1,16 +1,12 @@
 name: "<gradient:#ED213A>Strong</gradient:#93291E>"
+
 description:
   - "&a+2% &fDamage"
   - "&a+10% &fKnockback"
+
 targets:
   - melee
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
@@ -20,4 +16,5 @@ effects:
   - id: knockback_multiplier
     args:
       multiplier: 1.1
+
 conditions: []

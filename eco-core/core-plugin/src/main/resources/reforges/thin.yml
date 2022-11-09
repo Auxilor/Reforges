@@ -1,16 +1,12 @@
 name: "<gradient:#D1913C>Thin</gradient:#FFD194>"
+
 description:
   - "&c-5% &fDamage Resistance"
   - "&a+2.5% &fMovement Speed"
+
 targets:
   - armor
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
@@ -20,4 +16,5 @@ effects:
   - id: movement_speed_multiplier
     args:
       multiplier: 1.025
+
 conditions: []

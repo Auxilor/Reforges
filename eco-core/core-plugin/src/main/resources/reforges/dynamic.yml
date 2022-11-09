@@ -1,9 +1,12 @@
 name: "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>"
+
 description:
   - "&a+5% &fDamage"
   - "&a+10% &fCrit Damage"
+
 targets:
   - melee
+
 stone:
   enabled: true
   name: "<gradient:#AAFFA9>Dynamic</gradient:#11FFBD>&f Reforge Stone"
@@ -29,6 +32,7 @@ stone:
     - air
     - phantom_membrane
     - air
+
 effects:
   - id: damage_multiplier
     args:
@@ -40,4 +44,5 @@ effects:
       multiplier: 1.1
     triggers:
       - melee_attack
+
 conditions: []

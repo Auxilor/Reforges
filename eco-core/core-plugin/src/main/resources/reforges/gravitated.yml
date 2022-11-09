@@ -1,19 +1,16 @@
 name: "<gradient:#1e3c72>Gravitated</gradient:#2a5298>"
+
 description:
   - "&a+8% &fCritical Damage"
+
 targets:
   - melee
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: crit_multiplier
     args:
       multiplier: 1.08
     triggers:
       - melee_attack
+
 conditions: []

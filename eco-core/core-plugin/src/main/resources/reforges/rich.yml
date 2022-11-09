@@ -1,9 +1,12 @@
 name: "<gradient:#DBDBDB>Rich</gradient:#F2F2F2>"
+
 description:
   - "&a+$$50 &fFor each mob kill"
+
 targets:
   - trident
   - bow
+
 stone:
   enabled: true
   name: "<gradient:#DBDBDB>Rich</gradient:#F2F2F2>&f Reforge Stone"
@@ -23,10 +26,12 @@ stone:
     - gold_block
     - bow
     - gold_block
+
 effects:
   - id: give_money
     args:
       amount: 50
     triggers:
       - kill
+
 conditions: []

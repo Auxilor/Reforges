@@ -1,15 +1,11 @@
 name: "<gradient:#EFEFBB>Evasive</gradient:#D4D3DD>"
+
 description:
   - "&a+2% &fIgnore Damage Chance"
+
 targets:
   - armor
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
@@ -17,4 +13,5 @@ effects:
       chance: 2
     triggers:
       - take_damage
+
 conditions: []

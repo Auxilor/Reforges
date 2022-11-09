@@ -1,19 +1,16 @@
 name: "<gradient:#076585>Pointy</gradient:#ffffff>"
+
 description:
   - "&a+10% &fDamage"
+
 targets:
   - trident
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
       multiplier: 1.1
     triggers:
       - trident_attack
+
 conditions: []

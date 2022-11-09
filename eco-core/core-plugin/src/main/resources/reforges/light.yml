@@ -1,17 +1,13 @@
 name: "<gradient:#1c92d2>Light</gradient:#f2fcfe>"
+
 description:
   - "&c-5% &fDamage"
   - "&c-5% &fKnockback"
   - "&a+10% &fAttack Speed"
+
 targets:
   - melee
-stone:
-  enabled: false
-  name: ''
-  lore: []
-  item: ''
-  craftable: false
-  recipe: []
+
 effects:
   - id: damage_multiplier
     args:
@@ -24,4 +20,5 @@ effects:
   - id: attack_speed_multiplier
     args:
       multiplier: 1.1
+
 conditions: []
