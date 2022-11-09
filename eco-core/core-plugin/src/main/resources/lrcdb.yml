@@ -16,4 +16,4 @@ share-configs:
   enabled: true
 
 # If you disable share-configs, you can still share select configs publicly
-# with /ecoenchants export <config>.
+# with /reforges export <config>.
