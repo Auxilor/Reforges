@@ -134,10 +134,8 @@ class ActivatorSlot(
 
             val price = menu.getReforgeStatus(player).price
 
-            menu.callEvent(player, ReforgePriceChangeEvent())
-
             if (!price.canAfford(player)) {
-                player.sendMessage(plugin.langYml.getMessage("cannot-afford-price"))
+                player.sendMessage(plugin.langYml.getMessage("cannot-afford-price").replace("%price%", price.getDisplay(player)))
 
                 if (plugin.configYml.getBool("gui.cannot-afford-sound.enabled")) {
                     PlayableSound.create(
@@ -176,6 +174,8 @@ class ActivatorSlot(
                     1f, plugin.configYml.getDouble("gui.sound.pitch").toFloat()
                 )
             }
+
+            menu.callEvent(player, ReforgePriceChangeEvent())
         }
     }
 
