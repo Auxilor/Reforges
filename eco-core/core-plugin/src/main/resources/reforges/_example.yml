@@ -24,7 +24,7 @@ stone:
 
   price: # (Optional) The price required to apply this reforge, overrides the default reforge price
     value: 100000
-    type: coins
+    type: coins # See here: https://plugins.auxilor.io/all-plugins/prices
     display: "&6$%value%"
 
   recipe: # The recipe for the stone to have
