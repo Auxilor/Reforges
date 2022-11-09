@@ -69,11 +69,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 val stoneTexture = SkullUtils.getSkullTexture(stoneMeta)
 
                 if (stoneTexture != null) {
-                    try {
-                        SkullUtils.setSkullTexture(meta as SkullMeta, stoneTexture)
-                    } catch (e: StringIndexOutOfBoundsException) {
-                        // Do nothing
-                    }
+                    SkullUtils.setSkullTexture(meta as SkullMeta, stoneTexture)
                 }
             }
 

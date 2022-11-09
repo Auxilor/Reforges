@@ -44,7 +44,7 @@ private data class ReforgeGUIStatus(
     val isStonePrice: Boolean
 )
 
-private class ReforgeMultiplierChangeEvent: MenuEvent
+private class ReforgePriceChangeEvent: MenuEvent
 
 private fun Menu.getReforgeStatus(player: Player): ReforgeGUIStatus =
     this.getState<ReforgeGUIStatus>(player, "reforge_status") ?: ReforgeGUIStatus(
@@ -134,7 +134,7 @@ class ActivatorSlot(
 
             val price = menu.getReforgeStatus(player).price
 
-            menu.callEvent(player, ReforgeMultiplierChangeEvent())
+            menu.callEvent(player, ReforgePriceChangeEvent())
 
             if (!price.canAfford(player)) {
                 player.sendMessage(plugin.langYml.getMessage("cannot-afford-price"))
@@ -260,7 +260,7 @@ object ReforgeGUI {
                 }
             )
 
-            onEvent<ReforgeMultiplierChangeEvent> { player, menu, _ ->
+            onEvent<ReforgePriceChangeEvent> { player, menu, _ ->
                 val status = menu.getReforgeStatus(player)
 
                 val item = itemToReforge[player]
@@ -311,7 +311,7 @@ object ReforgeGUI {
                 }
 
                 menu.setReforgeStatus(player, ReforgeGUIStatus(status, price, isStonePrice))
-                menu.callEvent(player, ReforgeMultiplierChangeEvent())
+                menu.callEvent(player, ReforgePriceChangeEvent())
             }
 
             onClose { event, menu ->
