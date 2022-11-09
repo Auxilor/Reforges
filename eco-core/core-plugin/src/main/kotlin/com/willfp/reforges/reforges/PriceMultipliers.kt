@@ -34,6 +34,10 @@ object PriceMultipliers {
         return current
     }
 
+    /** The price multiplier from permissions. */
+    val Player.reforgePriceMultiplier: Double
+        get() = getForPlayer(this).multiplier
+
     /**
      * List of all registered multipliers.
      *

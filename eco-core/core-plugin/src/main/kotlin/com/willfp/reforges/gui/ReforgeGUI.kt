@@ -24,6 +24,7 @@ import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecomponent.setSlot
 import com.willfp.reforges.reforges.PriceMultipliers
+import com.willfp.reforges.reforges.PriceMultipliers.reforgePriceMultiplier
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
 import com.willfp.reforges.reforges.ReforgeTargets
@@ -266,7 +267,7 @@ object ReforgeGUI {
                         .pow(reforges.toDouble())
                 }
 
-                multiplier *= PriceMultipliers.getForPlayer(player).multiplier
+                multiplier *= player.reforgePriceMultiplier
 
                 status.price.setMultiplier(player, multiplier)
             }
@@ -284,7 +285,7 @@ object ReforgeGUI {
                 val status = if (item.isEmpty) {
                     ReforgeStatus.NO_ITEM
                 } else {
-                    targets.addAll(ReforgeTargets.getForItem(item!!))
+                    targets.addAll(ReforgeTargets.getForItem(item))
                     if (targets.isEmpty()) {
                         ReforgeStatus.INVALID_ITEM
                     } else {

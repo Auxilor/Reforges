@@ -33,7 +33,11 @@ object ReforgeTargets {
      * @return The target.
      */
     @JvmStatic
-    fun getForItem(item: ItemStack): List<ReforgeTarget> {
+    fun getForItem(item: ItemStack?): List<ReforgeTarget> {
+        if (item == null) {
+            return emptyList()
+        }
+
         return registered.values
             .filter { !it.id.equals("all", ignoreCase = true) }
             .filter { it.matches(item) }
