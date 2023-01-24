@@ -149,8 +149,7 @@ private class ActivatorSlot(
 
             if (usedStone) {
                 val stone = reforgeStone[player]
-                stone?.itemMeta = null
-                stone?.amount = 0
+                stone?.amount = stone?.amount?.minus(1) ?: 0
                 if (plugin.configYml.getBool("gui.stone-sound.enabled")) {
                     player.playSound(
                         player.location,
