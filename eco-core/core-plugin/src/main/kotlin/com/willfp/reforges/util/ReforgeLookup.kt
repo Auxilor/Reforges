@@ -1,8 +1,8 @@
 package com.willfp.reforges.util
 
 import com.github.benmanes.caffeine.cache.Caffeine
+import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.reforges.ReforgesPlugin
-import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -13,12 +13,14 @@ typealias SlotProvider = (Player) -> Map<ItemStack?, ReforgeTarget.Slot?>
 object ReforgeLookup {
     private val plugin = ReforgesPlugin.instance
     private val slotProviders = mutableSetOf<(Player) -> Map<ItemStack, ReforgeTarget.Slot>>()
+
     private val itemCache = Caffeine.newBuilder()
         .expireAfterWrite(2, TimeUnit.SECONDS)
         .build<Player, Map<ItemStack, ReforgeTarget.Slot>>()
+
     private val reforgeCache = Caffeine.newBuilder()
         .expireAfterWrite(2, TimeUnit.SECONDS)
-        .build<Player, Collection<Reforge>>()
+        .build<Player, Collection<ItemProvidedHolder>>()
 
     @JvmStatic
     fun registerProvider(provider: SlotProvider) {
@@ -44,9 +46,9 @@ object ReforgeLookup {
         }
     }
 
-    fun provideReforges(player: Player): List<Reforge> {
+    fun provideReforges(player: Player): List<ItemProvidedHolder> {
         return reforgeCache.get(player) {
-            val found = mutableListOf<Reforge>()
+            val found = mutableListOf<ItemProvidedHolder>()
 
             for ((itemStack, slot) in provide(player)) {
                 val reforge = itemStack.reforge ?: continue
@@ -55,19 +57,18 @@ object ReforgeLookup {
                         continue
                     }
                 }
-                found.add(reforge)
+                found.add(
+                    ItemProvidedHolder(
+                        reforge,
+                        itemStack
+                    )
+                )
             }
 
             found
         }.toList()
     }
 
-    /**
-     * Clear cache.
-     *
-     * @param player The player.
-     */
-    @JvmStatic
     fun clearCache(player: Player) {
         itemCache.invalidate(player)
         reforgeCache.invalidate(player)

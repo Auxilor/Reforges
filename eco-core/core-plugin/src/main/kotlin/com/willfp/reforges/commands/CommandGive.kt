@@ -58,7 +58,7 @@ class CommandGive(
         val completions = mutableListOf<String>()
         if (args.isEmpty()) {
             // Currently, this case is not ever reached
-            return Reforges.values().filter { it.requiresStone }.map { it.id }
+            return Reforges.values().filter { it.requiresStone }.map { it.id.key }
         }
         if (args.size == 1) {
             StringUtil.copyPartialMatches(
@@ -71,7 +71,7 @@ class CommandGive(
         if (args.size == 2) {
             StringUtil.copyPartialMatches(
                 args[1],
-                Reforges.values().filter { it.requiresStone }.map { it.id },
+                Reforges.values().filter { it.requiresStone }.map { it.id.key },
                 completions
             )
             completions.sort()

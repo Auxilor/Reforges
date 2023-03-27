@@ -57,12 +57,12 @@ class CommandApply(
         val completions = mutableListOf<String>()
         if (args.isEmpty()) {
             // Currently, this case is not ever reached
-            return Reforges.values().map { it.id }
+            return Reforges.values().map { it.id.key }
         }
         if (args.size == 1) {
             StringUtil.copyPartialMatches(
                 args[0],
-                Reforges.values().map { it.id },
+                Reforges.values().map { it.id.key },
                 completions
             )
             completions.sort()

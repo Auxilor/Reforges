@@ -51,7 +51,7 @@ var PersistentDataContainer?.reforge: Reforge?
         if (value == null) {
             this.remove(reforgeKey)
         } else {
-            this.set(reforgeKey, PersistentDataType.STRING, value.id)
+            this.set(reforgeKey, PersistentDataType.STRING, value.id.key)
         }
     }
 
@@ -91,7 +91,7 @@ var PersistentDataContainer?.reforgeStone: Reforge?
         if (value == null) {
             this.remove(reforgeStoneKey)
         } else {
-            this.set(reforgeStoneKey, PersistentDataType.STRING, value.id)
+            this.set(reforgeStoneKey, PersistentDataType.STRING, value.id.key)
         }
     }
 

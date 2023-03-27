@@ -1,24 +1,13 @@
-name: Reforges
-version: ${projectVersion}
+name: ${pluginName}
+version: ${version}
 main: com.willfp.reforges.ReforgesPlugin
-api-version: 1.16
+api-version: 1.17
 authors: [ Auxilor ]
 website: willfp.com
 depend:
   - eco
 softdepend:
-  - Vault
-  - AureliumSkills
-  - PlayerPoints
-  - Jobs
-  - TMMobcoins
-  - EcoEnchants
-  - EcoBosses
-  - Talismans
-  - EcoArmor
-  - EcoItems
-  - EcoSkills
-  - Boosters
+  - libreforge
 
 commands:
   reforges:
@@ -44,8 +33,6 @@ permissions:
       reforges.command.give: true
       reforges.command.apply: true
       reforges.command.open: true
-      reforges.command.import: true
-      reforges.command.export: true
 
   reforges.command.reload:
     description: Allows reloading the config
@@ -64,10 +51,4 @@ permissions:
     default: op
   reforges.command.apply:
     description: Allows the user of /reforges apply.
-    default: op
-  reforges.command.import:
-    description: Allows the user of /reforges import.
-    default: op
-  reforges.command.export:
-    description: Allows the user of /reforges export.
     default: op

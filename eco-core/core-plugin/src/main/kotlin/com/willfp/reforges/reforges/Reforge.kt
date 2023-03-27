@@ -8,8 +8,10 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.registry.Registrable
 import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
+import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.reforges.ReforgesPlugin
@@ -20,10 +22,10 @@ import java.util.Objects
 
 @Suppress("DEPRECATION")
 class Reforge(
-    override val id: String,
+    id: String,
     internal val config: Config,
     plugin: ReforgesPlugin
-) : Holder {
+) : Holder, Registrable {
     val name = config.getFormattedString("name")
 
     val namePrefixComponent = StringUtils.toComponent("$name ").decoration(TextDecoration.ITALIC, false)
@@ -34,13 +36,15 @@ class Reforge(
 
     override val effects = Effects.compile(
         config.getSubsections("effects"),
-        "Reforge $id"
+        ViolationContext(plugin, "Reforge $id")
     )
 
     override val conditions = Conditions.compile(
         config.getSubsections("conditions"),
-        "Reforge $id"
+        ViolationContext(plugin, "Reforge $id")
     )
+
+    override val id = plugin.createNamespacedKey(id)
 
     val requiresStone = config.getBool("stone.enabled")
 
@@ -64,15 +68,13 @@ class Reforge(
                     }
                 )
             }
+
             else -> ConfiguredPrice.createOrFree(config.getSubsection("stone.price"))
         }
     } else null
 
     init {
-        Reforges.addNewReforge(this)
-
         stone.reforgeStone = this
-        Display.display(stone)
 
         if (config.getBool("stone.enabled")) {
             CustomItem(
@@ -94,6 +96,10 @@ class Reforge(
 
     fun canBeAppliedTo(item: ItemStack?): Boolean {
         return targets.any { target -> target.items.any { it.matches(item) } }
+    }
+
+    override fun getID(): String {
+        return this.id.key
     }
 
     override fun equals(other: Any?): Boolean {

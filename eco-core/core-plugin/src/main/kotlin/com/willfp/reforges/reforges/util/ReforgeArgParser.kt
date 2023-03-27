@@ -8,7 +8,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.function.Predicate
 
-class ReforgeArgParser : LookupArgParser {
+object ReforgeArgParser : LookupArgParser {
     override fun parseArguments(
         args: Array<String>,
         meta: ItemMeta
