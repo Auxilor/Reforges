@@ -12,6 +12,10 @@ dependencies:
     required: false
     bootstrap: false
 
+  - name: Talismans
+    required: false
+    bootstrap: false
+
 load-after:
   - name: eco
     bootstrap: false

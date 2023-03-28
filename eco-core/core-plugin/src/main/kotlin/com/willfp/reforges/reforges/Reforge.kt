@@ -86,7 +86,7 @@ class Reforge(
             if (config.getBool("stone.craftable")) {
                 Recipes.createAndRegisterRecipe(
                     plugin,
-                    "stone_" + this.id,
+                    "stone_" + this.id.key,
                     stone,
                     config.getStrings("stone.recipe")
                 )

@@ -8,6 +8,7 @@ depend:
   - eco
 softdepend:
   - libreforge
+  - Talismans
 
 commands:
   reforges:
