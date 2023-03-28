@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.integrations.IntegrationLoader
 import com.willfp.eco.core.items.Items
+import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
@@ -13,6 +14,7 @@ import com.willfp.reforges.commands.CommandReforges
 import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.integrations.talismans.TalismansIntegration
+import com.willfp.reforges.libreforge.ConditionHasReforge
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
@@ -35,6 +37,8 @@ class ReforgesPlugin : LibreforgePlugin() {
     }
 
     override fun handleEnable() {
+        Conditions.register(ConditionHasReforge)
+
         Items.registerArgParser(ReforgeArgParser)
 
         registerHolderProvider { ReforgeLookup.provideReforges(it) }
