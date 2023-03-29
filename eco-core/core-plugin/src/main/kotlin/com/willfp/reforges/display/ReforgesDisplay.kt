@@ -10,6 +10,8 @@ import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toJSON
+import com.willfp.libreforge.ItemProvidedHolder
+import com.willfp.libreforge.ProvidedHolder
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.reforge
@@ -111,7 +113,9 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
 
             if (player != null) {
-                val lines = reforge.conditions.getNotMetLines(player).map { Display.PREFIX + it }
+                val provided = ItemProvidedHolder(reforge, itemStack)
+
+                val lines = reforge.conditions.getNotMetLines(player, provided).map { Display.PREFIX + it }
 
                 if (lines.isNotEmpty()) {
                     lore.add(Display.PREFIX)
