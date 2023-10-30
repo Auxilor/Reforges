@@ -28,6 +28,7 @@ class CommandApply(
         if (sender is Player) {
             val item = sender.inventory.itemInMainHand
             item.reforge = reforge
+            reforge.runOnReforgeEffects(sender, item)
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)
@@ -45,7 +46,10 @@ class CommandApply(
                 return
             }
 
-            player.inventory.itemInMainHand.reforge = reforge
+            val item = player.inventory.itemInMainHand
+
+            item.reforge = reforge
+            reforge.runOnReforgeEffects(player, item)
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)

@@ -150,6 +150,8 @@ private class ActivatorSlot(
             item.timesReforged++
             item.reforge = reforge
 
+            reforge.runOnReforgeEffects(player, item)
+
             if (usedStone) {
                 val stone = reforgeStone[player]
                 stone?.amount = stone?.amount?.minus(1) ?: 0

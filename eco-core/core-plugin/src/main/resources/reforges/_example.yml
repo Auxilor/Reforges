@@ -54,3 +54,6 @@ effects:
 
 # The conditions required to use the reforge
 conditions: [ ]
+
+# Effects to run when the reforge is applied to an item.
+on-reforge-effects: [ ]

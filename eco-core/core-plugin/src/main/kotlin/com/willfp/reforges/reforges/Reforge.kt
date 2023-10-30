@@ -11,12 +11,15 @@ import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
+import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.util.reforgeStone
 import net.kyori.adventure.text.format.TextDecoration
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.Objects
 
@@ -73,6 +76,11 @@ class Reforge(
         }
     } else null
 
+    private val onReforgeEffects = Effects.compileChain(
+        config.getSubsections("on-reforge-effects"),
+        ViolationContext(plugin, "Reforge $id").with("on-reforge-effects")
+    )
+
     init {
         stone.reforgeStone = this
 
@@ -96,6 +104,17 @@ class Reforge(
 
     fun canBeAppliedTo(item: ItemStack?): Boolean {
         return targets.any { target -> target.items.any { it.matches(item) } }
+    }
+
+    fun runOnReforgeEffects(player: Player, item: ItemStack) {
+        onReforgeEffects?.trigger(
+            player,
+            TriggerData(
+                holder = ItemProvidedHolder(this, item),
+                player = player,
+                item = item
+            )
+        )
     }
 
     override fun getID(): String {
