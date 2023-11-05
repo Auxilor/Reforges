@@ -86,7 +86,7 @@ class Reforge(
 
         if (config.getBool("stone.enabled")) {
             CustomItem(
-                plugin.namespacedKeyFactory.create("stone_" + this.id),
+                plugin.namespacedKeyFactory.create("stone_" + this.id.key),
                 { test -> test.reforgeStone == this },
                 stone
             ).register()
