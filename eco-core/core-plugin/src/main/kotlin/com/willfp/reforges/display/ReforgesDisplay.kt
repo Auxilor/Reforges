@@ -6,6 +6,7 @@ import com.willfp.eco.core.display.DisplayPriority
 import com.willfp.eco.core.display.DisplayProperties
 import com.willfp.eco.core.fast.FastItemStack
 import com.willfp.eco.core.fast.fast
+import com.willfp.eco.core.placeholder.context.placeholderContext
 import com.willfp.eco.util.SkullUtils
 import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
@@ -47,12 +48,15 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
 
         val reforge = fast.persistentDataContainer.reforge
 
+        val context = placeholderContext(
+            player = player,
+            item = itemStack
+        )
+
         if (reforge == null && stone == null) {
             if (plugin.configYml.getBool("reforge.show-reforgable")) {
-                if (plugin.configYml.getBool("reforge.no-reforgable-in-gui")) {
-                    if (props.inGui) {
-                        return
-                    }
+                if (props.inGui) {
+                    return
                 }
 
                 val addLore: MutableList<String> = ArrayList()
@@ -91,10 +95,11 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
                 for (string in plugin.configYml.getFormattedStrings("reforge.reforged-prefix")) {
                     addLore.add(Display.PREFIX + string.replace("%reforge%", reforge.name))
                 }
-                addLore.addAll(reforge.description)
+                addLore.addAll(reforge.description.formatEco(context))
                 addLore.replaceAll { "${Display.PREFIX}$it" }
                 lore.addAll(addLore)
             }
+
             if (plugin.configYml.getBool("reforge.display-in-name")) {
                 val displayName = fastItemStack.displayNameComponent
 

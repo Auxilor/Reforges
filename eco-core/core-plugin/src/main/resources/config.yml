@@ -146,12 +146,11 @@ reforge:
   reforgable-suffix:
     - ""
     - "&8This item can be reforged!"
-  no-reforgable-in-gui: true # Not perfect, won't work 100% of the time
-  # due to how GUIs are handled differently in different plugins, but should help.
 
   display-in-lore: true
   display-in-name: true
 
+  # The lore to display if an item is reforged, above the reforge description
   reforged-prefix:
     - ""
     - "%reforge%"

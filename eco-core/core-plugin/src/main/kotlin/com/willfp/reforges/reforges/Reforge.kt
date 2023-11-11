@@ -33,7 +33,7 @@ class Reforge(
 
     val namePrefixComponent = StringUtils.toComponent("$name ").decoration(TextDecoration.ITALIC, false)
 
-    val description: List<String> = config.getFormattedStrings("description")
+    val description: List<String> = config.getStrings("description")
 
     val targets = config.getStrings("targets").mapNotNull { ReforgeTargets.getByName(it) }.toSet()
 
