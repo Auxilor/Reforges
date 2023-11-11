@@ -115,7 +115,7 @@ class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin
             if (player != null) {
                 val provided = ItemProvidedHolder(reforge, itemStack)
 
-                val lines = reforge.conditions.getNotMetLines(player, provided).map { Display.PREFIX + it }
+                val lines = provided.getNotMetLines(player).map { Display.PREFIX + it }
 
                 if (lines.isNotEmpty()) {
                     lore.add(Display.PREFIX)
