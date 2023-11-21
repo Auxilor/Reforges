@@ -9,6 +9,8 @@ import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
 import com.willfp.libreforge.registerPlayerRefreshFunction
+import com.willfp.libreforge.registerSpecificHolderProvider
+import com.willfp.libreforge.registerSpecificRefreshFunction
 import com.willfp.reforges.commands.CommandReforge
 import com.willfp.reforges.commands.CommandReforges
 import com.willfp.reforges.config.TargetYml
@@ -20,6 +22,7 @@ import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
 import com.willfp.reforges.util.ReforgeLookup
+import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
 class ReforgesPlugin : LibreforgePlugin() {
@@ -41,8 +44,13 @@ class ReforgesPlugin : LibreforgePlugin() {
 
         Items.registerArgParser(ReforgeArgParser)
 
-        registerHolderProvider { ReforgeLookup.provideReforges(it) }
-        registerPlayerRefreshFunction { ReforgeLookup.clearCache(it) }
+        registerSpecificHolderProvider<Player> {
+            ReforgeLookup.provideReforges(it)
+        }
+
+        registerSpecificRefreshFunction<Player> {
+            ReforgeLookup.clearCache(it)
+        }
     }
 
     override fun loadListeners(): List<Listener> {

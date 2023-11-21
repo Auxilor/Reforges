@@ -15,6 +15,7 @@ import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.util.reforgeStone
@@ -108,7 +109,7 @@ class Reforge(
 
     fun runOnReforgeEffects(player: Player, item: ItemStack) {
         onReforgeEffects?.trigger(
-            player,
+            player.toDispatcher(),
             TriggerData(
                 holder = ItemProvidedHolder(this, item),
                 player = player,
