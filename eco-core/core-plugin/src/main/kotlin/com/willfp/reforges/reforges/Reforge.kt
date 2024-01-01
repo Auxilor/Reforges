@@ -111,7 +111,6 @@ class Reforge(
         onReforgeEffects?.trigger(
             player.toDispatcher(),
             TriggerData(
-                holder = ItemProvidedHolder(this, item),
                 player = player,
                 item = item
             )
