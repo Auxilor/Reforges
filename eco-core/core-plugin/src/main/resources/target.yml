@@ -1,11 +1,10 @@
 #
 # A target consists of items and a slot.
-# The slot is either hands, armor, or any.
-# Hands means the reforge will activate on hands, armor
-# means it will only work on armor, and any
-# means it will activate whenever its on the player.
 #
 
+# The options for slot are mainhand, offhand, hands, helmet, chestplate,
+# leggings, boots, armor, any, a number from 0-40 (to specify an exact slot),
+# or a list of slots like "9, 10, 11, mainhand"
 
 pickaxe:
   slot: hands

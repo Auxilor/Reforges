@@ -2,12 +2,13 @@ package com.willfp.reforges.reforges
 
 import com.willfp.eco.core.items.TestableItem
 import com.willfp.eco.core.recipe.parts.EmptyTestableItem
+import com.willfp.libreforge.slot.SlotType
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Objects
 
 class ReforgeTarget(
     val id: String,
-    val slot: Slot,
+    val slot: SlotType,
     val items: MutableSet<TestableItem>
 ) {
     init {
@@ -33,11 +34,5 @@ class ReforgeTarget(
 
     override fun hashCode(): Int {
         return Objects.hash(this.id)
-    }
-
-    enum class Slot {
-        HANDS,
-        ARMOR,
-        ANY
     }
 }

@@ -2,13 +2,14 @@ package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
 import com.willfp.eco.core.config.updating.ConfigUpdater
+import com.willfp.libreforge.slot.impl.SlotTypeAny
 import com.willfp.reforges.ReforgesPlugin
 import org.bukkit.inventory.ItemStack
 
 object ReforgeTargets {
     private val registered = mutableMapOf<String, ReforgeTarget>()
 
-    val ALL = ReforgeTarget("all", ReforgeTarget.Slot.ANY, HashSet())
+    val ALL = ReforgeTarget("all", SlotTypeAny, HashSet())
 
     init {
         registered["all"] = ALL

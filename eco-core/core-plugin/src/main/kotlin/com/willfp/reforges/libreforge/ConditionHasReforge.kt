@@ -8,8 +8,9 @@ import com.willfp.libreforge.ProvidedHolder
 import com.willfp.libreforge.arguments
 import com.willfp.libreforge.conditions.Condition
 import com.willfp.libreforge.get
+import com.willfp.libreforge.getHoldersOfType
+import com.willfp.libreforge.toDispatcher
 import com.willfp.reforges.reforges.Reforge
-import com.willfp.reforges.util.ReforgeLookup
 import org.bukkit.entity.Player
 
 object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
@@ -25,9 +26,7 @@ object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
     ): Boolean {
         val player = dispatcher.get<Player>() ?: return false
 
-        return ReforgeLookup.provideReforges(player)
-            .map { it.holder }
-            .filterIsInstance<Reforge>()
+        return player.toDispatcher().getHoldersOfType<Reforge>()
             .map { it.id.key }
             .containsIgnoreCase(config.getString("reforge"))
     }
