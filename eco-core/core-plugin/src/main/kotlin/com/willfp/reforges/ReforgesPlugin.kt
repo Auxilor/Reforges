@@ -23,8 +23,6 @@ class ReforgesPlugin : LibreforgePlugin() {
     val targetYml: TargetYml =
         TargetYml(this)
 
-    val reforgeFinder = ReforgeFinder(this)
-
     init {
         instance = this
     }
@@ -40,7 +38,7 @@ class ReforgesPlugin : LibreforgePlugin() {
 
         Items.registerArgParser(ReforgeArgParser)
 
-        registerHolderProvider(reforgeFinder.toHolderProvider())
+        registerHolderProvider(ReforgeFinder.toHolderProvider())
     }
 
     override fun loadListeners(): List<Listener> {
