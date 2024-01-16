@@ -34,12 +34,12 @@ class TargetYml(plugin: EcoPlugin) : StaticBaseConfig("target", plugin, ConfigTy
     }
 
     /**
-     * Get all materials from a target name.
+     * Get a [SlotType] for the target.
      *
      * @param target The name of the target.
-     * @return All materials.
+     * @return The [SlotType].
      */
     fun getSlot(target: String): SlotType {
-        return SlotTypes[target] ?: SlotTypeAny
+        return SlotTypes[this.getString("$target.slot")] ?: SlotTypeAny
     }
 }
