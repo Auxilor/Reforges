@@ -11,6 +11,6 @@ object ReforgeFinder : ItemHolderFinder<Reforge>() {
     }
 
     override fun isValidInSlot(holder: Reforge, slot: SlotType): Boolean {
-        return slot in holder.targets.map { it.slot }.toSet()
+        return holder.targets.map { it.slot }.any { it.isOrContains(slot) }
     }
 }
