@@ -2,12 +2,14 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
         mavenLocal()
-        maven("https://repo.jpenilla.xyz/snapshots/")
         maven("https://repo.auxilor.io/repository/maven-public/")
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 }
 
-rootProject.name = "Reforges"
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
 
 // Core
 include(":eco-core")
