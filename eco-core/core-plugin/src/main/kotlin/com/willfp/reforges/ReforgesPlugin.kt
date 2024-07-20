@@ -18,6 +18,7 @@ import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
+import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
 import org.bukkit.event.Listener
 
@@ -41,6 +42,9 @@ class ReforgesPlugin : LibreforgePlugin() {
         Items.registerArgParser(ReforgeArgParser)
         Items.registerTag(CustomItemTag(this.createNamespacedKey("stone")) {
             it.reforgeStone != null
+        })
+        Items.registerTag(CustomItemTag(this.createNamespacedKey("reforged")) {
+            it.reforge != null
         })
 
         registerHolderProvider(ReforgeFinder.toHolderProvider())
