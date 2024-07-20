@@ -14,13 +14,18 @@ import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.libreforge.ConditionHasReforge
 import com.willfp.reforges.reforges.ReforgeFinder
+import com.willfp.reforges.reforges.ReforgeStoneTag
+import com.willfp.reforges.reforges.ReforgedTag
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
 import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
+import com.willfp.talismans.talismans.Talismans
+import com.willfp.talismans.talismans.util.TalismanChecks
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 
 class ReforgesPlugin : LibreforgePlugin() {
     val targetYml: TargetYml =
@@ -40,12 +45,9 @@ class ReforgesPlugin : LibreforgePlugin() {
         Conditions.register(ConditionHasReforge)
 
         Items.registerArgParser(ReforgeArgParser)
-        Items.registerTag(CustomItemTag(this.createNamespacedKey("stone")) {
-            it.reforgeStone != null
-        })
-        Items.registerTag(CustomItemTag(this.createNamespacedKey("reforged")) {
-            it.reforge != null
-        })
+
+        Items.registerTag(ReforgedTag(this))
+        Items.registerTag(ReforgeStoneTag(this))
 
         registerHolderProvider(ReforgeFinder.toHolderProvider())
     }
