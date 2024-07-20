@@ -66,8 +66,10 @@ class ReforgesPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun createDisplayModule(): DisplayModule {
-        return ReforgesDisplay(this)
+    override fun loadDisplayModules(): List<DisplayModule> {
+        return listOf(
+            ReforgesDisplay(this)
+        )
     }
 
     companion object {
