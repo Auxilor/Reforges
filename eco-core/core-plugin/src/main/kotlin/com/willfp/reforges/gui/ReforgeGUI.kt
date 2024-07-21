@@ -192,14 +192,11 @@ object ReforgeGUI {
 
     private lateinit var defaultPrice: ConfiguredPrice
 
-    @JvmStatic
     fun open(player: Player) {
         menu.open(player)
     }
 
-    @JvmStatic
-    @ConfigUpdater
-    fun update(plugin: EcoPlugin) {
+    internal fun update(plugin: EcoPlugin) {
         itemToReforge = CaptiveItem()
         reforgeStone = CaptiveItem()
 

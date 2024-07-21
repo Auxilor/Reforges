@@ -12,9 +12,12 @@ import com.willfp.reforges.commands.CommandReforge
 import com.willfp.reforges.commands.CommandReforges
 import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
+import com.willfp.reforges.gui.ReforgeGUI
 import com.willfp.reforges.libreforge.ConditionHasReforge
+import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.ReforgeFinder
 import com.willfp.reforges.reforges.ReforgeStoneTag
+import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.reforges.ReforgedTag
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
@@ -50,6 +53,12 @@ class ReforgesPlugin : LibreforgePlugin() {
         Items.registerTag(ReforgeStoneTag(this))
 
         registerHolderProvider(ReforgeFinder.toHolderProvider())
+    }
+
+    override fun handleReload() {
+        ReforgeTargets.update(this)
+        PriceMultipliers.update(this)
+        ReforgeGUI.update(this)
     }
 
     override fun loadListeners(): List<Listener> {

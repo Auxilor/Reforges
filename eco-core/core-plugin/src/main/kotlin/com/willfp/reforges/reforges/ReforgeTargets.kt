@@ -1,7 +1,6 @@
 package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
-import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.libreforge.slot.impl.SlotTypeAny
 import com.willfp.reforges.ReforgesPlugin
 import org.bukkit.inventory.ItemStack
@@ -16,24 +15,10 @@ object ReforgeTargets {
         update(ReforgesPlugin.instance)
     }
 
-    /**
-     * Get ReforgeTarget matching name.
-     *
-     * @param name The name to search for.
-     * @return The matching ReforgeTarget, or null if not found.
-     */
-    @JvmStatic
     fun getByName(name: String): ReforgeTarget? {
         return registered[name]
     }
 
-    /**
-     * Get target from item.
-     *
-     * @param item The item.
-     * @return The target.
-     */
-    @JvmStatic
     fun getForItem(item: ItemStack?): List<ReforgeTarget> {
         if (item == null) {
             return emptyList()
@@ -44,14 +29,7 @@ object ReforgeTargets {
             .filter { it.matches(item) }
     }
 
-    /**
-     * Update all targets.
-     *
-     * @param plugin Instance of Reforges.
-     */
-    @ConfigUpdater
-    @JvmStatic
-    fun update(plugin: ReforgesPlugin) {
+    internal fun update(plugin: ReforgesPlugin) {
         ALL.items.clear()
         for (id in ArrayList(registered.keys)) {
             if (id.equals("all", ignoreCase = true)) {
@@ -70,12 +48,6 @@ object ReforgeTargets {
         }
     }
 
-    /**
-     * Get all targets.
-     *
-     * @return A set of all targets.
-     */
-    @JvmStatic
     fun values(): Set<ReforgeTarget> {
         return ImmutableSet.copyOf(registered.values)
     }
