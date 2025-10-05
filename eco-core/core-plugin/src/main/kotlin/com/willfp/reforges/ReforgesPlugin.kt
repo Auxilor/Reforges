@@ -3,7 +3,6 @@ package com.willfp.reforges
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.tag.CustomItemTag
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
@@ -23,12 +22,7 @@ import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
-import com.willfp.reforges.util.reforge
-import com.willfp.reforges.util.reforgeStone
-import com.willfp.talismans.talismans.Talismans
-import com.willfp.talismans.talismans.util.TalismanChecks
 import org.bukkit.event.Listener
-import org.bukkit.inventory.ItemStack
 
 class ReforgesPlugin : LibreforgePlugin() {
     val targetYml: TargetYml =

@@ -2,7 +2,6 @@ package com.willfp.reforges.gui
 
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.config.updating.ConfigUpdater
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.captiveSlot
 import com.willfp.eco.core.gui.menu
@@ -24,7 +23,6 @@ import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecomponent.setSlot
 import com.willfp.libreforge.LibreforgeSpigotPlugin
-import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.PriceMultipliers.reforgePriceMultiplier
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget

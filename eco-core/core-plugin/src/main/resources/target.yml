@@ -9,36 +9,19 @@
 pickaxe:
   slot: hands
   items:
-    - wooden_pickaxe
-    - stone_pickaxe
-    - iron_pickaxe
-    - golden_pickaxe
-    - diamond_pickaxe
-    - netherite_pickaxe
+    - "#items_pickaxes"
+
 axe:
   slot: hands
   items:
-    - wooden_axe
-    - stone_axe
-    - iron_axe
-    - golden_axe
-    - diamond_axe
-    - netherite_axe
+    - "#items_axes"
+
 melee:
   slot: hands
   items:
-    - wooden_axe
-    - stone_axe
-    - iron_axe
-    - golden_axe
-    - diamond_axe
-    - netherite_axe
-    - wooden_sword
-    - stone_sword
-    - iron_sword
-    - golden_sword
-    - diamond_sword
-    - netherite_sword
+    - "#items_axes"
+    - "#items_swords"
+
 trident:
   slot: hands
   items:
@@ -51,31 +34,7 @@ bow:
 armor:
   slot: armor
   items:
-    - turtle_helmet
-    - leather_helmet
-    - chainmail_helmet
-    - iron_helmet
-    - golden_helmet
-    - diamond_helmet
-    - netherite_helmet
-
-    - leather_chestplate
-    - chainmail_chestplate
-    - iron_chestplate
-    - golden_chestplate
-    - diamond_chestplate
-    - netherite_chestplate
-
-    - leather_leggings
-    - chainmail_leggings
-    - iron_leggings
-    - golden_leggings
-    - diamond_leggings
-    - netherite_leggings
-
-    - leather_boots
-    - chainmail_boots
-    - iron_boots
-    - golden_boots
-    - diamond_boots
-    - netherite_boots
+    - "#items_head_armor"
+    - "#items_chest_armor"
+    - "#items_leg_armor"
+    - "#items_foot_armor"
