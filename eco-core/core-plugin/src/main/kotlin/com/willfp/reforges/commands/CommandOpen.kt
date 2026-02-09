@@ -1,16 +1,20 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.reforges.gui.ReforgeGUI
+import com.willfp.reforges.plugin
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandOpen(
-    plugin: EcoPlugin
-) : PluginCommand(plugin, "open", "reforges.command.open", false) {
+object CommandOpen : PluginCommand(
+    plugin,
+    "open",
+    "reforges.command.open",
+    false
+) {
+    @Suppress("DEPRECATION")
     override fun onExecute(sender: CommandSender, args: List<String>) {
         if (args.isEmpty()) {
             sender.sendMessage(plugin.langYml.getMessage("needs-player"))

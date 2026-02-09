@@ -12,8 +12,7 @@ import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toJSON
 import com.willfp.libreforge.ItemProvidedHolder
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
@@ -23,7 +22,7 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 
 @Suppress("DEPRECATION")
-class ReforgesDisplay(private val plugin: ReforgesPlugin) : DisplayModule(plugin, DisplayPriority.HIGH) {
+object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
     private val tempKey = plugin.namespacedKeyFactory.create("temp")
 
     override fun display(

@@ -1,7 +1,7 @@
 package com.willfp.reforges.util
 
 import com.willfp.eco.core.fast.fast
-import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
 import com.willfp.reforges.reforges.Reforges
@@ -10,7 +10,6 @@ import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
 
-private val plugin = ReforgesPlugin.instance
 private val reforgeKey = plugin.namespacedKeyFactory.create("reforge")
 private val reforgeAmountKey = plugin.namespacedKeyFactory.create("reforge_amount")
 private val reforgeStoneKey = plugin.namespacedKeyFactory.create("reforge_stone")

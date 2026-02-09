@@ -23,6 +23,7 @@ import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecomponent.setSlot
 import com.willfp.libreforge.LibreforgeSpigotPlugin
+import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.PriceMultipliers.reforgePriceMultiplier
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.ReforgeTarget
@@ -54,9 +55,7 @@ private val Menu.reforgeStatus by menuStateVar(
     )
 )
 
-private class IndicatorSlot(
-    plugin: EcoPlugin
-) : CustomSlot() {
+private object IndicatorSlot : CustomSlot() {
     private val slot = slot { player, menu ->
         val status = menu.reforgeStatus[player].status
 
@@ -73,7 +72,6 @@ private class IndicatorSlot(
 }
 
 private class ActivatorSlot(
-    plugin: EcoPlugin,
     itemToReforge: CaptiveItem,
     reforgeStone: CaptiveItem
 ) : CustomSlot() {
@@ -152,8 +150,9 @@ private class ActivatorSlot(
 
             if (usedStone) {
                 val stone = reforgeStone[player]
-                stone?.amount = stone?.amount?.minus(1) ?: 0
+                stone?.amount = stone.amount.minus(1)
                 if (plugin.configYml.getBool("gui.stone-sound.enabled")) {
+                    @Suppress("DEPRECATION")
                     player.playSound(
                         player.location,
                         Sound.valueOf(
@@ -165,6 +164,7 @@ private class ActivatorSlot(
             }
 
             if (plugin.configYml.getBool("gui.sound.enabled")) {
+                @Suppress("DEPRECATION")
                 player.playSound(
                     player.location,
                     Sound.valueOf(plugin.configYml.getString("gui.sound.id").uppercase(Locale.getDefault())),
@@ -194,7 +194,7 @@ object ReforgeGUI {
         menu.open(player)
     }
 
-    internal fun update(plugin: EcoPlugin) {
+    internal fun update() {
         itemToReforge = CaptiveItem()
         reforgeStone = CaptiveItem()
 
@@ -217,7 +217,7 @@ object ReforgeGUI {
                 val row = allowedPattern[i - 1]
                 for (j in 1..9) {
                     if (row[j - 1] != '0') {
-                        setSlot(i, j, IndicatorSlot(plugin))
+                        setSlot(i, j, IndicatorSlot)
                     }
                 }
             }
@@ -239,7 +239,7 @@ object ReforgeGUI {
             setSlot(
                 plugin.configYml.getInt("gui.activator-slot.row"),
                 plugin.configYml.getInt("gui.activator-slot.column"),
-                ActivatorSlot(plugin, itemToReforge, reforgeStone)
+                ActivatorSlot(itemToReforge, reforgeStone)
             )
 
             setSlot(

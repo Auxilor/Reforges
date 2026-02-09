@@ -1,6 +1,5 @@
 package com.willfp.reforges.config
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.ConfigType
 import com.willfp.eco.core.config.StaticBaseConfig
 import com.willfp.eco.core.items.Items
@@ -8,10 +7,11 @@ import com.willfp.eco.core.items.TestableItem
 import com.willfp.libreforge.slot.SlotType
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
+import com.willfp.reforges.plugin
 import java.util.Locale
 import java.util.function.Consumer
 
-class TargetYml(plugin: EcoPlugin) : StaticBaseConfig("target", plugin, ConfigType.YAML) {
+object TargetYml : StaticBaseConfig("target", plugin, ConfigType.YAML) {
     /**
      * Get all target names.
      *
