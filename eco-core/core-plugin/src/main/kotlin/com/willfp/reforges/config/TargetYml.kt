@@ -4,14 +4,14 @@ import com.willfp.eco.core.config.ConfigType
 import com.willfp.eco.core.config.StaticBaseConfig
 import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.TestableItem
+import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.slot.SlotType
 import com.willfp.libreforge.slot.SlotTypes
 import com.willfp.libreforge.slot.impl.SlotTypeAny
-import com.willfp.reforges.plugin
 import java.util.Locale
 import java.util.function.Consumer
 
-object TargetYml : StaticBaseConfig("target", plugin, ConfigType.YAML) {
+class TargetYml(plugin: LibreforgePlugin) : StaticBaseConfig("target", plugin, ConfigType.YAML) {
     /**
      * Get all target names.
      *

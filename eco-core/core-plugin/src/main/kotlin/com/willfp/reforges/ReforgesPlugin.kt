@@ -28,7 +28,7 @@ internal lateinit var plugin: ReforgesPlugin
     private set
 
 class ReforgesPlugin : LibreforgePlugin() {
-    val targetYml: TargetYml = TargetYml
+    val targetYml: TargetYml = TargetYml(this)
 
     init {
         plugin = this
