@@ -8,6 +8,7 @@ import com.willfp.eco.core.items.Items
 import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.recipe.Recipes
+import com.willfp.eco.core.recipe.recipes.CraftingRecipe
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
@@ -91,14 +92,18 @@ class Reforge(
                 stone
             ).register()
 
-            if (config.getBool("stone.craftable")) {
-                Recipes.createAndRegisterRecipe(
-                    plugin,
-                    "stone_" + this.id.key,
-                    stone,
-                    config.getStrings("stone.recipe")
-                )
-            }
+            val stoneRecipe: CraftingRecipe? = config.getBool("stone.craftable")
+                .takeIf { it }
+                ?.let {
+                    Recipes.createAndRegisterRecipe(
+                        plugin,
+                        "stone_" + this.id.key,
+                        stone,
+                        config.getStrings("stone.recipe"),
+                        config.getStringOrNull("stone.recipe-permission"),
+                        config.getBool("stone.shapeless")
+                    )
+                }
         }
     }
 
