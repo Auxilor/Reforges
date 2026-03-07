@@ -32,9 +32,7 @@ import com.willfp.reforges.util.getRandomReforge
 import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
 import com.willfp.reforges.util.timesReforged
-import org.bukkit.Sound
 import org.bukkit.entity.Player
-import java.util.Locale
 import kotlin.math.pow
 
 

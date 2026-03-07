@@ -5,7 +5,6 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.reforges.gui.ReforgeGUI
 import org.bukkit.Bukkit
-import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 

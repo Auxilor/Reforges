@@ -12,7 +12,6 @@ import com.willfp.eco.util.StringUtils
 import com.willfp.eco.util.formatEco
 import com.willfp.eco.util.toJSON
 import com.willfp.libreforge.ItemProvidedHolder
-import com.willfp.libreforge.ProvidedHolder
 import com.willfp.reforges.ReforgesPlugin
 import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.reforge

@@ -11,7 +11,6 @@ import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registrable
 import com.willfp.eco.util.StringUtils
 import com.willfp.libreforge.Holder
-import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.libreforge.ViolationContext
 import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
