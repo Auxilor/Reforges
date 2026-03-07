@@ -132,12 +132,7 @@ private class ActivatorSlot(
                     EcoPlugin.getPlugin(LibreforgeSpigotPlugin::class.java)
                         .langYml.getMessage("cannot-afford-price").replace("%price%", price.getDisplay(player))
                 )
-
-                if (plugin.configYml.getBool("gui.cannot-afford-sound.enabled")) {
-                    PlayableSound.create(
-                        plugin.configYml.getSubsection("gui.cannot-afford-sound")
-                    )?.playTo(player)
-                }
+                PlayableSound.create(plugin.configYml.getSubsection("gui.cannot-afford-sound"))?.playTo(player)
                 return@onLeftClick
             }
 
@@ -153,25 +148,10 @@ private class ActivatorSlot(
             if (usedStone) {
                 val stone = reforgeStone[player]
                 stone?.amount = stone?.amount?.minus(1) ?: 0
-                if (plugin.configYml.getBool("gui.stone-sound.enabled")) {
-                    player.playSound(
-                        player.location,
-                        Sound.valueOf(
-                            plugin.configYml.getString("gui.stone-sound.id").uppercase(Locale.getDefault())
-                        ),
-                        1f, plugin.configYml.getDouble("gui.stone-sound.pitch").toFloat()
-                    )
-                }
+                PlayableSound.create(plugin.configYml.getSubsection("gui.stone-sound"))?.playTo(player)
             }
 
-            if (plugin.configYml.getBool("gui.sound.enabled")) {
-                player.playSound(
-                    player.location,
-                    Sound.valueOf(plugin.configYml.getString("gui.sound.id").uppercase(Locale.getDefault())),
-                    1f, plugin.configYml.getDouble("gui.sound.pitch").toFloat()
-                )
-            }
-
+            PlayableSound.create(plugin.configYml.getSubsection("gui.sound"))?.playTo(player)
             menu.callEvent(player, ReforgePriceChangeEvent())
         }
     }
