@@ -1,7 +1,7 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
 import org.bukkit.Bukkit
@@ -9,9 +9,12 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
 
-class CommandApply(
-    plugin: EcoPlugin
-) : Subcommand(plugin, "apply", "reforges.command.apply", false) {
+object CommandApply : Subcommand(
+    plugin,
+    "apply",
+    "reforges.command.apply",
+    false
+) {
     override fun onExecute(sender: CommandSender, args: MutableList<String>) {
         if (args.isEmpty()) {
             sender.sendMessage(plugin.langYml.getMessage("needs-reforge"))

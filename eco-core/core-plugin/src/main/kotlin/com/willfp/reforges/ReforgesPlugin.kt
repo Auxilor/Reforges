@@ -24,12 +24,14 @@ import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
 import org.bukkit.event.Listener
 
+internal lateinit var plugin: ReforgesPlugin
+    private set
+
 class ReforgesPlugin : LibreforgePlugin() {
-    val targetYml: TargetYml =
-        TargetYml(this)
+    val targetYml: TargetYml = TargetYml(this)
 
     init {
-        instance = this
+        plugin = this
     }
 
     override fun loadConfigCategories(): List<ConfigCategory> {
@@ -43,44 +45,35 @@ class ReforgesPlugin : LibreforgePlugin() {
 
         Items.registerArgParser(ReforgeArgParser)
 
-        Items.registerTag(ReforgedTag(this))
-        Items.registerTag(ReforgeStoneTag(this))
+        Items.registerTag(ReforgedTag)
+        Items.registerTag(ReforgeStoneTag)
 
         registerHolderProvider(ReforgeFinder.toHolderProvider())
     }
 
     override fun handleReload() {
-        ReforgeTargets.update(this)
-        PriceMultipliers.update(this)
-        ReforgeGUI.update(this)
+        ReforgeTargets.update()
+        PriceMultipliers.update()
+        ReforgeGUI.update()
     }
 
     override fun loadListeners(): List<Listener> {
         return listOf(
-            DiscoverRecipeListener(this),
-            AntiPlaceListener(),
+            DiscoverRecipeListener,
+            AntiPlaceListener,
         )
     }
 
     override fun loadPluginCommands(): List<PluginCommand> {
         return listOf(
-            CommandReforge(this),
-            CommandReforges(this)
+            CommandReforge,
+            CommandReforges
         )
     }
 
     override fun loadDisplayModules(): List<DisplayModule> {
         return listOf(
-            ReforgesDisplay(this)
+            ReforgesDisplay
         )
-    }
-
-    companion object {
-        /**
-         * Instance of Reforges.
-         */
-        @JvmStatic
-        lateinit var instance: ReforgesPlugin
-            private set
     }
 }

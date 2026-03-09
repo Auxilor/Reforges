@@ -6,7 +6,6 @@ import com.willfp.eco.core.registry.Registry
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.loader.configs.LegacyLocation
-import com.willfp.reforges.ReforgesPlugin
 
 @Suppress("UNUSED")
 object Reforges : ConfigCategory("reforge", "reforges") {
@@ -45,6 +44,6 @@ object Reforges : ConfigCategory("reforge", "reforges") {
     }
 
     override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
-        registry.register(Reforge(id, config, plugin as ReforgesPlugin))
+        registry.register(Reforge(id, config))
     }
 }

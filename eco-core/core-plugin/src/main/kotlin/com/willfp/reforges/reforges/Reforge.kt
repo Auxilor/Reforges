@@ -17,7 +17,7 @@ import com.willfp.libreforge.conditions.Conditions
 import com.willfp.libreforge.effects.Effects
 import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.plugin
 import com.willfp.reforges.util.reforgeStone
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.entity.Player
@@ -27,8 +27,7 @@ import java.util.Objects
 @Suppress("DEPRECATION")
 class Reforge(
     id: String,
-    internal val config: Config,
-    plugin: ReforgesPlugin
+    internal val config: Config
 ) : Holder, Registrable {
     val name = config.getFormattedString("name")
 

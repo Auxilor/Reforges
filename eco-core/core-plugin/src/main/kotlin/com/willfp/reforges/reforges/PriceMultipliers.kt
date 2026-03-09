@@ -1,6 +1,6 @@
 package com.willfp.reforges.reforges
 
-import com.willfp.eco.core.EcoPlugin
+import com.willfp.reforges.plugin
 import org.bukkit.entity.Player
 
 @Suppress("UNUSED")
@@ -34,7 +34,7 @@ object PriceMultipliers {
         return REGISTRY.toList()
     }
 
-    internal fun update(plugin: EcoPlugin) {
+    internal fun update() {
         REGISTRY.clear()
 
         for (config in plugin.configYml.getSubsections("price-multipliers")) {

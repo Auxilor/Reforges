@@ -1,15 +1,18 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
 
-class CommandGive(
-    plugin: EcoPlugin
-) : Subcommand(plugin, "give", "reforges.command.give", false) {
+object CommandGive : Subcommand(
+    plugin,
+    "give",
+    "reforges.command.give",
+    false
+) {
     private val numbers = listOf(
         "1",
         "2",

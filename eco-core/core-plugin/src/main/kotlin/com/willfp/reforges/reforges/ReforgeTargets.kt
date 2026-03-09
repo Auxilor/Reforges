@@ -2,7 +2,7 @@ package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
 import com.willfp.libreforge.slot.impl.SlotTypeAny
-import com.willfp.reforges.ReforgesPlugin
+import com.willfp.reforges.plugin
 import org.bukkit.inventory.ItemStack
 
 object ReforgeTargets {
@@ -12,7 +12,7 @@ object ReforgeTargets {
 
     init {
         registered["all"] = ALL
-        update(ReforgesPlugin.instance)
+        update()
     }
 
     fun getByName(name: String): ReforgeTarget? {
@@ -29,7 +29,7 @@ object ReforgeTargets {
             .filter { it.matches(item) }
     }
 
-    internal fun update(plugin: ReforgesPlugin) {
+    internal fun update() {
         ALL.items.clear()
         for (id in ArrayList(registered.keys)) {
             if (id.equals("all", ignoreCase = true)) {
