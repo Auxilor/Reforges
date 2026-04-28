@@ -5,6 +5,7 @@ import com.willfp.libreforge.triggers.Trigger
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.libreforge.triggers.TriggerParameter
 import com.willfp.reforges.api.event.ReforgeApplyEvent
+import com.willfp.reforges.api.extensions.round
 import org.bukkit.event.EventHandler
 
 object TriggerReforgeItem : Trigger("reforge_item") {
@@ -28,7 +29,7 @@ object TriggerReforgeItem : Trigger("reforge_item") {
                 item = event.item,
                 location = player.location,
                 text = event.reforge.name,
-                value = event.price.getValue(player),
+                value = event.price.getValue(player).round(2),
                 event = event
             )
         )
