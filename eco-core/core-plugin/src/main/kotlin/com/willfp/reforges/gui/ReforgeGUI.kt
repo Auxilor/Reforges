@@ -23,6 +23,7 @@ import com.willfp.ecomponent.CaptiveItem
 import com.willfp.ecomponent.menuStateVar
 import com.willfp.ecomponent.setSlot
 import com.willfp.libreforge.LibreforgeSpigotPlugin
+import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.PriceMultipliers.reforgePriceMultiplier
 import com.willfp.reforges.reforges.Reforge
@@ -132,18 +133,13 @@ private class ActivatorSlot(
                 return@onLeftClick
             }
 
-            price.pay(player)
+            if (!player.applyReforge(item, reforge, price, usedStone)) return@onLeftClick
 
             player.sendMessage(plugin.langYml.getMessage("applied-reforge").replace("%reforge%", reforge.name))
 
-            item.timesReforged++
-            item.reforge = reforge
-
-            reforge.runOnReforgeEffects(player, item)
-
             if (usedStone) {
-                val stone = reforgeStone[player]
-                stone?.amount = stone?.amount?.minus(1) ?: 0
+                val stone = reforgeStone[player] ?: return@onLeftClick
+                stone.amount -= 1
                 PlayableSound.create(plugin.configYml.getSubsection("gui.stone-sound"))?.playTo(player)
             }
 

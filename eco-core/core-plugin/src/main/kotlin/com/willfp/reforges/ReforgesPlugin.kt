@@ -4,7 +4,10 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
 import com.willfp.libreforge.conditions.Conditions
+import com.willfp.libreforge.effects.Effects
+import com.willfp.libreforge.filters.Filters
 import com.willfp.libreforge.loader.LibreforgePlugin
+import com.willfp.libreforge.triggers.Triggers
 import com.willfp.libreforge.loader.configs.ConfigCategory
 import com.willfp.libreforge.registerHolderProvider
 import com.willfp.reforges.commands.CommandReforge
@@ -13,6 +16,11 @@ import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.gui.ReforgeGUI
 import com.willfp.reforges.libreforge.ConditionHasReforge
+import com.willfp.reforges.libreforge.EffectApplyRandomReforge
+import com.willfp.reforges.libreforge.EffectApplyReforge
+import com.willfp.reforges.libreforge.EffectRemoveReforge
+import com.willfp.reforges.libreforge.FilterReforge
+import com.willfp.reforges.libreforge.TriggerReforgeItem
 import com.willfp.reforges.reforges.PriceMultipliers
 import com.willfp.reforges.reforges.ReforgeFinder
 import com.willfp.reforges.reforges.ReforgeStoneTag
@@ -49,6 +57,12 @@ class ReforgesPlugin : LibreforgePlugin() {
         Items.registerTag(ReforgeStoneTag)
 
         registerHolderProvider(ReforgeFinder.toHolderProvider())
+
+        Effects.register(EffectApplyReforge)
+        Effects.register(EffectApplyRandomReforge)
+        Effects.register(EffectRemoveReforge)
+        Triggers.register(TriggerReforgeItem)
+        Filters.register(FilterReforge)
     }
 
     override fun handleReload() {

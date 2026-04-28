@@ -1,6 +1,9 @@
 package com.willfp.reforges.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.eco.core.config.emptyConfig
+import com.willfp.eco.core.price.ConfiguredPrice
+import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
@@ -30,8 +33,7 @@ object CommandApply : Subcommand(
 
         if (sender is Player) {
             val item = sender.inventory.itemInMainHand
-            item.reforge = reforge
-            reforge.runOnReforgeEffects(sender, item)
+            sender.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)
@@ -50,9 +52,7 @@ object CommandApply : Subcommand(
             }
 
             val item = player.inventory.itemInMainHand
-
-            item.reforge = reforge
-            reforge.runOnReforgeEffects(player, item)
+            player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
             sender.sendMessage(
                 plugin.langYml.getMessage("applied-reforge")
                     .replace("%reforge%", reforge.name)
