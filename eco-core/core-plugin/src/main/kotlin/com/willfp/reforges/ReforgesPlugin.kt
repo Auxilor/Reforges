@@ -1,5 +1,6 @@
 package com.willfp.reforges
 
+import com.willfp.eco.core.bstats.EcoMetricsChart
 import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.display.DisplayModule
 import com.willfp.eco.core.items.Items
@@ -90,4 +91,22 @@ class ReforgesPlugin : LibreforgePlugin() {
             ReforgesDisplay
         )
     }
+
+    override fun getCustomCharts() = listOf(
+        EcoMetricsChart.SingleLine("total_reforges") { Reforges.values().size },
+        EcoMetricsChart.SingleLine("total_reforge_targets") { ReforgeTargets.values().size },
+        EcoMetricsChart.SingleLine("total_price_multipliers") { PriceMultipliers.values().size },
+        EcoMetricsChart.SimplePie("discover_recipes") {
+            if (configYml.getBool("discover-recipes")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("no_offhand") {
+            if (configYml.getBool("no-offhand")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("display_in_lore") {
+            if (configYml.getBool("reforge.display-in-lore")) "enabled" else "disabled"
+        },
+        EcoMetricsChart.SimplePie("display_in_name") {
+            if (configYml.getBool("reforge.display-in-name")) "enabled" else "disabled"
+        }
+    )
 }
