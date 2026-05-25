@@ -1,0 +1,169 @@
+---
+title: "Plugin Config"
+sidebar_position: 5
+---
+
+## Default config.yml
+
+```yaml
+discover-recipes: true
+no-offhand: false # Restart your server after this option, doesn't work with /reforges reload
+
+# If a reward allows permission multipliers, the weights
+# will be multiplied by highest-priority multiplier that a player
+# has permission for - i.e. if a player has both vip and mvp permissions,
+# than they'll have the mvp one applied as it has a higher priority.
+price-multipliers:
+  - permission: reforges.mutliplier.vip
+    multiplier: 0.8
+    priority: 1
+  - permission: reforges.mutliplier.mvp
+    multiplier: 0.7
+    priority: 2
+
+gui:
+  rows: 6
+
+  mask:
+    # The way the mask works is by having a list of materials
+    # And then a pattern to use those materials.
+
+    # The pattern is the rows in the GUI
+    # Each line must be 9 long, and the amount of rows should be the amount of rows in the GUI
+    # A zero represents nothing
+    # A 1 represents the first material
+    # A 2 represents the second material
+    # And so on, you can add up to 9.
+
+    materials:
+      - black_stained_glass_pane
+      - magenta_stained_glass_pane
+    pattern:
+      - "011111110"
+      - "012202210"
+      - "012111210"
+      - "010111010"
+      - "011111110"
+      - "011101110"
+  show-allowed:
+    allow-material: lime_stained_glass_pane
+    deny-material: red_stained_glass_pane
+
+    # 1 is a show-allowed slot,
+    # 0 is not.
+    pattern:
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+      - "100000001"
+
+  activator-slot:
+    row: 2
+    column: 5
+
+  stone-slot:
+    row: 4
+    column: 7
+
+  item-slot:
+    row: 4
+    column: 3
+
+  close:
+    material: barrier
+    location:
+      row: 6
+      column: 5
+
+  allow:
+    material: anvil
+    name: "&aReforge Item"
+    lore:
+      - '&7Reforges the item on the left, giving'
+      - '&7it a random item modifier that'
+      - '&7boosts its stats.'
+      - ''
+      - '&7Price:'
+      - '%price%'
+      - ''
+      - '&eClick to reforge!'
+  allow-stone:
+    material: anvil
+    name: "&aReforge Item"
+    lore:
+      - '&7Reforges the item on the left with'
+      - '&7a reforge stone, giving it'
+      - '&7the %stone%&7 reforge to'
+      - '&7boost its stats.'
+      - ''
+      - '&7Price:'
+      - '%price%'
+      - ''
+      - '&eClick to reforge!'
+  no-item:
+    material: anvil
+    name: "&eReforge Item"
+    lore:
+      - '&7Place an item on the left to'
+      - '&7reforge it! Reforging items adds a'
+      - '&7random modifier to the item that'
+      - '&7grants stat boosts'
+  invalid-item:
+    material: barrier
+    name: "&cError!"
+    lore:
+      - '&7You cannot reforge this item!'
+
+  sound:
+    enabled: true
+    sound: BLOCK_ANVIL_USE
+    pitch: 1
+    volume: 1
+    category: PLAYERS
+
+  open-sound:
+    enabled: true
+    sound: BLOCK_ANVIL_PLACE
+    pitch: 0.8
+    volume: 1
+    category: UI
+
+  stone-sound:
+    enabled: true
+    sound: ENTITY_ENDER_DRAGON_HURT
+    pitch: 0.5
+    volume: 1
+    category: PLAYERS
+
+  cannot-afford-sound:
+    enabled: true
+    sound: ENTITY_VILLAGER_NO
+    pitch: 0.8
+    volume: 1
+    category: PLAYERS
+
+reforge:
+  # See here: https://plugins.auxilor.io/all-plugins/prices
+  price:
+    value: 7500
+    type: coins
+    display: "&6$%value%"
+
+  cost-exponent: 1.15 # (Reforges done ^ cost exponent) * cost
+
+  show-reforgable: true
+  reforgable-suffix:
+    - ""
+    - "&8This item can be reforged!"
+
+  display-in-lore: true
+  display-in-name: true
+
+  # The lore to display if an item is reforged, above the reforge description
+  reforged-prefix:
+    - ""
+    - "%reforge%"
+
+```
