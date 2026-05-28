@@ -1,4 +1,4 @@
----
+﻿---
 title: How to make a Reforge
 sidebar_position: 2
 ---
@@ -106,7 +106,7 @@ We support shaped and shapeless recipes. Check out [Recipes](https://plugins.aux
 :::
 
 ### The Reforge Effects Section
-:::dangerEffects Section
+:::danger Effects Section
 
 The effects section is the core functionality of the reforge. You can configure effects, conditions, filters, mutators and triggers in this section to run whilst the reforge is active.
 
