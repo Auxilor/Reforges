@@ -2,11 +2,23 @@
 title: "Reforges"
 ---
 
-## What are Reforges?
+## What is Reforges?
 
-Reforges are modifiers that are applied to your item with the reforge menu! If you've ever played Hypixel Skyblock, the system is very similar. You just open the menu with /reforge (or set up an NPC to run /reforges open %player%) and you're sorted. It's a great addition to the item metagame on your server, and feels like a fluent addition to the base game.
+Reforges adds Hypixel-style item modifiers applied through a reforge menu. Players open the menu with `/reforge`, drop in an item, and pay to roll a reforge that boosts its stats. Every reforge is a config file, so you decide what they do and what they cost.
 
-## Why this plugin?
+## What sets Reforges apart?
 
-Put simply, it's the single most powerful plugin to ever do anything similar to reforges. It's not just a pre-determined set of reforges that you're stuck with - the magic of Reforges is that you can create your own in config in seconds, with no coding knowledge at all. You can shape the plugin to fit your exact choices. It also supports making reforges to hook into your stats plugin of choice: with built-in integrations for EcoSkills, AuraSkills, or UltimateSkills. It even supports reforging Talismans (if you have it installed).
- 
+You build reforges in config, with no code. A reforge is one YAML file, so you can add, edit, or remove them and reload in seconds.
+
+- **Effects-driven:** reforges use the same effects, conditions, and triggers as the rest of the eco ecosystem, so a reforge can do anything an effect can.
+- **Stat integrations:** reforges hook into EcoSkills, AuraSkills, or UltimateSkills when you run them.
+- **Reforge stones:** lock the strongest reforges behind craftable stones instead of the random pool.
+- **Talisman support:** reforge Talismans too, if that plugin is installed.
+
+<hr/>
+
+## Where to go next
+
+- **The gameplay:** see how the reforge menu works in [The Gameplay](the-gameplay).
+- **Make a reforge:** build your first one in [How to Make a Reforge](how-to-make-a-custom-reforge).
+- **Tune the plugin:** configure the menu and prices in [Plugin Config](plugin-config).
