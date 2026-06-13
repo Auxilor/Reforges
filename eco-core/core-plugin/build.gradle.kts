@@ -2,7 +2,7 @@ group = "com.willfp"
 version = rootProject.version
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.8-R0.1-SNAPSHOT")
     compileOnly("com.willfp:Talismans:6.0.0")
 
     implementation("com.willfp:ecomponent:1.5.0")
