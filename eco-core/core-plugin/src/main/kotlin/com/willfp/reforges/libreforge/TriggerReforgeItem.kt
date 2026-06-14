@@ -14,6 +14,8 @@ object TriggerReforgeItem : Trigger("reforge_item") {
     override val categories = setOf("inventory")
 
     override val parameterDescriptions = mapOf(
+        TriggerParameter.ITEM to "The item the reforge is being applied to.",
+        TriggerParameter.LOCATION to "The location of the player applying the reforge.",
         TriggerParameter.TEXT to "The name of the reforge being applied.",
         TriggerParameter.VALUE to "The price paid for the reforge, rounded to 2 decimal places."
     )
