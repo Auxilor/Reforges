@@ -1,12 +1,23 @@
 package com.willfp.reforges.libreforge
 
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.libreforge.ArgType
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.filters.Filter
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.reforges.api.event.ReforgeEvent
 
 object FilterReforge : Filter<NoCompileData, Collection<String>>("reforge") {
+    override val description = "Matches when the reforge involved in the triggering event is one of the given reforges."
+
+    override val categories = setOf("inventory")
+
+    override val valueType = ArgType.STRING_LIST
+
+    override val additionalInfo = listOf(
+        "Passes automatically when the triggering event is not a reforge event."
+    )
+
     override fun getValue(config: Config, data: TriggerData?, key: String): Collection<String> {
         return config.getStrings(key)
     }

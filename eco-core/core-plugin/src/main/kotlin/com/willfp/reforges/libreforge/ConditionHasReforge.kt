@@ -2,6 +2,7 @@ package com.willfp.reforges.libreforge
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.util.containsIgnoreCase
+import com.willfp.libreforge.ArgType
 import com.willfp.libreforge.Dispatcher
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.ProvidedHolder
@@ -14,8 +15,17 @@ import com.willfp.reforges.reforges.Reforge
 import org.bukkit.entity.Player
 
 object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
+    override val description = "Passes when the player currently has the specified reforge applied to any of their items."
+
+    override val categories = setOf("inventory")
+
     override val arguments = arguments {
-        require("reforge", "You must specify the reforge!")
+        require(
+            "reforge",
+            "You must specify the reforge!",
+            description = "The id of the reforge to check for.",
+            type = ArgType.STRING
+        )
     }
 
     override fun isMet(
