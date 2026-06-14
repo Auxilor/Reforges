@@ -13,6 +13,14 @@ import com.willfp.reforges.util.getRandomReforge
 import com.willfp.reforges.util.reforge
 
 object EffectApplyRandomReforge : Effect<NoCompileData>("apply_random_reforge") {
+    override val description = "Applies a random reforge to the item, avoiding the item's current reforge if it has one."
+
+    override val categories = setOf("inventory")
+
+    override val additionalInfo = listOf(
+        "Does nothing if the item has no valid reforge targets."
+    )
+
     override val parameters = setOf(
         TriggerParameter.PLAYER,
         TriggerParameter.ITEM

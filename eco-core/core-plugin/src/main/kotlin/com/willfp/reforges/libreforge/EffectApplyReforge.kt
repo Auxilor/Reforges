@@ -3,6 +3,7 @@ package com.willfp.reforges.libreforge
 import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.price.ConfiguredPrice
+import com.willfp.libreforge.ArgType
 import com.willfp.libreforge.NoCompileData
 import com.willfp.libreforge.arguments
 import com.willfp.libreforge.effects.Effect
@@ -12,13 +13,26 @@ import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.reforges.Reforges
 
 object EffectApplyReforge : Effect<NoCompileData>("apply_reforge") {
+    override val description = "Applies the specified reforge to the item, if the reforge can be applied to it."
+
+    override val categories = setOf("inventory")
+
+    override val additionalInfo = listOf(
+        "Does nothing if the specified reforge cannot be applied to the item."
+    )
+
     override val parameters = setOf(
         TriggerParameter.PLAYER,
         TriggerParameter.ITEM
     )
 
     override val arguments = arguments {
-        require("reforge", "You must specify the reforge to apply!")
+        require(
+            "reforge",
+            "You must specify the reforge to apply!",
+            description = "The id of the reforge to apply to the item.",
+            type = ArgType.STRING
+        )
     }
 
     override fun onTrigger(config: Config, data: TriggerData, compileData: NoCompileData): Boolean {
