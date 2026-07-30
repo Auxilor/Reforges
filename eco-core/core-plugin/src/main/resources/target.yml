@@ -10,17 +10,45 @@ pickaxe:
   slot: hands
   items:
     - "#items_pickaxes"
+    - "*wooden_pickaxe"
+    - "*stone_pickaxe"
+    - "*iron_pickaxe"
+    - "*golden_pickaxe"
+    - "*copper_pickaxe"
+    - "*diamond_pickaxe"
+    - "*netherite_pickaxe"
 
 axe:
   slot: hands
   items:
     - "#items_axes"
+    - "*wooden_axe"
+    - "*stone_axe"
+    - "*iron_axe"
+    - "*golden_axe"
+    - "*copper_axe"
+    - "*diamond_axe"
+    - "*netherite_axe"
 
 melee:
   slot: hands
   items:
     - "#items_axes"
     - "#items_swords"
+    - "*wooden_axe"
+    - "*stone_axe"
+    - "*iron_axe"
+    - "*golden_axe"
+    - "*copper_axe"
+    - "*diamond_axe"
+    - "*netherite_axe"
+    - "*wooden_sword"
+    - "*stone_sword"
+    - "*iron_sword"
+    - "*golden_sword"
+    - "*copper_sword"
+    - "*diamond_sword"
+    - "*netherite_sword"
 
 trident:
   slot: hands
@@ -38,3 +66,32 @@ armor:
     - "#items_chest_armor"
     - "#items_leg_armor"
     - "#items_foot_armor"
+    - "*leather_helmet"
+    - "*chainmail_helmet"
+    - "*iron_helmet"
+    - "*golden_helmet"
+    - "*copper_helmet"
+    - "*diamond_helmet"
+    - "*netherite_helmet"
+    - "*turtle_helmet"
+    - "*leather_chestplate"
+    - "*chainmail_chestplate"
+    - "*iron_chestplate"
+    - "*golden_chestplate"
+    - "*copper_chestplate"
+    - "*diamond_chestplate"
+    - "*netherite_chestplate"
+    - "*leather_leggings"
+    - "*chainmail_leggings"
+    - "*iron_leggings"
+    - "*golden_leggings"
+    - "*copper_leggings"
+    - "*diamond_leggings"
+    - "*netherite_leggings"
+    - "*leather_boots"
+    - "*chainmail_boots"
+    - "*iron_boots"
+    - "*golden_boots"
+    - "*copper_boots"
+    - "*diamond_boots"
+    - "*netherite_boots"
