@@ -24,7 +24,8 @@ object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
             "reforge",
             "You must specify the reforge!",
             description = "The id of the reforge to check for.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "sharp"
         )
     }
 

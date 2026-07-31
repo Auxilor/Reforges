@@ -31,7 +31,8 @@ object EffectApplyReforge : Effect<NoCompileData>("apply_reforge") {
             "reforge",
             "You must specify the reforge to apply!",
             description = "The id of the reforge to apply to the item.",
-            type = ArgType.STRING
+            type = ArgType.STRING,
+            example = "sharp"
         )
     }
 
