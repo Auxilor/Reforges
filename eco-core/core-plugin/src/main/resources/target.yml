@@ -10,73 +10,31 @@ pickaxe:
   slot: hands
   items:
     - "#items_pickaxes"
-    - "*wooden_pickaxe"
-    - "*stone_pickaxe"
-    - "*iron_pickaxe"
-    - "*golden_pickaxe"
-    - "*copper_pickaxe"
-    - "*diamond_pickaxe"
-    - "*netherite_pickaxe"
 
 axe:
   slot: hands
   items:
     - "#items_axes"
-    - "*wooden_axe"
-    - "*stone_axe"
-    - "*iron_axe"
-    - "*golden_axe"
-    - "*copper_axe"
-    - "*diamond_axe"
-    - "*netherite_axe"
 
 sword:
   slot: hands
   items:
     - "#items_swords"
-    - "*wooden_sword"
-    - "*stone_sword"
-    - "*iron_sword"
-    - "*golden_sword"
-    - "*copper_sword"
-    - "*diamond_sword"
-    - "*netherite_sword"
 
 hoe:
   slot: hands
   items:
     - "#items_hoes"
-    - "*wooden_hoe"
-    - "*stone_hoe"
-    - "*iron_hoe"
-    - "*golden_hoe"
-    - "*copper_hoe"
-    - "*diamond_hoe"
-    - "*netherite_hoe"
 
 shovel:
   slot: hands
   items:
     - "#items_shovels"
-    - "*wooden_shovel"
-    - "*stone_shovel"
-    - "*iron_shovel"
-    - "*golden_shovel"
-    - "*copper_shovel"
-    - "*diamond_shovel"
-    - "*netherite_shovel"
 
 spear:
   slot: hands
   items:
     - "#items_spears"
-    - "*wooden_spear"
-    - "*stone_spear"
-    - "*iron_spear"
-    - "*golden_spear"
-    - "*copper_spear"
-    - "*diamond_spear"
-    - "*netherite_spear"
 
 melee:
   slot: hands
@@ -84,27 +42,6 @@ melee:
     - "#items_axes"
     - "#items_swords"
     - "#items_spears"
-    - "*wooden_axe"
-    - "*stone_axe"
-    - "*iron_axe"
-    - "*golden_axe"
-    - "*copper_axe"
-    - "*diamond_axe"
-    - "*netherite_axe"
-    - "*wooden_sword"
-    - "*stone_sword"
-    - "*iron_sword"
-    - "*golden_sword"
-    - "*copper_sword"
-    - "*diamond_sword"
-    - "*netherite_sword"
-    - "*wooden_spear"
-    - "*stone_spear"
-    - "*iron_spear"
-    - "*golden_spear"
-    - "*copper_spear"
-    - "*diamond_spear"
-    - "*netherite_spear"
 
 trident:
   slot: hands
@@ -122,32 +59,3 @@ armor:
     - "#items_chest_armor"
     - "#items_leg_armor"
     - "#items_foot_armor"
-    - "*leather_helmet"
-    - "*chainmail_helmet"
-    - "*iron_helmet"
-    - "*golden_helmet"
-    - "*copper_helmet"
-    - "*diamond_helmet"
-    - "*netherite_helmet"
-    - "*turtle_helmet"
-    - "*leather_chestplate"
-    - "*chainmail_chestplate"
-    - "*iron_chestplate"
-    - "*golden_chestplate"
-    - "*copper_chestplate"
-    - "*diamond_chestplate"
-    - "*netherite_chestplate"
-    - "*leather_leggings"
-    - "*chainmail_leggings"
-    - "*iron_leggings"
-    - "*golden_leggings"
-    - "*copper_leggings"
-    - "*diamond_leggings"
-    - "*netherite_leggings"
-    - "*leather_boots"
-    - "*chainmail_boots"
-    - "*iron_boots"
-    - "*golden_boots"
-    - "*copper_boots"
-    - "*diamond_boots"
-    - "*netherite_boots"
