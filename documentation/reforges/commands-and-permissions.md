@@ -1,6 +1,6 @@
 ---
 title: "Commands and Permissions"
-sidebar_position: 4
+sidebar_position: 3
 ---
 
 Every command Reforges adds, with the permission node that controls it. Grant the nodes you want players or staff to have; all of them default to operators.

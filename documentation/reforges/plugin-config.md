@@ -1,6 +1,6 @@
 ---
 title: "Plugin Config"
-sidebar_position: 5
+sidebar_position: 4
 ---
 
 `config.yml` controls the reforge menu, the default price, and how reforges show on items. It lives at `/plugins/Reforges/config.yml`. Edit it, then run `/reforges reload` to apply your changes.
