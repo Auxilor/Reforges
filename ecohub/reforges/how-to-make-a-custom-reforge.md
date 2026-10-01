@@ -98,6 +98,10 @@ description: # Lore lines added to a reforged item
   - "&a+10% &fCrit Damage"
 ```
 
+:::tip
+Lore supports MiniMessage, including sprites such as `<sprite:items:item/diamond>` on 1.21.9 and newer. See [Text Formatting](https://hub.auxilor.io/wiki/eco/text-formatting).
+:::
+
 ### Targets
 
 `targets` lists the item types the reforge can roll on. A reforge only appears in the menu for items that match one of its targets.
