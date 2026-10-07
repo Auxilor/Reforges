@@ -76,6 +76,8 @@ class Reforge(
         }
     } else null
 
+    val stoneCostExponent = config.getDoubleOrNull("stone.cost-exponent") ?: 1.0
+
     private val onReforgeEffects = Effects.compileChain(
         config.getSubsections("on-reforge-effects"),
         ViolationContext(plugin, "Reforge $id").with("on-reforge-effects")

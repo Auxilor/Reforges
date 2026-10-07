@@ -43,7 +43,7 @@ You build stones, and set a per-stone price, in [How to Make a Reforge](how-to-m
 
 ## Reforge cost
 
-Each reforge costs money, set by `reforge.price` in config. Reforging the same item repeatedly gets more expensive: the price is multiplied by `cost-exponent` (default `1.15`) raised to the number of times that item has been reforged. Tune both in [Plugin Config](plugin-config).
+Each reforge costs money, set by `reforge.price` in config. Reforging the same item repeatedly gets more expensive: the price is multiplied by `cost-exponent` (default `1.15`) raised to the number of times that item has been reforged. Tune both in [Plugin Config](plugin-config). Reforge stones use their own `stone.cost-exponent` instead, which defaults to `1` so stone prices do not scale.
 
 <hr/>
 

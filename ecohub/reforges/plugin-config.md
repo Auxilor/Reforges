@@ -150,7 +150,7 @@ reforge:
     type: coins
     display: "&6$%value%"
 
-  cost-exponent: 1.15 # Price scales as (times this item has been reforged ^ exponent) * price
+  cost-exponent: 1.15 # Price scales as (times this item has been reforged ^ exponent) * price; reforge stones use their own stone.cost-exponent instead
 
   show-reforgable: true # If reforgable items get the suffix below added to their lore
   reforgable-suffix: # Lore appended to items that can be reforged

@@ -38,6 +38,7 @@ stone:
     value: 100000
     type: coins # See here: https://hub.auxilor.io/wiki/eco/the-price-lookup-system
     display: "&6$%value%"
+  cost-exponent: 1 # (Optional) The cost exponent when applying this stone, (Reforges done ^ cost exponent) * cost, defaults to 1 (no scaling)
 
 # The effects of the reforge (i.e. the functionality)
 # See here: https://hub.auxilor.io/wiki/libreforge/configuring-an-effect

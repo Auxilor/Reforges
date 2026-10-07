@@ -41,7 +41,7 @@ import kotlin.math.pow
 private data class ReforgeGUIStatus(
     val status: ReforgeStatus,
     val price: ConfiguredPrice,
-    val isStonePrice: Boolean
+    val costExponent: Double
 )
 
 private class ReforgePriceChangeEvent : MenuEvent
@@ -50,7 +50,7 @@ private val Menu.reforgeStatus by menuStateVar(
     ReforgeGUIStatus(
         ReforgeStatus.NO_ITEM,
         ConfiguredPrice.createOrFree(emptyConfig()),
-        false
+        1.0
     )
 )
 
@@ -229,18 +229,12 @@ object ReforgeGUI {
             onEvent<ReforgePriceChangeEvent> { player, menu, _ ->
                 val status = menu.reforgeStatus[player]
 
-                val item = itemToReforge[player]
+                val reforges = itemToReforge[player]?.timesReforged ?: 0
 
-                val reforges = item?.timesReforged ?: 0
-
-                var multiplier = if (status.isStonePrice) 1.0 else {
-                    plugin.configYml.getDouble("reforge.cost-exponent")
-                        .pow(reforges.toDouble())
-                }
-
-                multiplier *= player.reforgePriceMultiplier
-
-                status.price.setMultiplier(player, multiplier)
+                status.price.setMultiplier(
+                    player,
+                    status.costExponent.pow(reforges.toDouble()) * player.reforgePriceMultiplier
+                )
             }
 
             onEvent<CaptiveItemChangeEvent> { player, menu, _ ->
@@ -251,7 +245,7 @@ object ReforgeGUI {
 
                 var price = defaultPrice
 
-                var isStonePrice = false
+                var costExponent = plugin.configYml.getDouble("reforge.cost-exponent")
 
                 val status = if (item.isEmpty) {
                     ReforgeStatus.NO_ITEM
@@ -266,7 +260,7 @@ object ReforgeGUI {
                         } else {
                             if (reforgeStone.canBeAppliedTo(item)) {
                                 price = reforgeStone.stonePrice ?: defaultPrice
-                                isStonePrice = true
+                                costExponent = reforgeStone.stoneCostExponent
 
                                 ReforgeStatus.ALLOW_STONE
                             } else {
@@ -276,7 +270,7 @@ object ReforgeGUI {
                     }
                 }
 
-                menu.reforgeStatus[player] = ReforgeGUIStatus(status, price, isStonePrice)
+                menu.reforgeStatus[player] = ReforgeGUIStatus(status, price, costExponent)
                 menu.callEvent(player, ReforgePriceChangeEvent())
             }
 
