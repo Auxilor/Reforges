@@ -75,6 +75,7 @@ stone:
     value: 100000
     type: coins # See https://hub.auxilor.io/wiki/eco/the-price-lookup-system
     display: "&6$%value%"
+  cost-exponent: 1 # Optional; price scales as (times this item has been reforged ^ exponent) * price, defaults to 1 (no scaling)
 
 # === Effects: what the reforge actually does ===
 effects: # Effects run while the reforge is active
@@ -113,7 +114,7 @@ targets: # Item types this reforge can be applied to
 
 ### Reforge stone
 
-Set `stone.enabled: true` to make the reforge obtainable only through a stone, removing it from the random pool. The stone is a normal item with an optional recipe, and `stone.price` overrides the default reforge price when applying it.
+Set `stone.enabled: true` to make the reforge obtainable only through a stone, removing it from the random pool. The stone is a normal item with an optional recipe, and `stone.price` overrides the default reforge price when applying it. Stone prices do not scale with repeated reforging unless you set `stone.cost-exponent`, which works like `reforge.cost-exponent` in config.
 
 ```yaml
 stone:
@@ -139,6 +140,7 @@ stone:
     value: 100000
     type: coins # See https://hub.auxilor.io/wiki/eco/the-price-lookup-system
     display: "&6$%value%"
+  cost-exponent: 1 # Optional; price scales as (times this item has been reforged ^ exponent) * price, defaults to 1 (no scaling)
 ```
 
 :::tip
