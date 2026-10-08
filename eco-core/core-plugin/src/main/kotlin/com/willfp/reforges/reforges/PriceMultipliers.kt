@@ -5,13 +5,15 @@ import org.bukkit.entity.Player
 
 @Suppress("UNUSED")
 object PriceMultipliers {
-    private val REGISTRY = mutableListOf<PriceMultiplier>()
+    @Volatile
+    private var registry = emptyList<PriceMultiplier>()
+
     private val NO_MULTIPLIER = PriceMultiplier("none", 1.0, 0)
 
     fun getForPlayer(player: Player): PriceMultiplier {
         var current = NO_MULTIPLIER
 
-        for (multiplier in REGISTRY) {
+        for (multiplier in registry) {
             if (multiplier.priority < current.priority) {
                 continue
             }
@@ -31,19 +33,16 @@ object PriceMultipliers {
         get() = getForPlayer(this).multiplier
 
     fun values(): List<PriceMultiplier> {
-        return REGISTRY.toList()
+        return registry.toList()
     }
 
     internal fun update() {
-        REGISTRY.clear()
-
-        for (config in plugin.configYml.getSubsections("price-multipliers")) {
-            val multiplier = PriceMultiplier(
+        registry = plugin.configYml.getSubsections("price-multipliers").map { config ->
+            PriceMultiplier(
                 config.getString("permission"),
                 config.getDouble("multiplier"),
                 config.getInt("priority")
             )
-            REGISTRY.add(multiplier)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.willfp.reforges.commands
 import com.willfp.eco.core.command.impl.Subcommand
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
+import com.willfp.reforges.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
@@ -48,12 +49,15 @@ object CommandGive : Subcommand(
             sender.sendMessage(plugin.langYml.getMessage("invalid-stone"))
             return
         }
-        var message = plugin.langYml.getMessage("give-success")
-        message = message.replace("%reforge%", reforge.name).replace("%recipient%", reciever.name)
-        sender.sendMessage(message)
-        val itemStack = reforge.stone
-        itemStack.amount = amount
-        reciever.inventory.addItem(itemStack)
+        // The console runs off the player's region on Folia.
+        reciever.runOwned {
+            var message = plugin.langYml.getMessage("give-success")
+            message = message.replace("%reforge%", reforge.name).replace("%recipient%", reciever.name)
+            sender.sendMessage(message)
+            val itemStack = reforge.stone
+            itemStack.amount = amount
+            reciever.inventory.addItem(itemStack)
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {

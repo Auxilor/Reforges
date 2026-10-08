@@ -155,11 +155,16 @@ private class ActivatorSlot(
 
 @Suppress("DEPRECATION")
 object ReforgeGUI {
+    @Volatile
     private lateinit var menu: Menu
 
+    @Volatile
     private lateinit var itemToReforge: CaptiveItem
+
+    @Volatile
     private lateinit var reforgeStone: CaptiveItem
 
+    @Volatile
     private lateinit var defaultPrice: ConfiguredPrice
 
     fun open(player: Player) {

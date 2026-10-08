@@ -4,11 +4,12 @@ import com.google.common.collect.ImmutableSet
 import com.willfp.libreforge.slot.impl.SlotTypeAny
 import com.willfp.reforges.plugin
 import org.bukkit.inventory.ItemStack
+import java.util.concurrent.ConcurrentHashMap
 
 object ReforgeTargets {
-    private val registered = mutableMapOf<String, ReforgeTarget>()
+    private val registered = ConcurrentHashMap<String, ReforgeTarget>()
 
-    val ALL = ReforgeTarget("all", SlotTypeAny, HashSet())
+    val ALL = ReforgeTarget("all", SlotTypeAny, ConcurrentHashMap.newKeySet())
 
     init {
         registered["all"] = ALL
