@@ -2,7 +2,7 @@
 version: ${version}
 main: com.willfp.reforges.ReforgesPlugin
 api-version: 1.21.8
-authors: [ Auxilor ]
+authors: [ Auxilor, Exanthiax, Callum ]
 website: willfp.com
 depend:
   - eco
