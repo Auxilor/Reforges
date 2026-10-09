@@ -6,6 +6,7 @@ import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
+import com.willfp.reforges.runOwned
 import com.willfp.reforges.util.reforge
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -51,12 +52,15 @@ object CommandApply : Subcommand(
                 return
             }
 
-            val item = player.inventory.itemInMainHand
-            player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
-            sender.sendMessage(
-                plugin.langYml.getMessage("applied-reforge")
-                    .replace("%reforge%", reforge.name)
-            )
+            // The console runs off the player's region on Folia.
+            player.runOwned {
+                val item = player.inventory.itemInMainHand
+                player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
+                sender.sendMessage(
+                    plugin.langYml.getMessage("applied-reforge")
+                        .replace("%reforge%", reforge.name)
+                )
+            }
         }
     }
 

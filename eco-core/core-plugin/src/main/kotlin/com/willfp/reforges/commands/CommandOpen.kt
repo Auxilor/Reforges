@@ -4,6 +4,7 @@ import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.reforges.gui.ReforgeGUI
 import com.willfp.reforges.plugin
+import com.willfp.reforges.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
@@ -25,8 +26,11 @@ object CommandOpen : PluginCommand(
             sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
             return
         }
-        PlayableSound.create(plugin.configYml.getSubsection("gui.open-sound"))?.playTo(player)
-        ReforgeGUI.open(player)
+        // The sender runs off the target player's region on Folia.
+        player.runOwned {
+            PlayableSound.create(plugin.configYml.getSubsection("gui.open-sound"))?.playTo(player)
+            ReforgeGUI.open(player)
+        }
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
