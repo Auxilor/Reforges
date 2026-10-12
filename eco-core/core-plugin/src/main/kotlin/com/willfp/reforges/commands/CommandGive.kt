@@ -1,6 +1,7 @@
 package com.willfp.reforges.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
+import com.willfp.eco.core.drops.DropQueue
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.runOwned
@@ -36,7 +37,6 @@ object CommandGive : Subcommand(
             return
         }
 
-        val amount = if (args.size > 2) args[2].toIntOrNull() ?: 1 else 1
         val recieverName = args[0]
         val reciever = Bukkit.getPlayer(recieverName)
         if (reciever == null) {
@@ -49,14 +49,19 @@ object CommandGive : Subcommand(
             sender.sendMessage(plugin.langYml.getMessage("invalid-stone"))
             return
         }
+        val stone = reforge.stone
+        val amount = (args.getOrNull(2)?.toIntOrNull() ?: 1).coerceIn(1, stone.maxStackSize * 36)
         // The console runs off the player's region on Folia.
         reciever.runOwned {
             var message = plugin.langYml.getMessage("give-success")
             message = message.replace("%reforge%", reforge.name).replace("%recipient%", reciever.name)
             sender.sendMessage(message)
-            val itemStack = reforge.stone
-            itemStack.amount = amount
-            reciever.inventory.addItem(itemStack)
+            DropQueue(reciever)
+                .addItems((amount downTo 1 step stone.maxStackSize).map { remaining ->
+                    stone.clone().apply { this.amount = minOf(remaining, stone.maxStackSize) }
+                })
+                .forceTelekinesis()
+                .push()
         }
     }
 
