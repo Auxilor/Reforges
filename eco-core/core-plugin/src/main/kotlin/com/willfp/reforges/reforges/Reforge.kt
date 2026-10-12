@@ -51,13 +51,16 @@ class Reforge(
 
     val requiresStone = config.getBool("stone.enabled")
 
-    val stone: ItemStack = ItemStackBuilder(Items.lookup(config.getString("stone.item")).item).apply {
+    private val _stone: ItemStack = ItemStackBuilder(Items.lookup(config.getString("stone.item")).item).apply {
         if (config.getBool("stone.enabled")) {
             setDisplayName(config.getFormattedString("stone.name").replace("%reforge%", name))
             addLoreLines(
                 config.getFormattedStrings("stone.lore").map { "${Display.PREFIX}${it.replace("%reforge%", name)}" })
         }
     }.build()
+
+    val stone: ItemStack
+        get() = _stone.clone()
 
     val stonePrice = if (config.has("stone.price")) {
         when {
@@ -84,13 +87,13 @@ class Reforge(
     )
 
     init {
-        stone.reforgeStone = this
+        _stone.reforgeStone = this
 
         if (config.getBool("stone.enabled")) {
             CustomItem(
                 plugin.namespacedKeyFactory.create("stone_" + this.id.key),
                 { test -> test.reforgeStone == this },
-                stone
+                _stone
             ).register()
 
             val stoneRecipe: CraftingRecipe? = config.getBool("stone.craftable")
@@ -99,7 +102,7 @@ class Reforge(
                     Recipes.createAndRegisterRecipe(
                         plugin,
                         "stone_" + this.id.key,
-                        stone,
+                        _stone,
                         config.getStrings("stone.recipe"),
                         config.getStringOrNull("stone.recipe-permission"),
                         config.getBool("stone.shapeless")
