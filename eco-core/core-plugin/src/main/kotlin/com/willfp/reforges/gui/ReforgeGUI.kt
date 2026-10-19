@@ -3,6 +3,7 @@ package com.willfp.reforges.gui
 import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.drops.DropQueue
+import com.willfp.eco.core.gui.CaptiveItem
 import com.willfp.eco.core.gui.captiveSlot
 import com.willfp.eco.core.gui.component.addComponent
 import com.willfp.eco.core.gui.component.closeButton
@@ -11,7 +12,9 @@ import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.MenuEvent
 import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
+import com.willfp.eco.core.gui.menuStateVar
 import com.willfp.eco.core.gui.onEvent
+import com.willfp.eco.core.gui.setSlot
 import com.willfp.eco.core.gui.slot
 import com.willfp.eco.core.gui.slot.CustomSlot
 import com.willfp.eco.core.gui.slot.FillerMask
@@ -21,9 +24,6 @@ import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.core.items.isEmpty
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.eco.core.sound.PlayableSound
-import com.willfp.ecomponent.CaptiveItem
-import com.willfp.ecomponent.menuStateVar
-import com.willfp.ecomponent.setSlot
 import com.willfp.libreforge.LibreforgeSpigotPlugin
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
