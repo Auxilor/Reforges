@@ -59,6 +59,7 @@ gui:
   activator-slot:
     row: 2
     column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   stone-slot:
     row: 4
@@ -73,6 +74,7 @@ gui:
     location:
       row: 6
       column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   allow:
     material: anvil

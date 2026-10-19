@@ -4,6 +4,7 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.captiveSlot
+import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
 import com.willfp.eco.core.gui.menu.MenuEvent
@@ -213,23 +214,23 @@ object ReforgeGUI {
                 bindCaptive = reforgeStone
             )
 
-            setSlot(
-                plugin.configYml.getInt("gui.activator-slot.row"),
-                plugin.configYml.getInt("gui.activator-slot.column"),
-                ActivatorSlot(itemToReforge, reforgeStone)
-            )
+            for (location in plugin.configYml.getSlotLocations("gui.activator-slot")) {
+                setSlot(location.row, location.column, ActivatorSlot(itemToReforge, reforgeStone))
+            }
 
-            setSlot(
-                plugin.configYml.getInt("gui.close.location.row"),
-                plugin.configYml.getInt("gui.close.location.column"),
-                slot(
-                    ItemStackBuilder(Items.lookup(plugin.configYml.getString("gui.close.material")))
-                        .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
-                        .build()
-                ) {
-                    onLeftClick { event, _, _ -> event.whoClicked.closeInventory() }
-                }
-            )
+            for (location in plugin.configYml.getSlotLocations("gui.close")) {
+                setSlot(
+                    location.row,
+                    location.column,
+                    slot(
+                        ItemStackBuilder(Items.lookup(plugin.configYml.getString("gui.close.material")))
+                            .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
+                            .build()
+                    ) {
+                        onLeftClick { event, _, _ -> event.whoClicked.closeInventory() }
+                    }
+                )
+            }
 
             onEvent<ReforgePriceChangeEvent> { player, menu, _ ->
                 val status = menu.reforgeStatus[player]
