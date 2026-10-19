@@ -4,6 +4,8 @@ import com.willfp.eco.core.EcoPlugin
 import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.drops.DropQueue
 import com.willfp.eco.core.gui.captiveSlot
+import com.willfp.eco.core.gui.component.addComponent
+import com.willfp.eco.core.gui.component.closeButton
 import com.willfp.eco.core.gui.getSlotLocations
 import com.willfp.eco.core.gui.menu
 import com.willfp.eco.core.gui.menu.Menu
@@ -15,7 +17,6 @@ import com.willfp.eco.core.gui.slot.CustomSlot
 import com.willfp.eco.core.gui.slot.FillerMask
 import com.willfp.eco.core.gui.slot.MaskItems
 import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.ItemStackBuilder
 import com.willfp.eco.core.items.builder.modify
 import com.willfp.eco.core.items.isEmpty
 import com.willfp.eco.core.price.ConfiguredPrice
@@ -218,19 +219,12 @@ object ReforgeGUI {
                 setSlot(location.row, location.column, ActivatorSlot(itemToReforge, reforgeStone))
             }
 
-            for (location in plugin.configYml.getSlotLocations("gui.close")) {
-                setSlot(
-                    location.row,
-                    location.column,
-                    slot(
-                        ItemStackBuilder(Items.lookup(plugin.configYml.getString("gui.close.material")))
-                            .setDisplayName(plugin.langYml.getFormattedString("menu.close"))
-                            .build()
-                    ) {
-                        onLeftClick { event, _, _ -> event.whoClicked.closeInventory() }
-                    }
+            addComponent(
+                closeButton(
+                    plugin.configYml.getSubsection("gui.close"),
+                    name = plugin.langYml.getFormattedString("menu.close")
                 )
-            }
+            )
 
             onEvent<ReforgePriceChangeEvent> { player, menu, _ ->
                 val status = menu.reforgeStatus[player]
