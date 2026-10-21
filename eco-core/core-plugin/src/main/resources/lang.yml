@@ -13,6 +13,9 @@ messages:
   give-success: "Gave &a%reforge%&r reforge stone to &a%recipient%"
   invalid-reforge: "&cInvalid reforge!"
   needs-reforge: "&cYou must specify a reforge"
+  no-item-in-hand: "&cYou must be holding an item!"
+  reforge-cannot-be-applied: "&c%reforge%&r&c cannot be applied to that item!"
+  reforge-application-cancelled: "&cThe reforge could not be applied!"
 
 menu:
   title: "Reforge Item"
