@@ -16,11 +16,12 @@ object ReforgeArgParser : LookupArgParser {
         var reforge: Reforge? = null
 
         for (arg in args) {
-            val split = arg.split(":").toTypedArray()
-            if (split.size == 1 || !split[0].equals("reforge", ignoreCase = true)) {
+            if (!arg.contains(':') || !arg.substringBefore(':').equals("reforge", ignoreCase = true)) {
                 continue
             }
-            val match = Reforges.getByKey(split[1].lowercase()) ?: continue
+            val key = arg.substringAfter(':').lowercase()
+            // Strings saved before the fix read reforge:<namespace>:<key>.
+            val match = Reforges.getByKey(key) ?: Reforges.getByKey(key.substringAfterLast(':')) ?: continue
             reforge = match
             break
         }
@@ -38,6 +39,6 @@ object ReforgeArgParser : LookupArgParser {
     override fun serializeBack(meta: ItemMeta): String? {
         val reforge = meta.reforge ?: return null
 
-        return "reforge:${reforge.id}"
+        return "reforge:${reforge.id.key}"
     }
 }
