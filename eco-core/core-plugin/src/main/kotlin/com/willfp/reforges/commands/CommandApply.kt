@@ -5,6 +5,7 @@ import com.willfp.eco.core.config.emptyConfig
 import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
+import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.runOwned
 import com.willfp.reforges.util.reforge
@@ -33,12 +34,7 @@ object CommandApply : Subcommand(
         }
 
         if (sender is Player) {
-            val item = sender.inventory.itemInMainHand
-            sender.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
-            sender.sendMessage(
-                plugin.langYml.getMessage("applied-reforge")
-                    .replace("%reforge%", reforge.name)
-            )
+            apply(sender, sender, reforge)
         } else {
             if (args.size < 2) {
                 sender.sendMessage(plugin.langYml.getMessage("needs-player"))
@@ -53,15 +49,24 @@ object CommandApply : Subcommand(
             }
 
             // The console runs off the player's region on Folia.
-            player.runOwned {
-                val item = player.inventory.itemInMainHand
-                player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))
-                sender.sendMessage(
-                    plugin.langYml.getMessage("applied-reforge")
-                        .replace("%reforge%", reforge.name)
-                )
-            }
+            player.runOwned { apply(sender, player, reforge) }
         }
+    }
+
+    private fun apply(sender: CommandSender, player: Player, reforge: Reforge) {
+        val item = player.inventory.itemInMainHand
+
+        sender.sendMessage(
+            when {
+                item.type.isAir -> plugin.langYml.getMessage("no-item-in-hand")
+                !reforge.canBeAppliedTo(item) -> plugin.langYml.getMessage("reforge-cannot-be-applied")
+                    .replace("%reforge%", reforge.name)
+                !player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig())) ->
+                    plugin.langYml.getMessage("reforge-application-cancelled")
+                else -> plugin.langYml.getMessage("applied-reforge")
+                    .replace("%reforge%", reforge.name)
+            }
+        )
     }
 
     override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
