@@ -56,27 +56,16 @@ object CommandApply : Subcommand(
     private fun apply(sender: CommandSender, player: Player, reforge: Reforge) {
         val item = player.inventory.itemInMainHand
 
-        if (item.type.isAir) {
-            sender.sendMessage(plugin.langYml.getMessage("no-item-in-hand"))
-            return
-        }
-
-        if (!reforge.canBeAppliedTo(item)) {
-            sender.sendMessage(
-                plugin.langYml.getMessage("reforge-cannot-be-applied")
-                    .replace("%reforge%", reforge.name)
-            )
-            return
-        }
-
-        if (!player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig()))) {
-            sender.sendMessage(plugin.langYml.getMessage("reforge-application-cancelled"))
-            return
-        }
-
         sender.sendMessage(
-            plugin.langYml.getMessage("applied-reforge")
-                .replace("%reforge%", reforge.name)
+            when {
+                item.type.isAir -> plugin.langYml.getMessage("no-item-in-hand")
+                !reforge.canBeAppliedTo(item) -> plugin.langYml.getMessage("reforge-cannot-be-applied")
+                    .replace("%reforge%", reforge.name)
+                !player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig())) ->
+                    plugin.langYml.getMessage("reforge-application-cancelled")
+                else -> plugin.langYml.getMessage("applied-reforge")
+                    .replace("%reforge%", reforge.name)
+            }
         )
     }
 
