@@ -1,7 +1,6 @@
 package com.willfp.reforges.reforges.util
 
 import com.willfp.eco.core.items.args.LookupArgParser
-import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
@@ -9,24 +8,20 @@ import org.bukkit.inventory.meta.ItemMeta
 import java.util.function.Predicate
 
 object ReforgeArgParser : LookupArgParser {
+    /**
+     * Also reads `reforge:<namespace>:<key>`, the format saved by older versions.
+     */
     override fun parseArguments(
         args: Array<String>,
         meta: ItemMeta
     ): Predicate<ItemStack>? {
-        var reforge: Reforge? = null
-
-        for (arg in args) {
-            if (!arg.contains(':') || !arg.substringBefore(':').equals("reforge", ignoreCase = true)) {
-                continue
+        val reforge = args
+            .filter { arg -> arg.contains(':') && arg.substringBefore(':').equals("reforge", ignoreCase = true) }
+            .firstNotNullOfOrNull { arg ->
+                val key = arg.substringAfter(':').lowercase()
+                Reforges.getByKey(key) ?: Reforges.getByKey(key.substringAfterLast(':'))
             }
-            val key = arg.substringAfter(':').lowercase()
-            // Strings saved before the fix read reforge:<namespace>:<key>.
-            val match = Reforges.getByKey(key) ?: Reforges.getByKey(key.substringAfterLast(':')) ?: continue
-            reforge = match
-            break
-        }
-
-        reforge ?: return null
+            ?: return null
 
         meta.reforge = reforge
 
