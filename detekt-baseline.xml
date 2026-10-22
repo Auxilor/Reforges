@@ -1,0 +1,90 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>BracesOnIfStatements:Reforge.kt:Reforge$else</ID>
+    <ID>BracesOnIfStatements:Reforges.kt:Reforges$else</ID>
+    <ID>BracesOnWhenStatements:Reforge.kt:Reforge$when</ID>
+    <ID>CascadingCallWrapping:DiscoverRecipeListener.kt:DiscoverRecipeListener$map { it.key }</ID>
+    <ID>CascadingCallWrapping:ReforgeGUI.kt:ActivatorSlot$getMessage("cannot-afford-price")</ID>
+    <ID>CognitiveComplexMethod:ReforgeGUI.kt:ReforgeGUI$internal fun update</ID>
+    <ID>CognitiveComplexMethod:ReforgesDisplay.kt:ReforgesDisplay$override fun display</ID>
+    <ID>CollapsibleIfStatements:ReforgesDisplay.kt:ReforgesDisplay$if (reforge == null &amp;&amp; stone == null) { if (plugin.configYml.getBool("reforge.show-reforgable")) { if (context.properties.inGui) { return } context.lore.append(plugin.configYml.getStrings("reforge.reforgable-suffix").formatEcoRich()) } }</ID>
+    <ID>CouldBeSequence:DiscoverRecipeListener.kt:DiscoverRecipeListener$filterIsInstance&lt;Keyed&gt;()</ID>
+    <ID>CyclomaticComplexMethod:ReforgesDisplay.kt:ReforgesDisplay$override fun display</ID>
+    <ID>ExpressionBodySyntax:FilterReforge.kt:FilterReforge$return config.getStrings(key)</ID>
+    <ID>ExpressionBodySyntax:PriceMultipliers.kt:PriceMultipliers$return registry.toList()</ID>
+    <ID>ExpressionBodySyntax:Reforge.kt:Reforge$return "Reforge{$id}"</ID>
+    <ID>ExpressionBodySyntax:Reforge.kt:Reforge$return Objects.hash(id)</ID>
+    <ID>ExpressionBodySyntax:Reforge.kt:Reforge$return targets.any { target -&gt; target.items.any { it.matches(item) } }</ID>
+    <ID>ExpressionBodySyntax:Reforge.kt:Reforge$return this.id.key</ID>
+    <ID>ExpressionBodySyntax:ReforgeApplyEvent.kt:ReforgeApplyEvent$return handlerList</ID>
+    <ID>ExpressionBodySyntax:ReforgeFinder.kt:ReforgeFinder$return holder.targets.map { it.slot }.any { it.isOrContains(slot) }</ID>
+    <ID>ExpressionBodySyntax:ReforgeFinder.kt:ReforgeFinder$return listOfNotNull(item.reforge)</ID>
+    <ID>ExpressionBodySyntax:ReforgeStoneTag.kt:ReforgeStoneTag$return Reforges.values().random().stone</ID>
+    <ID>ExpressionBodySyntax:ReforgeStoneTag.kt:ReforgeStoneTag$return p0.reforgeStone != null</ID>
+    <ID>ExpressionBodySyntax:ReforgeTarget.kt:ReforgeTarget$return Objects.hash(this.id)</ID>
+    <ID>ExpressionBodySyntax:ReforgeTargets.kt:ReforgeTargets$return ImmutableSet.copyOf(registered.values)</ID>
+    <ID>ExpressionBodySyntax:ReforgeTargets.kt:ReforgeTargets$return registered[name]</ID>
+    <ID>ExpressionBodySyntax:ReforgedTag.kt:ReforgedTag$return p0.reforge != null</ID>
+    <ID>ExpressionBodySyntax:Reforges.kt:Reforges$return ImmutableSet.copyOf(registry.values())</ID>
+    <ID>ExpressionBodySyntax:TargetYml.kt:TargetYml$return SlotTypes[this.getString("$target.slot")] ?: SlotTypeAny</ID>
+    <ID>F001:ReforgeGUI.kt:ActivatorSlot$mutableListOf&lt;Reforge&gt;()</ID>
+    <ID>IC002:CommandApply.kt:CommandApply$// Currently, this case is not ever reached</ID>
+    <ID>IC002:CommandApply.kt:CommandApply$// The console runs off the player's region on Folia.</ID>
+    <ID>IC002:CommandGive.kt:CommandGive$// Currently, this case is not ever reached</ID>
+    <ID>IC002:CommandGive.kt:CommandGive$// The console runs off the player's region on Folia.</ID>
+    <ID>IC002:CommandOpen.kt:CommandOpen$// The sender runs off the target player's region on Folia.</ID>
+    <ID>IC002:CommandReload.kt:CommandReload$// Reloading rebuilds shared registries, so it belongs on the global region.</ID>
+    <ID>ImplicitDefaultLocale:DoubleExtensions.kt:"%.${decimals}f".format(this)</ID>
+    <ID>LabeledExpression:ReforgeArgParser.kt:ReforgeArgParser$@Predicate</ID>
+    <ID>LabeledExpression:ReforgeGUI.kt:ActivatorSlot$@onLeftClick</ID>
+    <ID>LongMethod:ReforgeGUI.kt:ReforgeGUI$internal fun update</ID>
+    <ID>LongMethod:ReforgesDisplay.kt:ReforgesDisplay$override fun display</ID>
+    <ID>LoopWithTooManyJumpStatements:PriceMultipliers.kt:PriceMultipliers$for</ID>
+    <ID>LoopWithTooManyJumpStatements:ReforgeArgParser.kt:ReforgeArgParser$for</ID>
+    <ID>MagicNumber:CommandGive.kt:CommandGive$3</ID>
+    <ID>MagicNumber:ReforgeGUI.kt:ReforgeGUI$9</ID>
+    <ID>MaxLineLength:ConditionHasReforge.kt:ConditionHasReforge$override val description = "Passes when the player currently has the specified reforge applied to any of their items."</ID>
+    <ID>MaxLineLength:EffectApplyRandomReforge.kt:EffectApplyRandomReforge$override val description = "Applies a random reforge to the item, avoiding the item's current reforge if it has one."</ID>
+    <ID>MaxLineLength:ReforgesDisplay.kt:ReforgesDisplay$.</ID>
+    <ID>MultilineLambdaItParameter:ReforgeGUI.kt:ActivatorSlot${ it.replace("%price%", price.getDisplay(player)) .replace( "%stone%", reforgeStone[player]?.reforgeStone?.name ?: "" ) // Legacy .replace("%cost%", price.getDisplay(player)) .replace("%xpcost%", price.getDisplay(player)) }</ID>
+    <ID>NewLineAtEndOfFile:AntiPlaceListener.kt:com.willfp.reforges.util.AntiPlaceListener.kt</ID>
+    <ID>NewLineAtEndOfFile:CommandApply.kt:com.willfp.reforges.commands.CommandApply.kt</ID>
+    <ID>NewLineAtEndOfFile:CommandGive.kt:com.willfp.reforges.commands.CommandGive.kt</ID>
+    <ID>NewLineAtEndOfFile:CommandOpen.kt:com.willfp.reforges.commands.CommandOpen.kt</ID>
+    <ID>NewLineAtEndOfFile:CommandReload.kt:com.willfp.reforges.commands.CommandReload.kt</ID>
+    <ID>NewLineAtEndOfFile:DoubleExtensions.kt:com.willfp.reforges.api.extensions.DoubleExtensions.kt</ID>
+    <ID>NewLineAtEndOfFile:ReforgeTargets.kt:com.willfp.reforges.reforges.ReforgeTargets.kt</ID>
+    <ID>NewLineAtEndOfFile:TriggerReforgeItem.kt:com.willfp.reforges.libreforge.TriggerReforgeItem.kt</ID>
+    <ID>PF012:ReforgeUtils.kt:values()</ID>
+    <ID>ReturnCount:CommandApply.kt:CommandApply$override fun onExecute</ID>
+    <ID>ReturnCount:CommandApply.kt:CommandApply$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:CommandGive.kt:CommandGive$override fun onExecute</ID>
+    <ID>ReturnCount:CommandGive.kt:CommandGive$override fun tabComplete: List&lt;String&gt;</ID>
+    <ID>ReturnCount:EffectApplyRandomReforge.kt:EffectApplyRandomReforge$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectApplyReforge.kt:EffectApplyReforge$override fun onTrigger: Boolean</ID>
+    <ID>ReturnCount:EffectRemoveReforge.kt:EffectRemoveReforge$override fun onTrigger: Boolean</ID>
+    <ID>SpacingAfterPackageAndImports:ReforgeGUI.kt: </ID>
+    <ID>SpreadOperator:ReforgeGUI.kt:ReforgeGUI$(*maskItems)</ID>
+    <ID>SpreadOperator:ReforgeGUI.kt:ReforgeGUI$(MaskItems(*maskItems), *maskPattern)</ID>
+    <ID>UnconditionalJumpStatementInLoop:ReforgeArgParser.kt:ReforgeArgParser$for (arg in args) { val split = arg.split(":").toTypedArray() if (split.size == 1 || !split[0].equals("reforge", ignoreCase = true)) { continue } val match = Reforges.getByKey(split[1].lowercase()) ?: continue reforge = match break }</ID>
+    <ID>UnnamedParameterUse:CommandApply.kt:CommandApply$replace</ID>
+    <ID>UnnamedParameterUse:CommandGive.kt:CommandGive$coerceIn</ID>
+    <ID>UnnamedParameterUse:CommandGive.kt:CommandGive$minOf</ID>
+    <ID>UnnamedParameterUse:CommandGive.kt:CommandGive$replace</ID>
+    <ID>UnnamedParameterUse:CommandReload.kt:CommandReload$replace</ID>
+    <ID>UnnamedParameterUse:ConditionHasReforge.kt:ConditionHasReforge$require</ID>
+    <ID>UnnamedParameterUse:EffectApplyReforge.kt:EffectApplyReforge$require</ID>
+    <ID>UnnamedParameterUse:Reforge.kt:Reforge$replace</ID>
+    <ID>UnnamedParameterUse:ReforgeGUI.kt:ActivatorSlot$replace</ID>
+    <ID>UnnamedParameterUse:ReforgeGUI.kt:ReforgeGUI$setSlot</ID>
+    <ID>UnnamedParameterUse:Reforges.kt:Reforges$LegacyLocation</ID>
+    <ID>UnnamedParameterUse:ReforgesDisplay.kt:ReforgesDisplay$replace</ID>
+    <ID>UnusedVariable:Reforge.kt:Reforge$val stoneRecipe: CraftingRecipe? = config.getBool("stone.craftable") .takeIf { it } ?.let { Recipes.createAndRegisterRecipe( plugin, "stone_" + this.id.key, stoneTemplate, config.getStrings("stone.recipe"), config.getStringOrNull("stone.recipe-permission"), config.getBool("stone.shapeless") ) }</ID>
+    <ID>UseIfInsteadOfWhen:Reforge.kt:Reforge$when { // Legacy support config.getDouble("stone.price") &gt; 0 -&gt; { ConfiguredPrice.createOrFree( config { "value" to config.getDouble("stone.price") "type" to "coins" "display" to "%value%" } ) } else -&gt; ConfiguredPrice.createOrFree(config.getSubsection("stone.price")) }</ID>
+    <ID>UseLet:Reforges.kt:Reforges$if (key == null) { null } else registry[key]</ID>
+    <ID>UseOrEmpty:ReforgeGUI.kt:ActivatorSlot$reforgeStone[player]?.reforgeStone?.name ?: ""</ID>
+    <ID>UseOrEmpty:ReforgesDisplay.kt:ReforgesDisplay$stone.stonePrice?.getDisplay(player) ?: ""</ID>
+  </CurrentIssues>
+</SmellBaseline>
