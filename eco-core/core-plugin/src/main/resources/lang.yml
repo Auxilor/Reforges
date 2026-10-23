@@ -16,6 +16,7 @@ messages:
   no-item-in-hand: "&cYou must be holding an item!"
   reforge-cannot-be-applied: "&c%reforge%&r&c cannot be applied to that item!"
   reforge-application-cancelled: "&cThe reforge could not be applied!"
+  no-reforge-available: "&cNo reforge can be applied to this item!"
 
 menu:
   title: "Reforge Item"
