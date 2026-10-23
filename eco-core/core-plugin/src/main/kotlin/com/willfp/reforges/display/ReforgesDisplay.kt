@@ -49,13 +49,13 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
 
         if (stone != null) {
             val meta = itemStack.itemMeta
-            meta.setDisplayName(stone.config.getFormattedString("stone.name"))
+            meta.setDisplayName(stone.config.getFormattedString("stone.name").replace("%reforge%", stone.name))
             val stoneMeta = stone.stone.itemMeta
             if (stoneMeta is SkullMeta) {
                 val stoneTexture = SkullUtils.getSkullTexture(stoneMeta)
 
-                if (stoneTexture != null) {
-                    SkullUtils.setSkullTexture(meta as SkullMeta, stoneTexture)
+                if (stoneTexture != null && meta is SkullMeta) {
+                    SkullUtils.setSkullTexture(meta, stoneTexture)
                 }
             }
             itemStack.itemMeta = meta
