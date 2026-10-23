@@ -118,6 +118,7 @@ private class ActivatorSlot(
             }
 
             if (reforge == null) {
+                player.sendMessage(plugin.langYml.getMessage("no-reforge-available"))
                 return@onLeftClick
             }
 
