@@ -8,12 +8,12 @@ import com.willfp.libreforge.triggers.TriggerParameter
 import com.willfp.reforges.util.reforge
 
 object EffectRemoveReforge : Effect<NoCompileData>("remove_reforge") {
-    override val description = "Removes any reforge applied to the item in the player's main hand."
+    override val description = "Removes any reforge from the triggering item, or the held item."
 
     override val categories = setOf("inventory")
 
     override val additionalInfo = listOf(
-        "Does nothing if the item in the player's main hand is air."
+        "Uses the main hand when the trigger has no item. Does nothing on air."
     )
 
     override val parameters = setOf(
@@ -22,7 +22,7 @@ object EffectRemoveReforge : Effect<NoCompileData>("remove_reforge") {
 
     override fun onTrigger(config: Config, data: TriggerData, compileData: NoCompileData): Boolean {
         val player = data.player ?: return false
-        val item = player.inventory.itemInMainHand
+        val item = data.item ?: player.inventory.itemInMainHand
 
         if (item.type.isAir) return false
 
