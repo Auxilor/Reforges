@@ -59,6 +59,7 @@ gui:
   activator-slot: # The slot players click to reforge
     row: 2
     column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   stone-slot: # The slot a reforge stone goes in
     row: 4
@@ -73,6 +74,7 @@ gui:
     location:
       row: 6
       column: 5
+    locations: [ ] # Optional list of row/column slots; if set, the button shows in each of them instead of row/column
 
   allow: # The activator item when an item is ready to reforge
     material: anvil
