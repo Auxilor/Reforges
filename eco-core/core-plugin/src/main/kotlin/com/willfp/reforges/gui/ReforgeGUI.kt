@@ -136,12 +136,17 @@ private class ActivatorSlot(
                 return@onLeftClick
             }
 
+            val stone = if (usedStone) {
+                reforgeStone[player]?.takeIf { !it.isEmpty && it.reforgeStone == reforge } ?: return@onLeftClick
+            } else {
+                null
+            }
+
             if (!player.applyReforge(item, reforge, price, usedStone)) return@onLeftClick
 
             player.sendMessage(plugin.langYml.getMessage("applied-reforge").replace("%reforge%", reforge.name))
 
-            if (usedStone) {
-                val stone = reforgeStone[player] ?: return@onLeftClick
+            if (stone != null) {
                 stone.amount -= 1
                 PlayableSound.create(plugin.configYml.getSubsection("gui.stone-sound"))?.playTo(player)
             }
