@@ -2,6 +2,7 @@ package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
 import com.willfp.eco.core.config.interfaces.Config
+import com.willfp.eco.core.recipe.Recipes
 import com.willfp.eco.core.registry.Registry
 import com.willfp.libreforge.loader.LibreforgePlugin
 import com.willfp.libreforge.loader.configs.ConfigCategory
@@ -40,6 +41,9 @@ object Reforges : ConfigCategory("reforge", "reforges") {
     }
 
     override fun clear(plugin: LibreforgePlugin) {
+        for (reforge in registry.values()) {
+            Recipes.unregister(plugin.namespacedKeyFactory.create("stone_" + reforge.id.key))
+        }
         registry.clear()
     }
 
