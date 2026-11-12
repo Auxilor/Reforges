@@ -1,16 +1,16 @@
 package com.willfp.reforges.libreforge
 
-import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.price.ConfiguredPrice
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.effects.Effect
-import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.libreforge.triggers.TriggerParameter
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.reforges.Reforges
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.config.emptyConfig
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.effect.Effect
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.rules.trigger.TriggerParameter
 
 object EffectApplyReforge : Effect<NoCompileData>("apply_reforge") {
     override val description = "Applies the specified reforge to the item, if the reforge can be applied to it."

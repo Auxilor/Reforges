@@ -1,13 +1,13 @@
 package com.willfp.reforges.commands
 
 import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.sound.PlayableSound
 import com.willfp.reforges.gui.ReforgeGUI
 import com.willfp.reforges.plugin
 import com.willfp.reforges.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.util.StringUtil
+import wiki.ecohub.game.sound.PlayableSound
 
 object CommandOpen : PluginCommand(
     plugin,

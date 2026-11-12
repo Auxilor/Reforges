@@ -1,15 +1,5 @@
 package com.willfp.reforges.display
 
-import com.willfp.eco.core.display.DisplayContext
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.display.DisplayPriority
-import com.willfp.eco.core.fast.FastItemStack
-import com.willfp.eco.core.fast.fast
-import com.willfp.eco.util.SkullUtils
-import com.willfp.eco.util.StringUtils
-import com.willfp.eco.util.formatEcoRich
-import com.willfp.eco.util.toJSON
-import com.willfp.libreforge.ItemProvidedHolder
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.reforge
@@ -18,6 +8,14 @@ import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
+import wiki.ecohub.game.item.FastItemStack
+import wiki.ecohub.game.item.builder.SkullUtils
+import wiki.ecohub.game.item.fast
+import wiki.ecohub.rules.holder.ItemProvidedHolder
+import wiki.ecohub.ui.display.DisplayContext
+import wiki.ecohub.ui.display.DisplayModule
+import wiki.ecohub.ui.display.DisplayPriority
+import wiki.ecohub.ui.text.StringUtils
 
 @Suppress("DEPRECATION")
 object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
@@ -43,7 +41,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
                     return
                 }
 
-                context.lore.append(plugin.configYml.getStrings("reforge.reforgable-suffix").formatEcoRich())
+                context.lore.append(plugin.configYml.getStrings("reforge.reforgable-suffix").map { StringUtils.formatToRichComponent(it) })
             }
         }
 
@@ -63,7 +61,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
             context.lore.prepend(
                 stone.config.getStrings("stone.lore")
                     .map { it.replace("%price%", if (player == null) "" else stone.stonePrice?.getDisplay(player) ?: "") }
-                    .formatEcoRich()
+                    .map { StringUtils.formatToRichComponent(it) }
             )
         }
 
@@ -72,7 +70,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
                 context.lore.append(
                     plugin.configYml.getStrings("reforge.reforged-prefix")
                         .map { it.replace("%reforge%", reforge.name) }
-                        .formatEcoRich() + reforge.description.formatEcoRich(context.placeholderContext)
+                        .map { StringUtils.formatToRichComponent(it) } + reforge.description.map { StringUtils.formatToRichComponent(it, context.placeholderContext) }
                 )
             }
 
@@ -83,7 +81,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
                     fast.persistentDataContainer.set(
                         tempKey,
                         PersistentDataType.STRING,
-                        displayName.toJSON()
+                        StringUtils.componentToJson(displayName)
                     )
 
                     fast.setDisplayName(reforge.namePrefixComponent.append(displayName))

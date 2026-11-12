@@ -1,30 +1,5 @@
 package com.willfp.reforges.gui
 
-import com.willfp.eco.core.EcoPlugin
-import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.drops.DropQueue
-import com.willfp.eco.core.gui.CaptiveItem
-import com.willfp.eco.core.gui.captiveSlot
-import com.willfp.eco.core.gui.component.addComponent
-import com.willfp.eco.core.gui.component.closeButton
-import com.willfp.eco.core.gui.getSlotLocations
-import com.willfp.eco.core.gui.menu
-import com.willfp.eco.core.gui.menu.Menu
-import com.willfp.eco.core.gui.menu.MenuEvent
-import com.willfp.eco.core.gui.menu.events.CaptiveItemChangeEvent
-import com.willfp.eco.core.gui.menuStateVar
-import com.willfp.eco.core.gui.onEvent
-import com.willfp.eco.core.gui.setSlot
-import com.willfp.eco.core.gui.slot
-import com.willfp.eco.core.gui.slot.CustomSlot
-import com.willfp.eco.core.gui.slot.FillerMask
-import com.willfp.eco.core.gui.slot.MaskItems
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.modify
-import com.willfp.eco.core.items.isEmpty
-import com.willfp.eco.core.price.ConfiguredPrice
-import com.willfp.eco.core.sound.PlayableSound
-import com.willfp.libreforge.LibreforgeSpigotPlugin
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.PriceMultipliers.reforgePriceMultiplier
@@ -37,6 +12,31 @@ import com.willfp.reforges.util.reforge
 import com.willfp.reforges.util.reforgeStone
 import com.willfp.reforges.util.timesReforged
 import org.bukkit.entity.Player
+import wiki.ecohub.config.emptyConfig
+import wiki.ecohub.core.Eco
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.isEmpty
+import wiki.ecohub.game.item.modify
+import wiki.ecohub.game.sound.PlayableSound
+import wiki.ecohub.modules.menus.captiveSlot
+import wiki.ecohub.modules.menus.component.addComponent
+import wiki.ecohub.modules.menus.component.closeButton
+import wiki.ecohub.modules.menus.getSlotLocations
+import wiki.ecohub.modules.menus.menu
+import wiki.ecohub.modules.menus.menu.Menu
+import wiki.ecohub.modules.menus.menu.MenuEvent
+import wiki.ecohub.modules.menus.menu.menuStateVar
+import wiki.ecohub.modules.menus.onEvent
+import wiki.ecohub.modules.menus.slot
+import wiki.ecohub.modules.menus.slot.CustomSlot
+import wiki.ecohub.modules.menus.slot.captive.CaptiveItem
+import wiki.ecohub.modules.menus.slot.captive.CaptiveItemChangeEvent
+import wiki.ecohub.modules.menus.slot.captive.setSlot
+import wiki.ecohub.modules.menus.slot.mask.FillerMask
+import wiki.ecohub.modules.menus.slot.mask.MaskItems
 import kotlin.math.pow
 
 
@@ -129,7 +129,7 @@ private class ActivatorSlot(
             if (!price.canAfford(player)) {
                 player.sendMessage(
                     // Not clean but hey ho
-                    EcoPlugin.getPlugin(LibreforgeSpigotPlugin::class.java)
+                    Eco.get().getEcoPlugin()
                         .langYml.getMessage("cannot-afford-price").replace("%price%", price.getDisplay(player))
                 )
                 PlayableSound.create(plugin.configYml.getSubsection("gui.cannot-afford-sound"))?.playTo(player)

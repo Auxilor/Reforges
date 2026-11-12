@@ -1,10 +1,10 @@
 package com.willfp.reforges.reforges.util
 
-import com.willfp.eco.core.items.args.LookupArgParser
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
 
 object ReforgeArgParser : LookupArgParser {

@@ -1,18 +1,18 @@
 package com.willfp.reforges.libreforge
 
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.util.containsIgnoreCase
-import com.willfp.libreforge.ArgType
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.arguments
-import com.willfp.libreforge.conditions.Condition
-import com.willfp.libreforge.get
-import com.willfp.libreforge.getHoldersOfType
-import com.willfp.libreforge.toDispatcher
 import com.willfp.reforges.reforges.Reforge
 import org.bukkit.entity.Player
+import wiki.ecohub.config.ArgType
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.arguments
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.rules.condition.Condition
+import wiki.ecohub.rules.holder.Dispatcher
+import wiki.ecohub.rules.holder.ProvidedHolder
+import wiki.ecohub.rules.holder.get
+import wiki.ecohub.rules.holder.holders
+import wiki.ecohub.ui.text.containsIgnoreCase
 
 object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
     override val description = "Passes when the player currently has the specified reforge applied to any of their items."
@@ -37,7 +37,7 @@ object ConditionHasReforge : Condition<NoCompileData>("has_reforge") {
     ): Boolean {
         val player = dispatcher.get<Player>() ?: return false
 
-        return player.toDispatcher().getHoldersOfType<Reforge>()
+        return player.toDispatcher().holders.mapNotNull { it.holder as? Reforge }
             .map { it.id.key }
             .containsIgnoreCase(config.getString("reforge"))
     }

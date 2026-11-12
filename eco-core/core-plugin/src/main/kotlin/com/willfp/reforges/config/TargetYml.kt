@@ -1,13 +1,13 @@
 package com.willfp.reforges.config
 
-import com.willfp.eco.core.config.ConfigType
-import com.willfp.eco.core.config.StaticBaseConfig
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.slot.SlotType
-import com.willfp.libreforge.slot.SlotTypes
-import com.willfp.libreforge.slot.impl.SlotTypeAny
+import wiki.ecohub.config.ConfigType
+import wiki.ecohub.config.file.StaticBaseConfig
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.rules.holder.slot.SlotType
+import wiki.ecohub.rules.holder.slot.SlotTypeAny
+import wiki.ecohub.rules.holder.slot.SlotTypes
 import java.util.Locale
 import java.util.function.Consumer
 

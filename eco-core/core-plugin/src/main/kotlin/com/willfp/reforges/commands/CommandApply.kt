@@ -1,8 +1,6 @@
 package com.willfp.reforges.commands
 
 import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforge
@@ -13,6 +11,8 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.util.StringUtil
+import wiki.ecohub.config.emptyConfig
+import wiki.ecohub.core.price.ConfiguredPrice
 
 object CommandApply : Subcommand(
     plugin,

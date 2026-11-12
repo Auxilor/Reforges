@@ -1,9 +1,9 @@
 package com.willfp.reforges.reforges
 
-import com.willfp.libreforge.slot.ItemHolderFinder
-import com.willfp.libreforge.slot.SlotType
 import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.rules.holder.slot.ItemHolderFinder
+import wiki.ecohub.rules.holder.slot.SlotType
 
 object ReforgeFinder : ItemHolderFinder<Reforge>() {
     override fun find(item: ItemStack): List<Reforge> {
