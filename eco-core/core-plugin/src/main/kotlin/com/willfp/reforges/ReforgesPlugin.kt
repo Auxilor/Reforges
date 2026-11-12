@@ -1,8 +1,7 @@
 package com.willfp.reforges
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.reforges.commands.CommandReforge
-import com.willfp.reforges.commands.CommandReforges
+import com.willfp.reforges.commands.reforgeCommand
+import com.willfp.reforges.commands.reforgesCommand
 import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.gui.ReforgeGUI
@@ -23,6 +22,7 @@ import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
 import org.bukkit.event.Listener
 import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.command.EcoCommand
 import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.game.item.Items
 import wiki.ecohub.provider.metrics.EcoMetricsChart
@@ -36,14 +36,14 @@ import wiki.ecohub.ui.display.DisplayModule
 internal lateinit var plugin: ReforgesPlugin
     private set
 
-class ReforgesPlugin : LibreforgePlugin() {
+class ReforgesPlugin : EcoPlugin() {
     val targetYml: TargetYml = TargetYml(this)
 
     init {
         plugin = this
     }
 
-    override fun loadConfigCategories(): List<ConfigCategory> {
+    override fun loadConfigCategories(): List<NativeConfigCategory> {
         return listOf(
             Reforges
         )
@@ -79,10 +79,10 @@ class ReforgesPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun loadPluginCommands(): List<PluginCommand> {
+    override fun loadPluginCommands(): List<EcoCommand> {
         return listOf(
-            CommandReforge,
-            CommandReforges
+            reforgeCommand(),
+            reforgesCommand()
         )
     }
 

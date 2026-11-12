@@ -11,7 +11,7 @@ import wiki.ecohub.rules.holder.slot.SlotTypes
 import java.util.Locale
 import java.util.function.Consumer
 
-class TargetYml(plugin: LibreforgePlugin) : StaticBaseConfig("target", plugin, ConfigType.YAML) {
+class TargetYml(plugin: EcoPlugin) : StaticBaseConfig("target", plugin, ConfigType.YAML) {
     /**
      * Get all target names.
      *

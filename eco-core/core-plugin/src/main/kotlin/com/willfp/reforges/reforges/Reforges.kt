@@ -9,7 +9,7 @@ import wiki.ecohub.core.registry.Registry
 import wiki.ecohub.modules.recipe.Recipes
 
 @Suppress("UNUSED")
-object Reforges : ConfigCategory("reforge", "reforges") {
+object Reforges : NativeConfigCategory("reforges", "reforge") {
     private val registry = Registry<Reforge>()
 
     override val legacyLocation = LegacyLocation(
@@ -40,14 +40,14 @@ object Reforges : ConfigCategory("reforge", "reforges") {
         } else registry[key]
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         for (reforge in registry.values()) {
             Recipes.unregister(plugin.namespacedKeyFactory.create("stone_" + reforge.id.key))
         }
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Reforge(id, config))
     }
 }
