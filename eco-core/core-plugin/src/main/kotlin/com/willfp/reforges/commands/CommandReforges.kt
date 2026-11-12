@@ -1,25 +1,11 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.reforges.plugin
-import org.bukkit.command.CommandSender
+import com.willfp.reforges.ReforgesPlugin
+import wiki.ecohub.core.command.command
 
-object CommandReforges: PluginCommand(
-    plugin,
-    "reforges",
-    "reforges.command.reforges",
-    false
-) {
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        sender.sendMessage(
-            plugin.langYml.getMessage("invalid-command")
-        )
-    }
-
-    init {
-        addSubcommand(CommandReload)
-            .addSubcommand(CommandGive)
-            .addSubcommand(CommandOpen)
-            .addSubcommand(CommandApply)
-    }
+internal fun ReforgesPlugin.reforgesCommand() = command(name = "reforges", permission = "reforges.command.reforges") {
+    reloadCommand()
+    giveCommand()
+    openCommand()
+    applyCommand()
 }

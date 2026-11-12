@@ -1,48 +1,33 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.command.impl.PluginCommand
 import com.willfp.reforges.gui.ReforgeGUI
-import com.willfp.reforges.plugin
-import com.willfp.reforges.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.game.entity.runOwned
 import wiki.ecohub.game.sound.PlayableSound
 
-object CommandOpen : PluginCommand(
-    plugin,
-    "open",
-    "reforges.command.open",
-    false
+/**
+ * Opens on the target's region, as the sender runs off it on Folia.
+ */
+internal fun CommandBuilder<CommandSender>.openCommand() = subcommand(
+    name = "open",
+    permission = "reforges.command.open"
 ) {
-    @Suppress("DEPRECATION")
-    override fun onExecute(sender: CommandSender, args: List<String>) {
-        if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-player"))
-            return
-        }
-        val player = Bukkit.getPlayer(args[0])
-        if (player == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-            return
-        }
-        // The sender runs off the target player's region on Folia.
+    executes {
+        val player = argument(
+            index = 0,
+            missingKey = "needs-player",
+            invalidKey = "invalid-player"
+        ) { Bukkit.getPlayer(it) }
+
         player.runOwned {
             PlayableSound.create(plugin.configYml.getSubsection("gui.open-sound"))?.playTo(player)
             ReforgeGUI.open(player)
         }
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Bukkit.getOnlinePlayers().map { it.name },
-                completions
-            )
-            return completions
-        }
-        return emptyList()
+    completes {
+        if (args.size == 1) playerNames() else emptyList()
     }
 }

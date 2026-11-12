@@ -1,103 +1,56 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforges
-import com.willfp.reforges.runOwned
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import org.bukkit.util.StringUtil
+import wiki.ecohub.core.command.CommandBuilder
 import wiki.ecohub.game.drop.DropQueue
+import wiki.ecohub.game.entity.runOwned
 
-object CommandGive : Subcommand(
-    plugin,
-    "give",
-    "reforges.command.give",
-    false
+private val amountCompletions = listOf("1", "2", "3", "4", "5", "10", "32", "64")
+
+private const val AMOUNT_ARGS = 3
+
+private const val MAX_STACKS = 36
+
+/**
+ * Gives on the receiver's region, as the console runs off it on Folia.
+ */
+internal fun CommandBuilder<CommandSender>.giveCommand() = subcommand(
+    name = "give",
+    permission = "reforges.command.give"
 ) {
-    private val numbers = listOf(
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "10",
-        "32",
-        "64"
-    )
+    executes {
+        val receiverName = argument(0, "needs-player")
+        val key = argument(1, "needs-stone")
 
-    override fun onExecute(sender: CommandSender, args: MutableList<String>) {
-        if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-player"))
-            return
-        }
+        val receiver = Bukkit.getPlayer(receiverName) ?: fail("invalid-player")
+        val reforge = Reforges.getByKey(key) ?: fail("invalid-stone")
 
-        if (args.size == 1) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-stone"))
-            return
-        }
-
-        val recieverName = args[0]
-        val reciever = Bukkit.getPlayer(recieverName)
-        if (reciever == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-            return
-        }
-        val key = args[1]
-        val reforge = Reforges.getByKey(key)
-        if (reforge == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-stone"))
-            return
-        }
         val stone = reforge.stone
-        val amount = (args.getOrNull(2)?.toIntOrNull() ?: 1).coerceIn(1, stone.maxStackSize * 36)
-        // The console runs off the player's region on Folia.
-        reciever.runOwned {
-            var message = plugin.langYml.getMessage("give-success")
-            message = message.replace("%reforge%", reforge.name).replace("%recipient%", reciever.name)
-            sender.sendMessage(message)
-            DropQueue(reciever)
-                .addItems((amount downTo 1 step stone.maxStackSize).map { remaining ->
-                    stone.clone().apply { this.amount = minOf(remaining, stone.maxStackSize) }
-                })
+        val amount = (args.getOrNull(2)?.toIntOrNull() ?: 1)
+            .coerceIn(minimumValue = 1, maximumValue = stone.maxStackSize * MAX_STACKS)
+
+        receiver.runOwned {
+            reply("give-success", "reforge" to reforge.name, "recipient" to receiver.name)
+
+            DropQueue(receiver)
+                .addItems(
+                    (amount downTo 1 step stone.maxStackSize).map { remaining ->
+                        stone.clone().apply { this.amount = minOf(a = remaining, b = stone.maxStackSize) }
+                    }
+                )
                 .forceTelekinesis()
                 .push()
         }
     }
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-
-        val completions = mutableListOf<String>()
-        if (args.isEmpty()) {
-            // Currently, this case is not ever reached
-            return Reforges.values().filter { it.requiresStone }.map { it.id.key }
+    completes {
+        when (args.size) {
+            1 -> playerNames()
+            2 -> Reforges.values().filter { it.requiresStone }.map { it.id.key }
+            AMOUNT_ARGS -> amountCompletions
+            else -> emptyList()
         }
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Bukkit.getOnlinePlayers().map { it.name },
-                completions
-            )
-            return completions
-        }
-        if (args.size == 2) {
-            StringUtil.copyPartialMatches(
-                args[1],
-                Reforges.values().filter { it.requiresStone }.map { it.id.key },
-                completions
-            )
-            completions.sort()
-            return completions
-        }
-        if (args.size == 3) {
-            StringUtil.copyPartialMatches(args[2], numbers, completions)
-            completions.sortWith { s1, s2 ->
-                val t1 = s1.toInt()
-                val t2 = s2.toInt()
-                t1 - t2
-            }
-            return completions
-        }
-        return emptyList()
     }
 }
