@@ -14,12 +14,11 @@ import com.willfp.reforges.util.timesReforged
 import org.bukkit.entity.Player
 import wiki.ecohub.config.emptyConfig
 import wiki.ecohub.core.Eco
-import wiki.ecohub.core.plugin.EcoPlugin
 import wiki.ecohub.core.price.ConfiguredPrice
 import wiki.ecohub.game.drop.DropQueue
 import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.builder.modify
 import wiki.ecohub.game.item.isEmpty
-import wiki.ecohub.game.item.modify
 import wiki.ecohub.game.sound.PlayableSound
 import wiki.ecohub.modules.menus.captiveSlot
 import wiki.ecohub.modules.menus.component.addComponent
@@ -61,9 +60,9 @@ private object IndicatorSlot : CustomSlot() {
         val status = menu.reforgeStatus[player].status
 
         if (status == ReforgeStatus.ALLOW || status == ReforgeStatus.ALLOW_STONE) {
-            Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).item
+            Items.lookup(plugin.configYml.getString("gui.show-allowed.allow-material")).getItem()
         } else {
-            Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).item
+            Items.lookup(plugin.configYml.getString("gui.show-allowed.deny-material")).getItem()
         }
     }
 
@@ -192,7 +191,7 @@ object ReforgeGUI {
             .toTypedArray()
 
         menu = menu(plugin.configYml.getInt("gui.rows")) {
-            title = plugin.langYml.getFormattedString("menu.title")
+            setTitle(plugin.langYml.getFormattedString("menu.title"))
             setMask(FillerMask(MaskItems(*maskItems), *maskPattern))
 
             allowChangingHeldItem()
