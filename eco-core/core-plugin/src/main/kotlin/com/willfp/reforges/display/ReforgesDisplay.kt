@@ -22,8 +22,8 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
     private val tempKey = plugin.namespacedKeyFactory.create("temp")
 
     override fun display(context: DisplayContext) {
-        val itemStack = context.itemStack
-        val player = context.player
+        val itemStack = context.getItemStack()
+        val player = context.getPlayer()
         val targets = ReforgeTargets.getForItem(itemStack)
         val fast = itemStack.fast()
 
@@ -35,14 +35,14 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
 
         val reforge = fast.persistentDataContainer.reforge
 
-        if (reforge == null && stone == null) {
-            if (plugin.configYml.getBool("reforge.show-reforgable")) {
-                if (context.properties.inGui) {
-                    return
-                }
-
-                context.lore.append(plugin.configYml.getStrings("reforge.reforgable-suffix").map { StringUtils.formatToRichComponent(it) })
+        if (reforge == null && stone == null && plugin.configYml.getBool("reforge.show-reforgable")) {
+            if (context.getProperties().inGui) {
+                return
             }
+
+            context.getLore().append(
+                plugin.configYml.getStrings("reforge.reforgable-suffix").map { StringUtils.formatToRichComponent(it) }
+            )
         }
 
         if (stone != null) {
@@ -58,7 +58,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
             }
             itemStack.itemMeta = meta
 
-            context.lore.prepend(
+            context.getLore().prepend(
                 stone.config.getStrings("stone.lore")
                     .map { it.replace("%price%", if (player == null) "" else stone.stonePrice?.getDisplay(player) ?: "") }
                     .map { StringUtils.formatToRichComponent(it) }
@@ -67,17 +67,17 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
 
         if (reforge != null) {
             if (plugin.configYml.getBool("reforge.display-in-lore")) {
-                context.lore.append(
+                context.getLore().append(
                     plugin.configYml.getStrings("reforge.reforged-prefix")
                         .map { it.replace("%reforge%", reforge.name) }
-                        .map { StringUtils.formatToRichComponent(it) } + reforge.description.map { StringUtils.formatToRichComponent(it, context.placeholderContext) }
+                        .map { StringUtils.formatToRichComponent(it) } + reforge.description.map { StringUtils.formatToRichComponent(it, context.getPlaceholderContext()) }
                 )
             }
 
             if (plugin.configYml.getBool("reforge.display-in-name")) {
-                val displayName = fast.displayNameComponent
+                val displayName = fast.getDisplayNameComponent()
 
-                if (!fast.displayName.contains(reforge.name)) {
+                if (!fast.getDisplayName().contains(reforge.name)) {
                     fast.persistentDataContainer.set(
                         tempKey,
                         PersistentDataType.STRING,
@@ -92,7 +92,7 @@ object ReforgesDisplay : DisplayModule(plugin, DisplayPriority.HIGH) {
                 val lines = ItemProvidedHolder(reforge, itemStack).getNotMetLineComponents(player)
 
                 if (lines.isNotEmpty()) {
-                    context.lore.append(listOf(Component.empty()) + lines)
+                    context.getLore().append(listOf(Component.empty()) + lines)
                 }
             }
         }

@@ -51,7 +51,9 @@ class Reforge(
 
     val requiresStone = config.getBool("stone.enabled")
 
-    private val stoneTemplate: ItemStack = ItemStackBuilder(Items.lookup(config.getString("stone.item")).item).apply {
+    private val stoneTemplate: ItemStack = ItemStackBuilder(
+        Items.lookup(config.getString("stone.item")).getItem()
+    ).apply {
         if (config.getBool("stone.enabled")) {
             setDisplayName(config.getFormattedString("stone.name").replace("%reforge%", name))
             addLoreLines(
