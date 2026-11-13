@@ -3,6 +3,8 @@ package com.willfp.reforges.reforges.util
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.ItemMeta
+import wiki.ecohub.game.item.editItemMeta
 import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
 
@@ -22,7 +24,7 @@ object ReforgeArgParser : LookupArgParser {
             }
             ?: return null
 
-        item.editMeta { it.reforge = reforge }
+        item.editItemMeta<ItemMeta> { it.reforge = reforge }
 
         return Predicate { test ->
             val testMeta = test.itemMeta ?: return@Predicate false

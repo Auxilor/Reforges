@@ -19,6 +19,7 @@ import wiki.ecohub.game.drop.DropQueue
 import wiki.ecohub.game.item.Items
 import wiki.ecohub.game.item.builder.modify
 import wiki.ecohub.game.item.isEmpty
+import wiki.ecohub.game.item.isEmptyStack
 import wiki.ecohub.game.sound.PlayableSound
 import wiki.ecohub.modules.menus.captiveSlot
 import wiki.ecohub.modules.menus.component.addComponent
@@ -136,7 +137,7 @@ private class ActivatorSlot(
             }
 
             val stone = if (usedStone) {
-                reforgeStone[player]?.takeIf { !it.isEmpty && it.reforgeStone == reforge } ?: return@onLeftClick
+                reforgeStone[player]?.takeIf { !it.isEmptyStack && it.reforgeStone == reforge } ?: return@onLeftClick
             } else {
                 null
             }
