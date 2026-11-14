@@ -1,12 +1,12 @@
 package com.willfp.reforges.api.event
 
-import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.reforges.Reforge
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerEvent
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.price.ConfiguredPrice
 
 class ReforgeApplyEvent(
     who: Player,

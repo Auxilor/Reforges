@@ -1,9 +1,9 @@
 package com.willfp.reforges.reforges
 
-import com.willfp.eco.core.items.TestableItem
-import com.willfp.eco.core.recipe.parts.EmptyTestableItem
-import com.willfp.libreforge.slot.SlotType
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.game.item.lookup.EmptyTestableItem
+import wiki.ecohub.game.item.lookup.TestableItem
+import wiki.ecohub.rules.holder.slot.SlotType
 import java.util.Objects
 
 class ReforgeTarget(

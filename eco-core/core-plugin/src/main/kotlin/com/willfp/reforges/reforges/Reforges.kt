@@ -1,15 +1,15 @@
 package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.registry.Registry
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.loader.configs.LegacyLocation
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.LegacyLocation
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.core.registry.Registry
+import wiki.ecohub.modules.recipe.Recipes
 
 @Suppress("UNUSED")
-object Reforges : ConfigCategory("reforge", "reforges") {
+object Reforges : NativeConfigCategory("reforges", "reforge") {
     private val registry = Registry<Reforge>()
 
     override val legacyLocation = LegacyLocation(
@@ -40,14 +40,14 @@ object Reforges : ConfigCategory("reforge", "reforges") {
         } else registry[key]
     }
 
-    override fun clear(plugin: LibreforgePlugin) {
+    override fun clear(plugin: EcoPlugin) {
         for (reforge in registry.values()) {
             Recipes.unregister(plugin.namespacedKeyFactory.create("stone_" + reforge.id.key))
         }
         registry.clear()
     }
 
-    override fun acceptConfig(plugin: LibreforgePlugin, id: String, config: Config) {
+    override fun acceptConfig(plugin: EcoPlugin, id: String, config: Config) {
         registry.register(Reforge(id, config))
     }
 }

@@ -1,10 +1,11 @@
 package com.willfp.reforges.reforges.util
 
-import com.willfp.eco.core.items.args.LookupArgParser
 import com.willfp.reforges.reforges.Reforges
 import com.willfp.reforges.util.reforge
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import wiki.ecohub.game.item.editItemMeta
+import wiki.ecohub.game.item.lookup.LookupArgParser
 import java.util.function.Predicate
 
 object ReforgeArgParser : LookupArgParser {
@@ -12,8 +13,8 @@ object ReforgeArgParser : LookupArgParser {
      * Also reads `reforge:<namespace>:<key>`, the format saved by older versions.
      */
     override fun parseArguments(
-        args: Array<String>,
-        meta: ItemMeta
+        args: Array<out String>,
+        item: ItemStack
     ): Predicate<ItemStack>? {
         val reforge = args
             .filter { arg -> arg.contains(':') && arg.substringBefore(':').equals("reforge", ignoreCase = true) }
@@ -23,7 +24,7 @@ object ReforgeArgParser : LookupArgParser {
             }
             ?: return null
 
-        meta.reforge = reforge
+        item.editItemMeta<ItemMeta> { it.reforge = reforge }
 
         return Predicate { test ->
             val testMeta = test.itemMeta ?: return@Predicate false
@@ -31,8 +32,8 @@ object ReforgeArgParser : LookupArgParser {
         }
     }
 
-    override fun serializeBack(meta: ItemMeta): String? {
-        val reforge = meta.reforge ?: return null
+    override fun serializeBack(item: ItemStack): String? {
+        val reforge = item.itemMeta?.reforge ?: return null
 
         return "reforge:${reforge.id.key}"
     }

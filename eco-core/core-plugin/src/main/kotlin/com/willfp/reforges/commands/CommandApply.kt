@@ -1,98 +1,63 @@
 package com.willfp.reforges.commands
 
-import com.willfp.eco.core.command.impl.Subcommand
-import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.api.applyReforge
-import com.willfp.reforges.plugin
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.reforges.Reforges
-import com.willfp.reforges.runOwned
-import com.willfp.reforges.util.reforge
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.util.StringUtil
+import wiki.ecohub.config.emptyConfig
+import wiki.ecohub.core.command.CommandBuilder
+import wiki.ecohub.core.command.CommandContext
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.game.entity.runOwned
 
-object CommandApply : Subcommand(
-    plugin,
-    "apply",
-    "reforges.command.apply",
-    false
+/**
+ * A player applies to their own held item; the console names a player, and applies on their
+ * region.
+ */
+internal fun CommandBuilder<CommandSender>.applyCommand() = subcommand(
+    name = "apply",
+    permission = "reforges.command.apply"
 ) {
-    override fun onExecute(sender: CommandSender, args: MutableList<String>) {
-        if (args.isEmpty()) {
-            sender.sendMessage(plugin.langYml.getMessage("needs-reforge"))
-            return
-        }
+    executes {
+        val reforge = argument(
+            index = 0,
+            missingKey = "needs-reforge",
+            invalidKey = "invalid-reforge"
+        ) { Reforges.getByKey(it.lowercase()) }
+        val self = sender as? Player
 
-        val reforge = Reforges.getByKey(args[0].lowercase())
-
-        if (reforge == null) {
-            sender.sendMessage(plugin.langYml.getMessage("invalid-reforge"))
-            return
-        }
-
-        if (sender is Player) {
-            apply(sender, sender, reforge)
+        if (self != null) {
+            apply(self, reforge)
         } else {
-            if (args.size < 2) {
-                sender.sendMessage(plugin.langYml.getMessage("needs-player"))
-                return
-            }
-
-            val player = Bukkit.getPlayer(args[1])
-
-            if (player == null) {
-                sender.sendMessage(plugin.langYml.getMessage("invalid-player"))
-                return
-            }
-
-            // The console runs off the player's region on Folia.
-            player.runOwned { apply(sender, player, reforge) }
+            val player = argument(
+                index = 1,
+                missingKey = "needs-player",
+                invalidKey = "invalid-player"
+            ) { Bukkit.getPlayer(it) }
+            player.runOwned { apply(player, reforge) }
         }
     }
 
-    private fun apply(sender: CommandSender, player: Player, reforge: Reforge) {
-        val item = player.inventory.itemInMainHand
-
-        sender.sendMessage(
-            when {
-                item.type.isAir -> plugin.langYml.getMessage("no-item-in-hand")
-                !reforge.canBeAppliedTo(item) -> plugin.langYml.getMessage("reforge-cannot-be-applied")
-                    .replace("%reforge%", reforge.name)
-                !player.applyReforge(item, reforge, ConfiguredPrice.createOrFree(emptyConfig())) ->
-                    plugin.langYml.getMessage("reforge-application-cancelled")
-                else -> plugin.langYml.getMessage("applied-reforge")
-                    .replace("%reforge%", reforge.name)
-            }
-        )
+    completes {
+        when (args.size) {
+            1 -> Reforges.values().map { it.id.key }
+            2 -> playerNames()
+            else -> emptyList()
+        }
     }
+}
 
-    override fun tabComplete(sender: CommandSender, args: List<String>): List<String> {
-        val completions = mutableListOf<String>()
-        if (args.isEmpty()) {
-            // Currently, this case is not ever reached
-            return Reforges.values().map { it.id.key }
-        }
-        if (args.size == 1) {
-            StringUtil.copyPartialMatches(
-                args[0],
-                Reforges.values().map { it.id.key },
-                completions
-            )
-            completions.sort()
-            return completions
-        }
-        if (args.size == 2) {
-            StringUtil.copyPartialMatches(
-                args[1],
-                Bukkit.getOnlinePlayers().map { it.name },
-                completions
-            )
-            completions.sort()
-            return completions
-        }
-        return emptyList()
+private fun CommandContext<CommandSender>.apply(player: Player, reforge: Reforge) {
+    val item = player.inventory.itemInMainHand
+
+    val free = ConfiguredPrice.createOrFree(emptyConfig())
+
+    when {
+        item.type.isAir -> reply("no-item-in-hand")
+        !reforge.canBeAppliedTo(item) -> reply("reforge-cannot-be-applied", "reforge" to reforge.name)
+        !player.applyReforge(item, reforge, free) -> reply("reforge-application-cancelled")
+        else -> reply("applied-reforge", "reforge" to reforge.name)
     }
 }

@@ -1,18 +1,7 @@
 package com.willfp.reforges
 
-import com.willfp.eco.core.bstats.EcoMetricsChart
-import com.willfp.eco.core.command.impl.PluginCommand
-import com.willfp.eco.core.display.DisplayModule
-import com.willfp.eco.core.items.Items
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.filters.Filters
-import com.willfp.libreforge.loader.LibreforgePlugin
-import com.willfp.libreforge.triggers.Triggers
-import com.willfp.libreforge.loader.configs.ConfigCategory
-import com.willfp.libreforge.registerHolderProvider
-import com.willfp.reforges.commands.CommandReforge
-import com.willfp.reforges.commands.CommandReforges
+import com.willfp.reforges.commands.reforgeCommand
+import com.willfp.reforges.commands.reforgesCommand
 import com.willfp.reforges.config.TargetYml
 import com.willfp.reforges.display.ReforgesDisplay
 import com.willfp.reforges.gui.ReforgeGUI
@@ -32,18 +21,29 @@ import com.willfp.reforges.reforges.util.ReforgeArgParser
 import com.willfp.reforges.util.AntiPlaceListener
 import com.willfp.reforges.util.DiscoverRecipeListener
 import org.bukkit.event.Listener
+import wiki.ecohub.config.category.NativeConfigCategory
+import wiki.ecohub.core.command.EcoCommand
+import wiki.ecohub.core.plugin.EcoPlugin
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.provider.metrics.EcoMetricsChart
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.filter.Filters
+import wiki.ecohub.rules.holder.registerHolderProvider
+import wiki.ecohub.rules.trigger.Triggers
+import wiki.ecohub.ui.display.DisplayModule
 
 internal lateinit var plugin: ReforgesPlugin
     private set
 
-class ReforgesPlugin : LibreforgePlugin() {
+class ReforgesPlugin : EcoPlugin() {
     val targetYml: TargetYml = TargetYml(this)
 
     init {
         plugin = this
     }
 
-    override fun loadConfigCategories(): List<ConfigCategory> {
+    override fun loadConfigCategories(): List<NativeConfigCategory> {
         return listOf(
             Reforges
         )
@@ -79,10 +79,10 @@ class ReforgesPlugin : LibreforgePlugin() {
         )
     }
 
-    override fun loadPluginCommands(): List<PluginCommand> {
+    override fun loadPluginCommands(): List<EcoCommand> {
         return listOf(
-            CommandReforge,
-            CommandReforges
+            reforgeCommand(),
+            reforgesCommand()
         )
     }
 

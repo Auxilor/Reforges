@@ -1,9 +1,9 @@
 package com.willfp.reforges.reforges
 
 import com.google.common.collect.ImmutableSet
-import com.willfp.libreforge.slot.impl.SlotTypeAny
 import com.willfp.reforges.plugin
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.rules.holder.slot.SlotTypeAny
 import java.util.concurrent.ConcurrentHashMap
 
 object ReforgeTargets {

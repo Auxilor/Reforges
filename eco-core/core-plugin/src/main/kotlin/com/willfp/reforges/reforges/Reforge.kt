@@ -1,27 +1,27 @@
 package com.willfp.reforges.reforges
 
-import com.willfp.eco.core.config.config
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.display.Display
-import com.willfp.eco.core.items.CustomItem
-import com.willfp.eco.core.items.Items
-import com.willfp.eco.core.items.builder.ItemStackBuilder
-import com.willfp.eco.core.price.ConfiguredPrice
-import com.willfp.eco.core.recipe.Recipes
-import com.willfp.eco.core.recipe.recipes.CraftingRecipe
-import com.willfp.eco.core.registry.Registrable
-import com.willfp.eco.util.StringUtils
-import com.willfp.libreforge.Holder
-import com.willfp.libreforge.ViolationContext
-import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.effects.Effects
-import com.willfp.libreforge.toDispatcher
-import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.reforges.plugin
 import com.willfp.reforges.util.reforgeStone
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.ViolationContext
+import wiki.ecohub.config.config
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.core.registry.Registrable
+import wiki.ecohub.game.entity.toDispatcher
+import wiki.ecohub.game.item.CustomItem
+import wiki.ecohub.game.item.Items
+import wiki.ecohub.game.item.builder.ItemStackBuilder
+import wiki.ecohub.modules.recipe.Recipes
+import wiki.ecohub.modules.recipe.crafting.CraftingRecipe
+import wiki.ecohub.rules.condition.Conditions
+import wiki.ecohub.rules.effect.Effects
+import wiki.ecohub.rules.holder.Holder
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.ui.display.Display
+import wiki.ecohub.ui.text.StringUtils
 import java.util.Objects
 
 @Suppress("DEPRECATION")
@@ -51,7 +51,9 @@ class Reforge(
 
     val requiresStone = config.getBool("stone.enabled")
 
-    private val stoneTemplate: ItemStack = ItemStackBuilder(Items.lookup(config.getString("stone.item")).item).apply {
+    private val stoneTemplate: ItemStack = ItemStackBuilder(
+        Items.lookup(config.getString("stone.item")).getItem()
+    ).apply {
         if (config.getBool("stone.enabled")) {
             setDisplayName(config.getFormattedString("stone.name").replace("%reforge%", name))
             addLoreLines(

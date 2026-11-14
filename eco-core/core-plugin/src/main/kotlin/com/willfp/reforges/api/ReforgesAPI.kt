@@ -2,7 +2,6 @@
 
 package com.willfp.reforges.api
 
-import com.willfp.eco.core.price.ConfiguredPrice
 import com.willfp.reforges.api.event.ReforgeApplyEvent
 import com.willfp.reforges.reforges.Reforge
 import com.willfp.reforges.util.reforge
@@ -10,6 +9,7 @@ import com.willfp.reforges.util.timesReforged
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import wiki.ecohub.core.price.ConfiguredPrice
 
 /**
  * Apply a reforge to an item, firing [ReforgeApplyEvent].

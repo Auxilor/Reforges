@@ -1,16 +1,16 @@
 package com.willfp.reforges.libreforge
 
-import com.willfp.eco.core.config.emptyConfig
-import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.price.ConfiguredPrice
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.effects.Effect
-import com.willfp.libreforge.triggers.TriggerData
-import com.willfp.libreforge.triggers.TriggerParameter
 import com.willfp.reforges.api.applyReforge
 import com.willfp.reforges.reforges.ReforgeTargets
 import com.willfp.reforges.util.getRandomReforge
 import com.willfp.reforges.util.reforge
+import wiki.ecohub.config.Config
+import wiki.ecohub.config.emptyConfig
+import wiki.ecohub.core.price.ConfiguredPrice
+import wiki.ecohub.core.registry.NoCompileData
+import wiki.ecohub.rules.effect.Effect
+import wiki.ecohub.rules.trigger.TriggerData
+import wiki.ecohub.rules.trigger.TriggerParameter
 
 object EffectApplyRandomReforge : Effect<NoCompileData>("apply_random_reforge") {
     override val description = "Applies a random reforge to the item, avoiding the item's current reforge if it has one."
