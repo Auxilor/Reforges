@@ -60,7 +60,7 @@ object CommandGive : Subcommand(
                 .addItems((amount downTo 1 step stone.maxStackSize).map { remaining ->
                     stone.clone().apply { this.amount = minOf(remaining, stone.maxStackSize) }
                 })
-                .forceTelekinesis()
+                .giveDirectly()
                 .push()
         }
     }
